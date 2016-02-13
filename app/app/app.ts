@@ -1,5 +1,8 @@
-import {App, Platform} from 'ionic/ionic';
+import {App, Platform} from 'ionic-framework/ionic';
 import {TabsPage} from './pages/tabs/tabs';
+
+// https://angular.io/docs/ts/latest/api/core/Type-interface.html
+import {Type} from 'angular2/core';
 
 
 @App({
@@ -7,9 +10,9 @@ import {TabsPage} from './pages/tabs/tabs';
   config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class MyApp {
-  constructor(platform: Platform) {
-    this.rootPage = TabsPage;
+  rootPage: Type = TabsPage;
 
+  constructor(platform: Platform) {
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow
       // the Troubleshooting guide for a number of possible solutions:
