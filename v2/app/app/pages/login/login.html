@@ -1,0 +1,20 @@
+<ion-content>
+	<form #loginForm="ngForm">
+		<!-- {{diagnostic}} -->
+		<div class="padding-right">
+			<ion-item>
+				<ion-label floating>Email</ion-label>
+				<ion-input type="email" required ngControl="email" [(ngModel)]="login.email"></ion-input>
+			</ion-item>
+
+			<ion-item>
+				<ion-label floating>Password</ion-label>
+				<ion-input type="password" required ngControl="password" [(ngModel)]="login.password"></ion-input>
+			</ion-item>
+		</div>
+
+		<div padding>
+			<button primary block (click)="doLogin()" [disabled]="!loginForm.form.valid || util.loading">{{util.boton}}</button>
+		</div>
+	</form>
+</ion-content>
