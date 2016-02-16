@@ -232,11 +232,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 					max-width: 100%;
 					display: block;
 				}
-				h2 {
-					font-family: 'OpenSansLight';
-					color: #999;
-					font-size: 18px;
-					text-align: center;
+				a{
+					text-decoration: none;
+					h2 {
+						font-family: 'OpenSansLight';
+						color: #999;
+						font-size: 15px;
+						text-align: center;
+					}
 				}
 			}
 		}
@@ -426,4 +429,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 			}
 		}
 	}
+}
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

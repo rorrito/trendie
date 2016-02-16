@@ -4,63 +4,36 @@
 			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
 		</div>
 	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
 	<ion-content>
-		<div class="categoria">
-			<div class="big">
-				<a href="#/app/single/2">
-					<img src="img/categoria_cover.jpg" alt="">
-					<h1>Shorts</h1>
-				</a>	
-			</div>
-			<div class="trio">
-				<div class="catitem">
-					<img src="img/categoria_cover.jpg" alt="">	
-					<h2>32000Bs</h2>
+		<!-- <pre>{{categorias | json}}</pre> -->
+		<div ng-if="!loading">
+			<div class="categoria" ng-repeat="categoria in categorias">
+				<div class="big">
+					<a href="#/app/categoria/{{categoria.idcategoria}}">
+						<img ng-src="{{imagesUrl}}categorias/{{categoria.foto_cat}}" alt="">
+						<h1>{{categoria.nombre_cat}}</h1>
+					</a>
 				</div>
-				<div class="catitem">
-					<img src="img/categoria_cover.jpg" alt="">	
-					<h2>32000Bs</h2>
+				<div class="trio">
+					<div class="catitem" ng-repeat="destacado in categoria.destacados">
+						<a href="#/app/single/{{destacado.idproducto}}">
+							<img ng-src="{{imagesUrl}}productos/{{destacado.fotoportada}}" >
+							<h2>{{destacado.precio_desc | number:0}}Bs.</h2>
+						</a>
+					</div>
 				</div>
-				<div class="catitem">
-					<img src="img/categoria_cover.jpg" alt="">	
-					<h2>32000Bs</h2>
+				<div class="padding">
+					<p ng-bind-html="categoria.descripcion_cat"></p>
 				</div>
-			</div>
-			<div class="padding">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium dolores tempora eligendi dolor ullam suscipit, incidunt ratione necessitatibus ducimus repellendus.</p>
-			</div>
-			<div style="text-align: right;" class="padding">
-				<button class="button button-outline button-royal">
-					Ver más shorts
-				</button>
-			</div>
-		</div>
-		<div class="categoria">
-			<div class="big">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h1>Shorts</h1>
-			</div>
-			<div class="trio">
-				<div class="catitem">
-					<img src="img/categoria_cover.jpg" alt="">	
-					<h2>32000Bs</h2>
+				<div style="text-align: right;" class="padding">
+					<a href="#/app/categoria/{{categoria.idcategoria}}" class="button button-outline button-royal">
+						Ver más {{categoria.nombre_cat}}
+					</a>
 				</div>
-				<div class="catitem">
-					<img src="img/categoria_cover.jpg" alt="">	
-					<h2>32000Bs</h2>
-				</div>
-				<div class="catitem">
-					<img src="img/categoria_cover.jpg" alt="">	
-					<h2>32000Bs</h2>
-				</div>
-			</div>
-			<div class="padding">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium dolores tempora eligendi dolor ullam suscipit, incidunt ratione necessitatibus ducimus repellendus.</p>
-			</div>
-			<div style="text-align: right;" class="padding">
-				<button class="button button-outline button-royal">
-					Ver más shorts
-				</button>
 			</div>
 		</div>		
 	</ion-content>

@@ -9903,11 +9903,13 @@ a.button {
       .home .categoria .trio .catitem img {
         max-width: 100%;
         display: block; }
-      .home .categoria .trio .catitem h2 {
-        font-family: 'OpenSansLight';
-        color: #999;
-        font-size: 18px;
-        text-align: center; }
+      .home .categoria .trio .catitem a {
+        text-decoration: none; }
+        .home .categoria .trio .catitem a h2 {
+          font-family: 'OpenSansLight';
+          color: #999;
+          font-size: 15px;
+          text-align: center; }
   .home .categoria p {
     font-family: "OpenSansSemiBold";
     color: #666666; }
@@ -10057,3 +10059,8 @@ a.button {
       font-family: "OpenSansLight";
       font-size: 15px;
       /*padding:0 10px;*/ }
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
