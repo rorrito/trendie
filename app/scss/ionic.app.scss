@@ -396,6 +396,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 			/*border: 1px solid #f2f2f2;*/
 			padding-bottom: 20px;
 			/*margin-bottom: 20px;*/
+			a {
+				text-decoration: none;
+			}
 			img {
 				max-width: 100%;
 				display: block;

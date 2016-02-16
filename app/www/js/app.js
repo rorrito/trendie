@@ -66,6 +66,15 @@ angular.module('trendie', ['ionic', 'trendie.controllers', 'ngResource'])
       }
     }
   })
+  .state('app.categoria', {
+    url: '/categoria/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/categoria.html',
+        controller: 'CategoriaCtrl'
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

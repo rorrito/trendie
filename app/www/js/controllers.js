@@ -1,7 +1,11 @@
 angular.module('trendie.controllers', [])
 
-.controller('AppCtrl', function($scope) {
-	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/'
+.controller('AppCtrl', function($scope, $window) {
+	
+	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
+
+	$scope.appAncho = $window.innerWidth;
+
 })
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup){
@@ -93,19 +97,64 @@ angular.module('trendie.controllers', [])
 	})
 
 })
-.controller('SingleCtrl', function($scope, SingleService, $stateParams){
+.controller('CategoriaCtrl', function($scope, ProductosCategoriaService, CategoriaService, $stateParams){
+	$scope.categoria = {};
+	$scope.productos = {};
+	$scope.loading = true;
+
+	CategoriaService.get({idcategoria:$stateParams.id}).$promise
+	.then(function(categoria){
+		$scope.loading = false;
+		$scope.categoria = categoria;
+		ProductosCategoriaService.query({idcategoria:$stateParams.id}).$promise
+		.then(function(productos){
+			$scope.productos = $productos;
+		})
+	}, function(err){
+		$scope.loading = false;
+		console.log(err);
+	})
+
+})
+.controller('SingleCtrl', function($scope, SingleService, $stateParams, $ionicSlideBoxDelegate, ProductosCategoriaService){
 
 	$scope.producto = {};
+
+	$scope.loading = true;
+
+	$scope.cantidad = [];
+
+	$scope.relacionados = {};
 
 	SingleService.get({
 		idproducto: $stateParams.id
 	}).$promise.then(function(producto){
 		$scope.producto = producto;
+		$scope.loading = false;
+		$ionicSlideBoxDelegate.update();
+		$scope.tallaSelected = 0;
+		ProductosCategoriaService.query({idcategoria:2 }).$promise
+		.then(function(relacionados){
+			$scope.relacionados = relacionados;
+		})
 	}, function(err){
+		$scope.loading = false;
 		console.log(err);
 	})
 
 	$scope.fav = false;
+
+	$scope.tallaChanged = function(talla){
+		if ($scope.producto.tallas[talla].existencia > 0) {
+			$scope.cantidad = [];
+			for (i = 1; i <= $scope.producto.tallas[talla].existencia; i++) { 
+				$scope.cantidad.push(i);
+			}
+		} else {
+			$scope.cantidad = ['Agotado'];
+		}
+		
+	}
 
 	$scope.favorite = function(){
 		$scope.fav = !$scope.fav;

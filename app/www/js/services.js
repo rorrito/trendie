@@ -56,3 +56,9 @@ angular.module('trendie.controllers')
 .factory('SingleService',function($resource) {
 	return $resource(url+'producto_single');
 })
+.factory('CategoriaService',function($resource) {
+	return $resource(url+'categoria_single');
+})
+.factory('ProductosCategoriaService',function($resource) {
+	return $resource(url+'productoscategorias');
+})

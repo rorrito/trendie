@@ -10033,6 +10033,8 @@ a.button {
     /*border: 1px solid #f2f2f2;*/
     padding-bottom: 20px;
     /*margin-bottom: 20px;*/ }
+    .single .relacionadas .relitem a {
+      text-decoration: none; }
     .single .relacionadas .relitem img {
       max-width: 100%;
       display: block; }

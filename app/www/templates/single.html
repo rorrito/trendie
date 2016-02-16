@@ -4,95 +4,79 @@
 			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
 		</div>
 	</ion-nav-title>
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>		
 	<ion-content>
-	<!-- <pre>{{producto | json}}</pre> -->
-		<ion-slide-box>
-			<ion-slide ng-repeat="foto in producto.fotos">
-				<div class="box">
-					<img ng-src="{{imagesUrl}}productos/{{foto.foto}}">
-				</div>
-			</ion-slide>
-		</ion-slide-box>
-		<div class="header padding">
-			<h2>
-				{{producto.nombre_dis}}
-			</h2>
-			<h1>
-				{{producto.nombre_prod}}
-			</h1>
-			<div class="iconos">
-				<div class="fav" ng-class="{'favorited': fav}" ng-click="favorite()">
-					<div class="corazon">
-						<i class="icon ion-ios-heart-outline"></i>
-						<i class="icon ion-ios-heart"></i>
+		<div ng-if="!loading">
+			<ion-slide-box  ng-style="{width:appAncho+'px', height:appAncho+'px'}">
+				<ion-slide ng-repeat="foto in producto.fotos">
+					<div class="box">
+						<img ng-src="{{imagesUrl}}productos/{{foto.foto}}">
 					</div>
-					<span>Favorito</span>
-				</div>
-				<div class="share">
-					<div class="cosito">
-						<i class="icon ion-share"></i>
+				</ion-slide>
+			</ion-slide-box>
+			<div class="header padding">
+				<h2>
+					{{producto.nombre_dis}}
+				</h2>
+				<h1>
+					{{producto.nombre_prod}}
+				</h1>
+				<div class="iconos">
+					<div class="fav" ng-class="{'favorited': fav}" ng-click="favorite()">
+						<div class="corazon">
+							<i class="icon ion-ios-heart-outline"></i>
+							<i class="icon ion-ios-heart"></i>
+						</div>
+						<span>Favorito</span>
 					</div>
-					<span>Compartir</span>
+					<div class="share">
+						<div class="cosito">
+							<i class="icon ion-share"></i>
+						</div>
+						<span>Compartir</span>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="list padding">
-			<label class="item item-input item-select">
-				<div class="input-label">
-					Color
+			<div class="list padding">
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Talla
+					</div>
+					<select ng-change="tallaChanged(tallaSelected)") ng-model="tallaSelected">
+						<option ng-repeat="talla in producto.tallas" value="{{$index}}">{{talla.talla}}</option>
+					</select>
+				</label>
+				<label class="item item-input item-select">
+					<div class="input-label">
+						Cantidad
+					</div>
+					<select>
+						<option ng-repeat="numero in cantidad" value="numero">{{numero}}</option>
+					</select>
+				</label>
+			</div>
+			<div class="padding">
+				<button class="button button-outline button-royal">
+					Comprar
+				</button>
+			</div>
+			<div class="padding">
+				<p ng-bind-html="producto.descripcion_prod"></p>
+			</div>
+			<div class="titulo">
+				<h1>Relacionados</h1>
+			</div>
+			<div class="relacionadas padding">
+				<div class="relitem" ng-repeat="relacionado in relacionados">
+					<a href="#/app/single/{{relacionado.idproducto}}">
+						<img ng-src="{{imagesUrl}}productos/{{relacionado.fotoportada}}" alt="">
+						<h2>{{relacionado.nombre_dis}}</h2>
+						<h1>{{relacionado.nombre_prod}}</h1>
+						<h3>{{relacionado.precio_desc | number:0}} Bs</h3>
+					</a>
 				</div>
-				<select>
-					<option ng-repeat="talla in producto.tallas" value="talla.idtalla">{{talla.talla}}</option>
-				</select>
-			</label>
-		</div>
-		<div class="padding">
-			<button class="button button-outline button-royal">
-				Comprar
-			</button>
-		</div>
-		<div class="padding">
-			<p ng-bind-html="producto.descripcion_prod"></p>
-		</div>
-		<div class="titulo">
-			<h1>Relacionados</h1>
-		</div>
-		<div class="relacionadas padding">
-			<div class="relitem">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h2>NENAS ADORABLES</h2>
-				<h1>Ocarina</h1>
-				<h3>13.000,00 Bs</h3>
-			</div>
-			<div class="relitem">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h2>Lorem ipsum.</h2>
-				<h1>Ocarina IPDUN SIN DOLRO</h1>
-				<h3>13.000,00 Bs</h3>
-			</div>
-			<div class="relitem">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h2>NENAS ADORABLES LOREM</h2>
-				<h1>Ocarina</h1>
-				<h3>13.000,00 Bs</h3>
-			</div>
-			<div class="relitem">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h2>NENAS ADORABLES</h2>
-				<h1>Ocarina IPDUN SIN DOLRO</h1>
-				<h3>13.000,00 Bs</h3>
-			</div>
-			<div class="relitem">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h2>NENAS ADORABLES</h2>
-				<h1>Ocarina</h1>
-				<h3>13.000,00 Bs</h3>
-			</div>
-			<div class="relitem">
-				<img src="img/categoria_cover.jpg" alt="">
-				<h2>NENAS ADORABLES LOREM</h2>
-				<h1>Ocarina</h1>
-				<h3>13.000,00 Bs</h3>
 			</div>
 		</div>
 	</ion-content>
