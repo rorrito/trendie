@@ -1,34 +1,42 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar class="bar-stable">
-      <ion-nav-back-button>
+    <ion-nav-bar class="bar-light">
+      <ion-nav-back-button class="button button-clear button-bag">
+        <i></i><img src="img/back.png" alt="">
       </ion-nav-back-button>
 
       <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        <button class="button button-icon button-clear ion-navicon button-royal" menu-toggle="left">
         </button>
       </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-ios-search-strong button-royal">
+        </button>
+        <button class="button button-clear button-bag" >
+          <img src="img/bag.png" alt="">
+        </button>
+      </ion-nav-buttons>      
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    <ion-header-bar class="bar-stable">
-      <h1 class="title">Left</h1>
-    </ion-header-bar>
-    <ion-content>
+    <ion-content class="sidemenu">
       <ion-list>
-        <ion-item menu-close ng-click="login()">
-          Login
-        </ion-item>
-        <ion-item menu-close href="#/app/search">
-          Search
-        </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
+        <ion-item menu-close href="#/app/playlists">
+          <img src="img/mail.png" alt="">Mensajes
         </ion-item>
         <ion-item menu-close href="#/app/playlists">
-          Playlists
+          <img src="img/whishlist.png" alt="">Whislist
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          <img src="img/blog.png" alt="">Blog
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          <img src="img/disenadores.png" alt="">Diseñadores
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          <img src="img/checkout.png" alt="">Checkout
         </ion-item>
       </ion-list>
     </ion-content>

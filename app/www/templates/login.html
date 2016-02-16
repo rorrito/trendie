@@ -1,25 +1,35 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-      </div>
-    </form>
-  </ion-content>
-</ion-modal-view>
+<ion-pane class="login">
+	<div class="logo">
+		<img src="img/logo_big.png" alt="">
+	</div>
+	<form ng-submit="doLogin()" name="loginForm">
+		<div class="list_">
+			<label class="itemlogin item_ item-input item-floating-label">
+				<span class="input-label">Email</span>
+				<input type="email" placeholder="Email" required>
+			</label>
+			<label class="itemlogin item_ item-input item-floating-label">
+				<span class="input-label">Contraseña</span>
+				<input type="password" placeholder="Contraseña" required>
+			</label>
+<!-- 			<label class="item">
+				<button class="button button-block button-positive" type="submit" ng-disabled="loginForm.$invalid || util.loading">{{util.boton}}</button>
+			</label> -->
+			<div class="botoncontenedor">
+				<div class="loginboton" ng-class="{'cargando': util.loading, 'logged':util.logged}" ng-click="doLogin()">
+					<span>
+						{{util.boton}}
+					</span>
+					<svg class="circular" viewBox="25 25 50 50">
+						<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+					</svg>
+				</div>				
+			</div>
+			<a href="#/forgot" class="olvide">Olvidé mi contraseña</a>
+		</div>
+	</form>
+	<div class="reglink">
+		<div class="shadow"></div>
+		<a href="#/register"><img src="img/newprofile.png" alt="">Abre una cuenta aquí</a>
+	</div>
+</ion-pane>
