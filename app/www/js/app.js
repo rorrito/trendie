@@ -4,12 +4,62 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('trendie', ['ionic', 'trendie.controllers', 'ngResource'])
+angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource'])
 
-.run(function($ionicPlatform, $rootScope, $localstorage) {
+.run(function($ionicPlatform, $rootScope, $localstorage, $http) {
+
+
+    $rootScope.semilla = Math.floor(Math.random()*10000);
+    $rootScope.globals = $localstorage.getObject('globals') || {};
+
+    if ($rootScope.globals.currentUser){
+      Ionic.User.load($rootScope.globals.currentUser.id).then(
+        function(loadedUser){
+          Ionic.User.current(loadedUser);
+          user = Ionic.User.current();
+        }, 
+        function(error){
+          console.log('something went wrong: ',error);
+        });
+    }
+    // $http.defaults.headers.common['token'] = $rootScope.globals.currentUser.token;
   $ionicPlatform.ready(function() {
     
-    $rootScope.globals = $localstorage.getObject('globals') || {};
+
+    Ionic.io();
+    var user = Ionic.User.current();
+
+    var push = new Ionic.Push({
+      // "debug": true,
+      onNotification: function(notification){
+        if (!notification._raw.additionalData.foreground ) {
+          $state.go(notification._payload.state, JSON.parse(notification._payload.stateParams));
+        }
+      },
+      "pluginConfig": {
+        "ios": {
+          "badge": true,
+          "sound": true
+        },
+        "android": {
+          "iconColor": "#fb7d00",
+          "icon": "bitely_ic"
+        }
+      }
+    });
+
+      push.register(function(pushToken) {
+        var user = Ionic.User.current();
+        user.id = $rootScope.globals.currentUser.id;
+        user.set('name', $rootScope.globals.currentUser.nombre);
+       // user.set('image', todalainfo.picture);
+        console.log("Device token:",pushToken.token);
+        user.addPushToken(pushToken);
+        user.save();
+      });   
+
+
+
 
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -72,6 +122,33 @@ angular.module('trendie', ['ionic', 'trendie.controllers', 'ngResource'])
       'menuContent': {
         templateUrl: 'templates/categoria.html',
         controller: 'CategoriaCtrl'
+      }
+    }
+  })
+  .state('app.disenadores', {
+    url: '/disenadores',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/disenadores.html',
+        controller: 'DisenadoresCtrl'
+      }
+    }
+  })
+  .state('app.disenador',{
+    url: '/disenador/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/disenador.html',
+        controller: 'DisenadorCtrl'
+      }
+    }
+  })
+  .state('app.wishlist',{
+    url: '/wishlist',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/wishlist.html',
+        controller: 'WishlistCtrl'
       }
     }
   })

@@ -1,0 +1,35 @@
+<ion-view class="wishlist">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>
+		<div class="titulo">
+			<h1>Wishlist</h1>
+		</div>
+		<div class="empty padding" ng-if="wishlist.length < 1">
+			<h1>No tienes nada en tu wishlist, algun mensaje aqui</h1>
+		</div>
+		<div class="producto" ng-repeat="producto in wishlist">
+			<a href="#/app/single/{{producto.idproducto}}">
+				<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />
+				<h2>falta nombre_dis{{producto.nombre_dis}}</h2>
+				<h1>{{producto.nombre_prod}}</h1>
+				<h3>{{producto.precio_desc | number:0}} Bs.</h3>
+			</a>
+				<a class="button button-icon icon ion-trash-a basurita" ng-click="remove($index)"></a>
+		</div>
+	<ion-infinite-scroll
+		ng-if="moreDataCanBeLoaded && page>1"
+		on-infinite="loadMore()"
+		immediate-check="false"
+		spinner="dots"
+		distance="1%">
+	</ion-infinite-scroll>
+	</ion-content>
+</ion-view>

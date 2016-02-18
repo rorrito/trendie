@@ -23,22 +23,25 @@
   <ion-side-menu side="left">
     <ion-content class="sidemenu">
       <ion-list>
+        <ion-item menu-close href="#/app/home">
+          <img src="img/mail.png" alt="">Home
+        </ion-item>
         <ion-item menu-close href="#/app/playlists">
           <img src="img/mail.png" alt="">Mensajes
         </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-          <img src="img/whishlist.png" alt="">Whislist
+        <ion-item menu-close href="#/app/wishlist">
+          <img src="img/whishlist.png" alt="">Wishlist
         </ion-item>
         <ion-item menu-close href="#/app/playlists">
           <img src="img/blog.png" alt="">Blog
         </ion-item>
-        <ion-item menu-close href="#/app/playlists">
+        <ion-item menu-close href="#/app/disenadores">
           <img src="img/disenadores.png" alt="">Diseñadores
         </ion-item>
         <ion-item menu-close href="#/app/playlists">
           <img src="img/checkout.png" alt="">Checkout
         </ion-item>
-        <ion-item menu-close href="#/app/playlists">
+        <ion-item menu-close ng-click="logout()" href="">
           Salir
         </ion-item>
       </ion-list>

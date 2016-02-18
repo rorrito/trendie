@@ -35,6 +35,13 @@
 					</a>
 				</div>
 			</div>
-		</div>		
+		</div>
+	<ion-infinite-scroll
+		ng-if="moreDataCanBeLoaded && page>1"
+		on-infinite="loadMore()"
+		immediate-check="false"
+		spinner="dots"
+		distance="1%">
+	</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

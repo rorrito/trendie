@@ -8,6 +8,7 @@
 		<ion-spinner></ion-spinner>
 	</ion-pane>		
 	<ion-content>
+	<!-- <pre>{{producto | json}}</pre> -->
 		<div ng-if="!loading">
 			<ion-slide-box  ng-style="{width:appAncho+'px', height:appAncho+'px'}">
 				<ion-slide ng-repeat="foto in producto.fotos">
@@ -18,13 +19,13 @@
 			</ion-slide-box>
 			<div class="header padding">
 				<h2>
-					{{producto.nombre_dis}}
+					<a href="#/app/disenador/{{producto.iddisenador}}">{{producto.nombre_dis}}</a>
 				</h2>
 				<h1>
 					{{producto.nombre_prod}}
 				</h1>
 				<div class="iconos">
-					<div class="fav" ng-class="{'favorited': fav}" ng-click="favorite()">
+					<div class="fav" ng-class="{'favorited': producto.favoriteado!=0}" ng-click="favorite(producto)">
 						<div class="corazon">
 							<i class="icon ion-ios-heart-outline"></i>
 							<i class="icon ion-ios-heart"></i>
@@ -68,8 +69,8 @@
 			<div class="titulo">
 				<h1>Relacionados</h1>
 			</div>
-			<div class="relacionadas padding">
-				<div class="relitem" ng-repeat="relacionado in relacionados">
+			<div class="relacionadas">
+				<div class="relitem" ng-repeat="relacionado in relacionados" ng-if="relacionado.idproducto != idid">
 					<a href="#/app/single/{{relacionado.idproducto}}">
 						<img ng-src="{{imagesUrl}}productos/{{relacionado.fotoportada}}" alt="">
 						<h2>{{relacionado.nombre_dis}}</h2>

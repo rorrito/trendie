@@ -8,15 +8,15 @@
 		<ion-spinner></ion-spinner>
 	</ion-pane>	
 	<ion-content>
-	<!-- <pre>{{productos |json }}</pre> -->
+	<!-- <pre>{{disenador |json }}</pre> -->
 		<div ng-if="!loading">
 			<div class="categoria">
 				<div class="big" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}">
-					<img ng-src="{{imagesUrl}}categorias/{{categoria.foto_cat}}" alt="">
-					<h1>{{categoria.nombre_cat}}</h1>
+					<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="">
+					<h1>{{disenador.nombre_dis}}</h1>
 				</div>
 				<div class="padding">
-					<p ng-bind-html="categoria.descripcion_cat"></p>
+					<p ng-bind-html="disenador.descripcion_dis"></p>
 				</div>
 			</div>
 			<div ng-if="loadingprod" style="text-align: center">

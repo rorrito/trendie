@@ -59,9 +59,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		flex-basis: 60%;
 		.botoncontenedor {
 			display: flex;
-			padding: 20px 30px;
+			margin: 20px 30px;
 			align-items: center;
 			justify-content: center;
+			overflow: hidden;
 			.circular {
 				width: 60px;
 				height:60px;
@@ -204,8 +205,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		padding-bottom: 30px;
 		.big {
 			position: relative;
+			overflow: hidden;
 			img {
-				max-width: 100%;
+				width: 100%;
 			}
 			h1 {
 				font-family: 'OpenSansLight';
@@ -298,10 +300,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		border-top: 1px solid #F2F2F2;
 		h2 {
 			font-family: "OpenSansLight";
-			color:#B3B3B3;
 			font-size: 15px;
 			padding-top: 15px;
-			padding-bottom: 10px
+			padding-bottom: 10px;
+			a {
+				text-decoration:none;
+				color:#B3B3B3;
+			}
 		}
 		h1 {
 			color: #666;
@@ -375,61 +380,71 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	}
 	.titulo {
 		margin-top: 15px;
-		padding: 20px 0;
-		background: -webkit-linear-gradient(top,  rgba(0,0,0,.05) 0%,rgba(0,0,0,0) 15%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-		background: linear-gradient(to bottom,  rgba(0,0,0,.05) 0%,rgba(0,0,0,0) 15%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		h1 {
-			font-family: "OpenSansLight";
-			font-size: 30px;
-			color: #808080;
-			text-align: center;
-			text-transform: uppercase;
-		}
 	}
-	.relacionadas {
-		-webkit-column-count: 2; /* Chrome, Safari, Opera */
-		column-count: 2;
-		.relitem {
-			-webkit-column-break-inside: avoid; /* Chrome, Safari */
-			break-inside: avoid-column;
+}
+
+.titulo {
+	padding: 20px 0;
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,.05) 0%,rgba(0,0,0,0) 15%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,0,0,.05) 0%,rgba(0,0,0,0) 15%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	h1 {
+		font-family: "OpenSansLight";
+		font-size: 30px;
+		color: #808080;
+		text-align: center;
+		text-transform: uppercase;
+	}
+}
+.relacionadas {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	.relitem {
+		flex-basis: 50%;
+		padding: 10px;
+		margin-bottom: 10px;
+		transition: all ease-in-out 300ms;
+		transform: scale(1);
+		&.ng-enter {
+			transform: scale(0);
+		}
+		&.ng-enter-stagger {
+			transition-delay: 100ms;
+			transition-duration: 0s;
+		}
+		a {
+			text-decoration: none;
+		}
+		img {
+			max-width: 100%;
 			display: block;
-			/*border: 1px solid #f2f2f2;*/
-			padding-bottom: 20px;
-			/*margin-bottom: 20px;*/
-			a {
-				text-decoration: none;
-			}
-			img {
-				max-width: 100%;
-				display: block;
-			}
-			h1, h2, h3 {
-				margin: 0;
-			}
-			h2 {
-				color: #B3B3B3;
-				text-transform: uppercase;
-				font-family: "OpenSansLight";
-				font-size: 13px;
-				text-align: center;
-				margin: 8px 0;
-				/*padding:0 10px;*/
-			}
-			h1 {
-				color: #666;
-				font-family: "OpenSansLight";
-				font-size: 18px;
-				text-align: center;
-				margin: 0 0 8px 0;
-				/*padding:0 10px;*/
-			}
-			h3 {
-				text-align: center;
-				color: #999999;
-				font-family: "OpenSansLight";
-				font-size: 15px;
-				/*padding:0 10px;*/
-			}
+		}
+		h1, h2, h3 {
+			margin: 0;
+		}
+		h2 {
+			color: #B3B3B3;
+			text-transform: uppercase;
+			font-family: "OpenSansLight";
+			font-size: 13px;
+			text-align: center;
+			margin: 8px 0;
+			/*padding:0 10px;*/
+		}
+		h1 {
+			color: #666;
+			font-family: "OpenSansLight";
+			font-size: 18px;
+			text-align: center;
+			margin: 0 0 8px 0;
+			/*padding:0 10px;*/
+		}
+		h3 {
+			text-align: center;
+			color: #999999;
+			font-family: "OpenSansLight";
+			font-size: 14px;
+			/*padding:0 10px;*/
 		}
 	}
 }
@@ -437,4 +452,56 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+.wishlist {
+	.producto {
+		border: 1px solid #E6E6E6;
+		margin: 12px;
+		height: 150px;
+		position: relative;
+		padding-left: 160px;
+		padding-right: 12px;
+		transition: all ease-in-out 300ms;
+		/*transform: scale(1);*/
+		a {
+			text-decoration: none;
+		}
+		img {
+			height: 150px;
+			position: absolute;
+			top:0;
+			left:0;
+		}
+		h2 {
+			font-family: "OpenSansLight";
+			color: #B3B3B3;
+			text-transform: uppercase;
+			font-size: 13px;
+			margin-top: 10px;
+		}
+		h1 {
+			font-family: "OpenSansLight";
+			color: #666;
+			font-size: 24px;
+		}
+		h3 {
+			font-family: "OpenSansLight";
+			color: #666;
+			font-size: 20px;
+		}
+		a.basurita {
+			position: absolute;
+			top:20px;
+			right: 10px;
+		}
+		&.ng-leave-active {
+			/*transform: translateY(-100%);*/
+			transform: scale(.5);
+			opacity: 0;
+			height: 0;
+		}
+	}
+}
+.disenadores .categoria {
+	padding-bottom: 0;
 }

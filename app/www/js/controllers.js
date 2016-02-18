@@ -1,14 +1,35 @@
 angular.module('trendie.controllers', [])
 
-.controller('AppCtrl', function($scope, $window) {
+.controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup) {
 	
 	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
 
 	$scope.appAncho = $window.innerWidth;
 
+
+	$scope.logout = function(){
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Salir',
+			template: '¿Está seguro que desea salir?',
+			okType: 'button-royal'
+		});
+		confirmPopup.then(function(res) {
+			if(res) {
+				Auth.clearCredentials();
+				$ionicHistory.nextViewOptions({
+					disableAnimate: true,
+					disableBack: true
+				});
+				$location.path('/login');
+			}
+		});
+
+
+	}
+
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup){
+.controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup, $ionicHistory){
 
 	$scope.login = {};
 
@@ -23,9 +44,14 @@ angular.module('trendie.controllers', [])
 			$scope.util.logged = true;
 				$timeout(function(){
 					Auth.saveCredentials({
+						id: data.idusuario,
 						token: data.token,
 						nombre: data.nombre,
 						email: $scope.login.email
+					});
+					$ionicHistory.nextViewOptions({
+						disableAnimate: true,
+						disableBack: true
 					});
 					$location.path('/app/home');
 				}, 500);
@@ -53,7 +79,7 @@ angular.module('trendie.controllers', [])
 	}
 })
 
-.controller('RegisterCtrl', function($scope, RegistroService, $ionicLoading, $location, Auth, $ionicPopup){
+.controller('RegisterCtrl', function($scope, RegistroService, $ionicLoading, $location, Auth, $ionicPopup, $ionicHistory){
 	$scope.login = {};
 
 	$scope.util = {loading: false, boton: 'Registrarse'};
@@ -66,7 +92,13 @@ angular.module('trendie.controllers', [])
 				Auth.saveCredentials({
 					nombre:$scope.login.nombre,
 					email: $scope.login.email,
-					token: data.token
+					token: data.token,
+					id: data.idusuario
+				});
+
+				$ionicHistory.nextViewOptions({
+					disableAnimate: true,
+					disableBack: true
 				});
 				$location.path('/app/home');
 			},function(err){
@@ -83,40 +115,145 @@ angular.module('trendie.controllers', [])
 
 .controller('HomeCtrl', function($scope, CategoriasInicioService){
 
-	$scope.categorias = {};
+	$scope.categorias = [];
 
 	$scope.loading = true;
 
-	CategoriasInicioService.query().$promise
+	$scope.page = 1;
+
+	CategoriasInicioService.query({pagina:$scope.page, limite:10}).$promise
 	.then(function(categorias){
-		$scope.categorias = categorias;
+		$scope.categorias = $scope.categorias.concat(categorias);
 		$scope.loading = false;
+		$scope.page++;
 	}, function(err){
 		console.log(err);
 		$scope.loading = false;
 	})
 
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		CategoriasInicioService.query({pagina:$scope.page, limite:10}).$promise
+		.then(function(categorias){
+			if (categorias.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.categorias = $scope.categorias.concat(categorias);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	}
+
 })
-.controller('CategoriaCtrl', function($scope, ProductosCategoriaService, CategoriaService, $stateParams){
-	$scope.categoria = {};
-	$scope.productos = {};
+.controller('DisenadoresCtrl', function($scope, DisenadoresService){
+	$scope.page = 1;
+	$scope.disenadores = [];
 	$scope.loading = true;
+
+	DisenadoresService.query({pagina:$scope.page, limite:10}).$promise
+	.then(function(disenadores){
+		$scope.disenadores = $scope.disenadores.concat(disenadores);
+		$scope.page++;
+		$scope.loading = false;
+	}, function(err){
+		console.log(err);
+	});
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		DisenadoresService.query({pagina:$scope.page, limite:10}).$promise
+		.then(function(disenadores){
+			// console.log(productos.length);
+			if (disenadores.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.disenadores = $scope.disenadores.concat(disenadores);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	}
+})
+.controller('DisenadorCtrl', function($scope, $ionicScrollDelegate, $stateParams, DisenadorSingleService, ProductosDisenadoresService){
+	$scope.page = 1;
+	$scope.loading = true;
+	$scope.disenador = {};
+	$scope.productos = [];
+
+	DisenadorSingleService.get({iddisenador: $stateParams.id}).$promise
+	.then(function(disenador){
+		$scope.disenador = disenador;
+		$scope.loading = false;
+
+		ProductosDisenadoresService.query({iddisenador:$stateParams.id, pagina:$scope.page, limite:10}).$promise
+		.then(function(productos){
+			$scope.productos = $scope.productos.concat(productos);
+			$ionicScrollDelegate.resize();
+			$scope.page++;
+		});
+	}, function(err){
+		console.log(err);
+	});
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		ProductosDisenadoresService.query({iddisenador:$stateParams.id, pagina:$scope.page, limite:10}).$promise
+		.then(function(productos){
+			if (productos.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.productos = $scope.productos.concat(productos);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	}
+
+})
+.controller('CategoriaCtrl', function($scope, $ionicScrollDelegate,  ProductosCategoriaService, CategoriaService, $stateParams){
+	$scope.categoria = {};
+	$scope.productos = [];
+	$scope.loading = true;
+	$scope.loadingprod = true;
+
+	$scope.page = 1;
 
 	CategoriaService.get({idcategoria:$stateParams.id}).$promise
 	.then(function(categoria){
 		$scope.loading = false;
 		$scope.categoria = categoria;
-		ProductosCategoriaService.query({idcategoria:$stateParams.id}).$promise
+		ProductosCategoriaService.query({idcategoria:$stateParams.id, pagina:$scope.page, limite:10}).$promise
 		.then(function(productos){
-			$scope.productos = $productos;
+			$scope.loadingprod = false;
+			$scope.productos = $scope.productos.concat(productos);
+			$ionicScrollDelegate.resize();
+			$scope.page++;
 		})
 	}, function(err){
 		$scope.loading = false;
+		$scope.loadingprod = false;
 		console.log(err);
 	})
 
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		ProductosCategoriaService.query({idcategoria:$stateParams.id, pagina:$scope.page, limite:10}).$promise
+		.then(function(productos){
+			if (productos.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.productos = $scope.productos.concat(productos);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	};
+
 })
-.controller('SingleCtrl', function($scope, SingleService, $stateParams, $ionicSlideBoxDelegate, ProductosCategoriaService){
+.controller('SingleCtrl', 
+	function($scope, $ionicScrollDelegate, SingleService, $stateParams, $ionicSlideBoxDelegate, 
+		ProductosCategoriaService, $timeout, desfavoritearService, favoritearService){
 
 	$scope.producto = {};
 
@@ -126,6 +263,8 @@ angular.module('trendie.controllers', [])
 
 	$scope.relacionados = {};
 
+	$scope.idid = $stateParams.id;
+
 	SingleService.get({
 		idproducto: $stateParams.id
 	}).$promise.then(function(producto){
@@ -133,9 +272,10 @@ angular.module('trendie.controllers', [])
 		$scope.loading = false;
 		$ionicSlideBoxDelegate.update();
 		$scope.tallaSelected = 0;
-		ProductosCategoriaService.query({idcategoria:2 }).$promise
+		ProductosCategoriaService.query({idcategoria:producto.idcategoria, pagina:1, limite:10 }).$promise
 		.then(function(relacionados){
 			$scope.relacionados = relacionados;
+			$ionicScrollDelegate.resize();
 		})
 	}, function(err){
 		$scope.loading = false;
@@ -156,7 +296,62 @@ angular.module('trendie.controllers', [])
 		
 	}
 
-	$scope.favorite = function(){
-		$scope.fav = !$scope.fav;
+	var enviar;
+	$scope.favorite = function(fav){
+
+		if (fav.favoriteado == 0) {
+			fav.favoriteado = 1;
+		} else {
+			fav.favoriteado = 0;
+		};
+		$timeout.cancel(enviar);
+
+		enviar = $timeout(function(){
+			if (fav.favoriteado == 0 ){
+				desfavoritearService.save({idproducto:$stateParams.id}).$promise
+				.then({}, function(err){
+					fav.favoriteado = 1
+				});
+			} else {
+				favoritearService.save({idproducto:$stateParams.id}).$promise
+				.then({}, function(err){
+					fav.favoriteado = 0
+				});
+			}
+		}, 1000)
 	}
+})
+.controller('WishlistCtrl', function($scope, WishlistService, desfavoritearService){
+	$scope.loading = true;
+	$scope.page = 1;
+
+	$scope.wishlist = [];
+
+	WishlistService.query({pagina:$scope.page, limite:10}).$promise
+	.then(function(wishlist){
+		$scope.loading = false;
+		$scope.wishlist = $scope.wishlist.concat(wishlist);
+		$scope.page++;
+	}, function(err){
+		console.log(err);
+	})
+
+	$scope.remove = function($index) {
+		desfavoritearService.save({idproducto:$scope.wishlist[$index].idproducto});
+		$scope.wishlist.splice($index,1);
+	}
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		WishlistService.query({pagina:$scope.page, limite:10}).$promise
+		.then(function(wishlist){
+			if (wishlist.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.wishlist = $scope.wishlist.concat(wishlist);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	};	
 })

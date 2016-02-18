@@ -35,17 +35,47 @@ angular.module('trendie.controllers')
 
 			$localstorage.setObject('globals',{currentUser:data});
 
+
+        Ionic.io();
+        var push = new Ionic.Push({
+          // "debug": true,
+          onNotification: function(notification){
+            if (!notification._raw.additionalData.foreground ) {
+              $state.go(notification._payload.state, JSON.parse(notification._payload.stateParams));
+            }
+          },
+          "pluginConfig": {
+            "ios": {
+              "badge": true,
+              "sound": true
+            },
+            "android": {
+              "iconColor": "#fb7d00",
+              "icon": "bitely_ic"
+            }
+          }
+        });
+
+        push.register(function(pushToken) {
+          var user = Ionic.User.current();
+          user.id = data.id;
+          // user.set('image', todalainfo.picture);
+          user.set('name', data.nombre);
+          console.log("Device token:",pushToken.token);
+          user.addPushToken(pushToken);
+          user.save();
+        });
+
 		},
 		clearCredentials: function(){
 			$rootScope.globals = {};
-			$localstorage.setObject('globals',{});
+			$localstorage.remove('globals');
+			$localstorage.remove('ionic_io_push_token');
+			$localstorage.remove('ionic_io_user_6f21c19c');
 		}
 	}
 })
 
-.factory('CategoriasInicioService',function($resource) {
-	return $resource(url+'categoriasinicio');
-})
 
 .factory('RegistroService',function($resource) {
 	return $resource(url+'registro');
@@ -53,12 +83,34 @@ angular.module('trendie.controllers')
 .factory('LoginService',function($resource) {
 	return $resource(url+'login');
 })
-.factory('SingleService',function($resource) {
-	return $resource(url+'producto_single');
+.factory('CategoriasInicioService',function($resource, $rootScope) {
+	return $resource(url+'categoriasinicio?semilla='+$rootScope.semilla);
 })
-.factory('CategoriaService',function($resource) {
-	return $resource(url+'categoria_single');
+.factory('SingleService',function($resource, $rootScope) {
+	return $resource(url+'producto_single?semilla='+$rootScope.semilla);
 })
-.factory('ProductosCategoriaService',function($resource) {
-	return $resource(url+'productoscategorias');
+.factory('CategoriaService',function($resource, $rootScope) {
+	return $resource(url+'categoria_single?semilla='+$rootScope.semilla);
 })
+.factory('ProductosCategoriaService',function($resource, $rootScope) {
+	return $resource(url+'productoscategorias?semilla='+$rootScope.semilla);
+})
+.factory('favoritearService',function($resource, $rootScope) {
+	return $resource(url+'favoritear');
+})
+.factory('desfavoritearService',function($resource, $rootScope) {
+	return $resource(url+'desfavoritear');
+})
+.factory('DisenadoresService',function($resource, $rootScope) {
+	return $resource(url+'disenadores?semilla='+$rootScope.semilla);
+})
+.factory('DisenadorSingleService',function($resource, $rootScope) {
+	return $resource(url+'disenador_single?semilla='+$rootScope.semilla);
+})
+.factory('ProductosDisenadoresService',function($resource, $rootScope) {
+	return $resource(url+'productosdisenadores?semilla='+$rootScope.semilla);
+})
+.factory('WishlistService',function($resource, $rootScope) {
+	return $resource(url+'wishlist?token='+$rootScope.globals.currentUser.token);
+})
+

@@ -9763,9 +9763,10 @@ a.button {
     flex-basis: 60%; }
     .login form .botoncontenedor {
       display: flex;
-      padding: 20px 30px;
+      margin: 20px 30px;
       align-items: center;
-      justify-content: center; }
+      justify-content: center;
+      overflow: hidden; }
       .login form .botoncontenedor .circular {
         width: 60px;
         height: 60px;
@@ -9876,9 +9877,10 @@ a.button {
 .home .categoria {
   padding-bottom: 30px; }
   .home .categoria .big {
-    position: relative; }
+    position: relative;
+    overflow: hidden; }
     .home .categoria .big img {
-      max-width: 100%; }
+      width: 100%; }
     .home .categoria .big h1 {
       font-family: 'OpenSansLight';
       background: -webkit-linear-gradient(top, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
@@ -9948,10 +9950,12 @@ a.button {
   border-top: 1px solid #F2F2F2; }
   .single .header h2 {
     font-family: "OpenSansLight";
-    color: #B3B3B3;
     font-size: 15px;
     padding-top: 15px;
     padding-bottom: 10px; }
+    .single .header h2 a {
+      text-decoration: none;
+      color: #B3B3B3; }
   .single .header h1 {
     color: #666;
     font-family: "OpenSansLight";
@@ -10008,39 +10012,44 @@ a.button {
   color: #666; }
 
 .single .titulo {
-  margin-top: 15px;
+  margin-top: 15px; }
+
+.titulo {
   padding: 20px 0;
   background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05) 0%, transparent 15%, transparent 100%);
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, transparent 15%, transparent 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
-  .single .titulo h1 {
+  .titulo h1 {
     font-family: "OpenSansLight";
     font-size: 30px;
     color: #808080;
     text-align: center;
     text-transform: uppercase; }
 
-.single .relacionadas {
-  -webkit-column-count: 2;
-  /* Chrome, Safari, Opera */
-  column-count: 2; }
-  .single .relacionadas .relitem {
-    -webkit-column-break-inside: avoid;
-    /* Chrome, Safari */
-    break-inside: avoid-column;
-    display: block;
-    /*border: 1px solid #f2f2f2;*/
-    padding-bottom: 20px;
-    /*margin-bottom: 20px;*/ }
-    .single .relacionadas .relitem a {
+.relacionadas {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row; }
+  .relacionadas .relitem {
+    flex-basis: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: all ease-in-out 300ms;
+    transform: scale(1); }
+    .relacionadas .relitem.ng-enter {
+      transform: scale(0); }
+    .relacionadas .relitem.ng-enter-stagger {
+      transition-delay: 100ms;
+      transition-duration: 0s; }
+    .relacionadas .relitem a {
       text-decoration: none; }
-    .single .relacionadas .relitem img {
+    .relacionadas .relitem img {
       max-width: 100%;
       display: block; }
-    .single .relacionadas .relitem h1, .single .relacionadas .relitem h2, .single .relacionadas .relitem h3 {
+    .relacionadas .relitem h1, .relacionadas .relitem h2, .relacionadas .relitem h3 {
       margin: 0; }
-    .single .relacionadas .relitem h2 {
+    .relacionadas .relitem h2 {
       color: #B3B3B3;
       text-transform: uppercase;
       font-family: "OpenSansLight";
@@ -10048,21 +10057,64 @@ a.button {
       text-align: center;
       margin: 8px 0;
       /*padding:0 10px;*/ }
-    .single .relacionadas .relitem h1 {
+    .relacionadas .relitem h1 {
       color: #666;
       font-family: "OpenSansLight";
       font-size: 18px;
       text-align: center;
       margin: 0 0 8px 0;
       /*padding:0 10px;*/ }
-    .single .relacionadas .relitem h3 {
+    .relacionadas .relitem h3 {
       text-align: center;
       color: #999999;
       font-family: "OpenSansLight";
-      font-size: 15px;
+      font-size: 14px;
       /*padding:0 10px;*/ }
 
 .loading {
   display: flex;
   align-items: center;
   justify-content: center; }
+
+.wishlist .producto {
+  border: 1px solid #E6E6E6;
+  margin: 12px;
+  height: 150px;
+  position: relative;
+  padding-left: 160px;
+  padding-right: 12px;
+  transition: all ease-in-out 300ms;
+  /*transform: scale(1);*/ }
+  .wishlist .producto a {
+    text-decoration: none; }
+  .wishlist .producto img {
+    height: 150px;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .wishlist .producto h2 {
+    font-family: "OpenSansLight";
+    color: #B3B3B3;
+    text-transform: uppercase;
+    font-size: 13px;
+    margin-top: 10px; }
+  .wishlist .producto h1 {
+    font-family: "OpenSansLight";
+    color: #666;
+    font-size: 24px; }
+  .wishlist .producto h3 {
+    font-family: "OpenSansLight";
+    color: #666;
+    font-size: 20px; }
+  .wishlist .producto a.basurita {
+    position: absolute;
+    top: 20px;
+    right: 10px; }
+  .wishlist .producto.ng-leave-active {
+    /*transform: translateY(-100%);*/
+    transform: scale(0.5);
+    opacity: 0;
+    height: 0; }
+
+.disenadores .categoria {
+  padding-bottom: 0; }
