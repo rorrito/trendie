@@ -13,6 +13,7 @@
         <button class="button button-icon button-clear ion-ios-search-strong button-royal">
         </button>
         <button class="button button-clear button-bag" >
+          <span class="badge badge-balanced itemscarrito">10</span>
           <img src="img/bag.png" alt="">
         </button>
       </ion-nav-buttons>      
@@ -27,7 +28,10 @@
           <img src="img/mail.png" alt="">Home
         </ion-item>
         <ion-item menu-close href="#/app/playlists">
-          <img src="img/mail.png" alt="">Mensajes
+          <img src="img/mail.png" alt="">Mensajes <span class="badge badge-balanced">0</span>
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          <img src="img/mail.png" alt="">Perfil
         </ion-item>
         <ion-item menu-close href="#/app/wishlist">
           <img src="img/whishlist.png" alt="">Wishlist
@@ -40,6 +44,9 @@
         </ion-item>
         <ion-item menu-close href="#/app/playlists">
           <img src="img/checkout.png" alt="">Checkout
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          <img src="img/checkout.png" alt="">Historial
         </ion-item>
         <ion-item menu-close ng-click="logout()" href="">
           Salir

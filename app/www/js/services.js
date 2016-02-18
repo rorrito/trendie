@@ -25,9 +25,11 @@ angular.module('trendie.controllers')
   }
 }])
 
-.factory('Auth', function($localstorage, $rootScope){
+.factory('Auth', function($localstorage, $rootScope, $http){
 	return {
 		saveCredentials: function(data){
+
+      $http.defaults.headers.common['Token'] = data.token;
 
 			$rootScope.globals = {
 				currentUser: data
@@ -68,6 +70,7 @@ angular.module('trendie.controllers')
 
 		},
 		clearCredentials: function(){
+      $http.defaults.headers.common['Token'] = '';
 			$rootScope.globals = {};
 			$localstorage.remove('globals');
 			$localstorage.remove('ionic_io_push_token');
@@ -95,6 +98,12 @@ angular.module('trendie.controllers')
 .factory('ProductosCategoriaService',function($resource, $rootScope) {
 	return $resource(url+'productoscategorias?semilla='+$rootScope.semilla);
 })
+.factory('ProductosRelacionadosService',function($resource, $rootScope) {
+  return $resource(url+'productosrelacionados?semilla='+$rootScope.semilla);
+})
+.factory('ForgotService',function($resource, $rootScope) {
+  return $resource(url+'recordarclave');
+})
 .factory('favoritearService',function($resource, $rootScope) {
 	return $resource(url+'favoritear');
 })
@@ -111,6 +120,6 @@ angular.module('trendie.controllers')
 	return $resource(url+'productosdisenadores?semilla='+$rootScope.semilla);
 })
 .factory('WishlistService',function($resource, $rootScope) {
-	return $resource(url+'wishlist?token='+$rootScope.globals.currentUser.token);
+	return $resource(url+'wishlist');
 })
 

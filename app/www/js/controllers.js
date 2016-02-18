@@ -78,7 +78,39 @@ angular.module('trendie.controllers', [])
 		// );
 	}
 })
+.controller('ForgotCtrl', function($scope, ForgotService, $ionicPopup, $location){
 
+	$scope.login = {}
+
+	$scope.util = {loading:false, boton: 'Enviar'};
+
+	$scope.forgot = function(){
+
+		$scope.util = {loading:true, boton: 'Enviando...'};
+
+		ForgotService.save({email: $scope.login.email}).$promise
+		.then(function(){
+			$scope.util = {loading:false, boton: 'Enviar'};
+			$ionicPopup.alert({
+				title: 'Exito',
+				template: 'La contraseña ha sido enviada a tu email',
+				okType: 'button-royal'
+			}).then(function(){
+				$location.path('/login');
+
+			});
+		}, function(err){
+			$scope.util = {loading:false, boton: 'Enviar'};
+			$ionicPopup.alert({
+				title: 'Error',
+				template: 'No hay usuario registrado con ese email',
+				okType: 'button-royal'
+			});
+		});		
+	}
+
+
+})
 .controller('RegisterCtrl', function($scope, RegistroService, $ionicLoading, $location, Auth, $ionicPopup, $ionicHistory){
 	$scope.login = {};
 
@@ -102,7 +134,7 @@ angular.module('trendie.controllers', [])
 				});
 				$location.path('/app/home');
 			},function(err){
-				// console.log(err);
+				console.log(err);
 				$ionicPopup.alert({
 					title: 'Error',
 					template: 'Ya existe un usuario con ese email',
@@ -253,7 +285,7 @@ angular.module('trendie.controllers', [])
 })
 .controller('SingleCtrl', 
 	function($scope, $ionicScrollDelegate, SingleService, $stateParams, $ionicSlideBoxDelegate, 
-		ProductosCategoriaService, $timeout, desfavoritearService, favoritearService){
+		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService){
 
 	$scope.producto = {};
 
@@ -261,39 +293,70 @@ angular.module('trendie.controllers', [])
 
 	$scope.cantidad = [];
 
-	$scope.relacionados = {};
+	$scope.relacionados = [];
 
-	$scope.idid = $stateParams.id;
+	$scope.page = 1;
+
+	// $scope.idid = $stateParams.id;
 
 	SingleService.get({
 		idproducto: $stateParams.id
 	}).$promise.then(function(producto){
 		$scope.producto = producto;
+		$scope.producto.cantidad = '';
 		$scope.loading = false;
 		$ionicSlideBoxDelegate.update();
 		$scope.tallaSelected = 0;
-		ProductosCategoriaService.query({idcategoria:producto.idcategoria, pagina:1, limite:10 }).$promise
+		ProductosRelacionadosService.query({
+			idcategoria:producto.idcategoria, 
+			idproducto: $stateParams.id, 
+			pagina:$scope.page, 
+			iddisenador: $scope.producto.iddisenador,
+			limite:10 }
+		).$promise
 		.then(function(relacionados){
 			$scope.relacionados = relacionados;
+			$scope.page++;
 			$ionicScrollDelegate.resize();
-		})
+		});
 	}, function(err){
 		$scope.loading = false;
 		console.log(err);
 	})
 
-	$scope.fav = false;
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		ProductosRelacionadosService.query({
+			idcategoria:$scope.producto.idcategoria, 
+			idproducto: $stateParams.id, 
+			pagina:$scope.page, 
+			iddisenador: $scope.producto.iddisenador,
+			limite:10 }
+		).$promise
+		.then(function(relacionados){
+			if (relacionados.length < 1) $scope.moreDataCanBeLoaded = false;
+			$scope.relacionados = $scope.relacionados.concat(relacionados);
+			$scope.page++;
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		}, function(err){
+			console.log(err);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		})
+	}
 
 	$scope.tallaChanged = function(talla){
 		if ($scope.producto.tallas[talla].existencia > 0) {
 			$scope.cantidad = [];
 			for (i = 1; i <= $scope.producto.tallas[talla].existencia; i++) { 
-				$scope.cantidad.push(i);
+				$scope.cantidad.push(i.toString());
 			}
 		} else {
 			$scope.cantidad = ['Agotado'];
 		}
-		
+		$timeout(function(){
+			$scope.producto.cantidad = $scope.cantidad[0];
+			console.log($scope.producto.cantidad);	
+		},0);
 	}
 
 	var enviar;
@@ -308,12 +371,12 @@ angular.module('trendie.controllers', [])
 
 		enviar = $timeout(function(){
 			if (fav.favoriteado == 0 ){
-				desfavoritearService.save({idproducto:$stateParams.id}).$promise
+				desfavoritearService.save({idproducto:parseInt($stateParams.id)}).$promise
 				.then({}, function(err){
 					fav.favoriteado = 1
 				});
 			} else {
-				favoritearService.save({idproducto:$stateParams.id}).$promise
+				favoritearService.save({idproducto:parseInt($stateParams.id)}).$promise
 				.then({}, function(err){
 					fav.favoriteado = 0
 				});
@@ -337,7 +400,7 @@ angular.module('trendie.controllers', [])
 	})
 
 	$scope.remove = function($index) {
-		desfavoritearService.save({idproducto:$scope.wishlist[$index].idproducto});
+		desfavoritearService.save({idproducto: parseInt($scope.wishlist[$index].idproducto)});
 		$scope.wishlist.splice($index,1);
 	}
 
@@ -354,4 +417,7 @@ angular.module('trendie.controllers', [])
 			console.log(err);
 		});
 	};	
+})
+.controller('BloCtrl', function($scope){
+
 })

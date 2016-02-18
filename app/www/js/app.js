@@ -13,6 +13,9 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
     $rootScope.globals = $localstorage.getObject('globals') || {};
 
     if ($rootScope.globals.currentUser){
+
+      $http.defaults.headers.common['Token'] = $rootScope.globals.currentUser.token;
+
       Ionic.User.load($rootScope.globals.currentUser.id).then(
         function(loadedUser){
           Ionic.User.current(loadedUser);
@@ -22,7 +25,6 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
           console.log('something went wrong: ',error);
         });
     }
-    // $http.defaults.headers.common['token'] = $rootScope.globals.currentUser.token;
   $ionicPlatform.ready(function() {
     
 
@@ -79,7 +81,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('splash', {
+    .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
@@ -89,6 +91,12 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       url: '/register',
       templateUrl: 'templates/register.html',
       controller: 'RegisterCtrl'
+    })
+
+    .state('forgot', {
+      url: '/forgot',
+      templateUrl: 'templates/forgot.html',
+      controller: 'ForgotCtrl'
     })
 
     .state('app', {
@@ -145,10 +153,20 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
   })
   .state('app.wishlist',{
     url: '/wishlist',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/wishlist.html',
         controller: 'WishlistCtrl'
+      }
+    }
+  })
+  .state('app.blog', {
+    url:'/blog',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/blog.html',
+        controller: 'BlogCtrl'
       }
     }
   })

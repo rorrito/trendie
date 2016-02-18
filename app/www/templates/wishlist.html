@@ -18,7 +18,7 @@
 		<div class="producto" ng-repeat="producto in wishlist">
 			<a href="#/app/single/{{producto.idproducto}}">
 				<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />
-				<h2>falta nombre_dis{{producto.nombre_dis}}</h2>
+				<h2>{{producto.nombre_dis}}</h2>
 				<h1>{{producto.nombre_prod}}</h1>
 				<h3>{{producto.precio_desc | number:0}} Bs.</h3>
 			</a>

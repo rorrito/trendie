@@ -16,7 +16,11 @@
 				<button class="button button-block button-positive" type="submit" ng-disabled="loginForm.$invalid || util.loading">{{util.boton}}</button>
 			</label> -->
 			<div class="botoncontenedor">
-				<div class="loginboton" ng-class="{'cargando': util.loading, 'logged':util.logged}" ng-click="doLogin()">
+				<div class="loginboton" 
+				ng-class="{'cargando': util.loading, 
+							'logged':util.logged,
+							'disabled': loginForm.$invalid}" 
+				ng-click="(loginForm.$invalid || util.loading) || doLogin()">
 					<span>
 						{{util.boton}}
 					</span>

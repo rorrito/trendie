@@ -53,13 +53,13 @@
 					<div class="input-label">
 						Cantidad
 					</div>
-					<select>
-						<option ng-repeat="numero in cantidad" value="numero">{{numero}}</option>
+					<select ng-model="producto.cantidad">
+						<option ng-repeat="numero in cantidad" value="{{numero}}">{{numero}}</option>
 					</select>
 				</label>
 			</div>
 			<div class="padding">
-				<button class="button button-outline button-royal">
+				<button class="button button-outline button-royal" ng-disabled="!tallaSelected || producto.cantidad == 'Agotado' || producto.cantidad=='' ">
 					Comprar
 				</button>
 			</div>
@@ -70,7 +70,7 @@
 				<h1>Relacionados</h1>
 			</div>
 			<div class="relacionadas">
-				<div class="relitem" ng-repeat="relacionado in relacionados" ng-if="relacionado.idproducto != idid">
+				<div class="relitem" ng-repeat="relacionado in relacionados">
 					<a href="#/app/single/{{relacionado.idproducto}}">
 						<img ng-src="{{imagesUrl}}productos/{{relacionado.fotoportada}}" alt="">
 						<h2>{{relacionado.nombre_dis}}</h2>
@@ -80,5 +80,12 @@
 				</div>
 			</div>
 		</div>
+	<ion-infinite-scroll
+		ng-if="moreDataCanBeLoaded && page>1"
+		on-infinite="loadMore()"
+		immediate-check="false"
+		spinner="dots"
+		distance="1%">
+	</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

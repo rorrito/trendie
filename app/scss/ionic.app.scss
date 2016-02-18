@@ -15,6 +15,7 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 $royal:                           #57828C !default;
+$balanced:                        #FD858B !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
@@ -62,7 +63,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 			margin: 20px 30px;
 			align-items: center;
 			justify-content: center;
-			overflow: hidden;
+			/*overflow: hidden;*/
 			.circular {
 				width: 60px;
 				height:60px;
@@ -128,6 +129,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 					.circular {
 						display: none;
 					}
+				}
+				&.disabled {
+					opacity: .80;
 				}
 			}			
 		}
@@ -403,7 +407,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		flex-basis: 50%;
 		padding: 10px;
 		margin-bottom: 10px;
-		transition: all ease-in-out 300ms;
+		transition: all ease-in-out 200ms;
 		transform: scale(1);
 		&.ng-enter {
 			transform: scale(0);
@@ -454,6 +458,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	justify-content: center;
 }
 .wishlist {
+	.empty {
+		transition: all ease-in-out 300ms;
+		opacity: 1;
+		h1 {
+			font-family: "OpenSansLight";
+			color: #666;
+			font-size: 18px;
+		}
+		&.ng-enter {
+			opacity: 0;
+		}
+	}
 	.producto {
 		border: 1px solid #E6E6E6;
 		margin: 12px;
@@ -504,4 +520,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 .disenadores .categoria {
 	padding-bottom: 0;
+}
+.itemscarrito {
+	position: absolute !important;
+	top: -2px !important;
+	z-index: 2;
+	font-size: 10px;
+	padding: 2px 5px;
+	right: -5px;
 }

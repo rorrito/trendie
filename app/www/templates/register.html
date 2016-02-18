@@ -1,21 +1,20 @@
 <ion-content>
 	<a href="#/login" class="button button-clear icon-left ion-chevron-left">Login</a>
 	<form  name="loginForm">
-			<label class="item item-input">
-				<span class="input-label">Nombre Completo</span>
-				<input type="text" ng-model="login.nombre" required>
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Email</span>
-				<input type="email" ng-model="login.email" required>
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Contraseña</span>
-				<input type="password" ng-model="login.clave" required>
-			</label>
-				<label class="item">
-				<button ng-click="doReg()" class="button button-block button-positive" type="submit" ng-disabled="loginForm.$invalid || util.loading">{{util.boton}}</button>
-			</label>
-		</div>
+		<label class="item item-input">
+			<span class="input-label">Nombre Completo</span>
+			<input type="text" ng-model="login.nombre" required>
+		</label>
+		<label class="item item-input">
+			<span class="input-label">Email</span>
+			<input type="email" ng-model="login.email" required>
+		</label>
+		<label class="item item-input">
+			<span class="input-label">Contraseña</span>
+			<input type="password" ng-model="login.clave" required>
+		</label>
+			<label class="item">
+			<button ng-click="doReg()" class="button button-block button-positive" type="submit" ng-disabled="loginForm.$invalid || util.loading">{{util.boton}}</button>
+		</label>
 	</form>
 </ion-content>

@@ -1,0 +1,12 @@
+<ion-content>
+	<a href="#/login" class="button button-clear icon-left ion-chevron-left">Login</a>
+	<form  name="loginForm">
+		<label class="item item-input">
+			<span class="input-label">Email</span>
+			<input type="email" ng-model="login.email" required>
+		</label>
+			<label class="item">
+			<button ng-click="forgot()" class="button button-block button-positive" type="submit" ng-disabled="loginForm.$invalid || util.loading">{{util.boton}}</button>
+		</label>
+	</form>
+</ion-content>
