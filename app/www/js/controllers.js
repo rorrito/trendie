@@ -29,7 +29,7 @@ angular.module('trendie.controllers', [])
 
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup, $ionicHistory){
+.controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup, $ionicHistory, $timeout){
 
 	$scope.login = {};
 
@@ -54,6 +54,7 @@ angular.module('trendie.controllers', [])
 						disableBack: true
 					});
 					$location.path('/app/home');
+					$scope.util = {loading: false, boton: 'Entrar'};
 				}, 500);
 		}, function(err){
 			$scope.util = {loading: false, boton: 'Entrar'};
@@ -63,19 +64,46 @@ angular.module('trendie.controllers', [])
 					okType: 'button-royal'
 				});
 		})
+	}
+})
+.controller('RegisterCtrl', function($scope, RegistroService, $ionicLoading, $location, Auth, $ionicPopup, $ionicHistory){
+	$scope.login = {};
 
-		// $timeout(function(){
+	$scope.util = {loading: false, boton: 'Registrarse'};
 
-		// }, 2000)
+	$scope.doReg = function(){
 
-		// UserService.logIn($scope.login)
-		// .then(
-		// 	function(data){
-		// 		$location('/app/home');
-		// 	}, function(err){
-		// 		console.log(err);
-		// 	}
-		// );
+		$scope.util = {loading: true, boton: ''};
+
+		RegistroService.save($scope.login).$promise
+		.then(
+			function(data){
+				$scope.util.logged = true;
+				$timeout(function(){
+					Auth.saveCredentials({
+						nombre:$scope.login.nombre,
+						email: $scope.login.email,
+						token: data.token,
+						id: data.idusuario
+					});
+
+					$ionicHistory.nextViewOptions({
+						disableAnimate: true,
+						disableBack: true
+					});
+					$location.path('/app/home');
+					$scope.util = {loading: false, boton: 'Registrarse'};
+				}, 500)
+
+			},function(err){
+				console.log(err);
+				$ionicPopup.alert({
+					title: 'Error',
+					template: 'Ya existe un usuario con ese email',
+					okType: 'button-royal'
+				});
+			}
+		);	
 	}
 })
 .controller('ForgotCtrl', function($scope, ForgotService, $ionicPopup, $location){
@@ -86,7 +114,7 @@ angular.module('trendie.controllers', [])
 
 	$scope.forgot = function(){
 
-		$scope.util = {loading:true, boton: 'Enviando...'};
+		$scope.util = {loading:true, boton: ''};
 
 		ForgotService.save({email: $scope.login.email}).$promise
 		.then(function(){
@@ -107,41 +135,6 @@ angular.module('trendie.controllers', [])
 				okType: 'button-royal'
 			});
 		});		
-	}
-
-
-})
-.controller('RegisterCtrl', function($scope, RegistroService, $ionicLoading, $location, Auth, $ionicPopup, $ionicHistory){
-	$scope.login = {};
-
-	$scope.util = {loading: false, boton: 'Registrarse'};
-
-	$scope.doReg = function(){
-		RegistroService.save($scope.login).$promise
-		.then(
-			function(data){
-				console.log(data);
-				Auth.saveCredentials({
-					nombre:$scope.login.nombre,
-					email: $scope.login.email,
-					token: data.token,
-					id: data.idusuario
-				});
-
-				$ionicHistory.nextViewOptions({
-					disableAnimate: true,
-					disableBack: true
-				});
-				$location.path('/app/home');
-			},function(err){
-				console.log(err);
-				$ionicPopup.alert({
-					title: 'Error',
-					template: 'Ya existe un usuario con ese email',
-					okType: 'button-royal'
-				});
-			}
-		);	
 	}
 })
 
@@ -178,7 +171,7 @@ angular.module('trendie.controllers', [])
 	}
 
 })
-.controller('DisenadoresCtrl', function($scope, DisenadoresService){
+.controller('DisenadoresCtrl', function($scope, DisenadoresService, $timeout){
 	$scope.page = 1;
 	$scope.disenadores = [];
 	$scope.loading = true;
@@ -351,7 +344,7 @@ angular.module('trendie.controllers', [])
 				$scope.cantidad.push(i.toString());
 			}
 		} else {
-			$scope.cantidad = ['Agotado'];
+			$scope.cantidad = ['0'];
 		}
 		$timeout(function(){
 			$scope.producto.cantidad = $scope.cantidad[0];
@@ -384,7 +377,7 @@ angular.module('trendie.controllers', [])
 		}, 1000)
 	}
 })
-.controller('WishlistCtrl', function($scope, WishlistService, desfavoritearService){
+.controller('WishlistCtrl', function($scope, WishlistService, desfavoritearService, $timeout){
 	$scope.loading = true;
 	$scope.page = 1;
 
@@ -393,7 +386,9 @@ angular.module('trendie.controllers', [])
 	WishlistService.query({pagina:$scope.page, limite:10}).$promise
 	.then(function(wishlist){
 		$scope.loading = false;
-		$scope.wishlist = $scope.wishlist.concat(wishlist);
+		$timeout(function(){
+			$scope.wishlist = $scope.wishlist.concat(wishlist);	
+		},1);
 		$scope.page++;
 	}, function(err){
 		console.log(err);

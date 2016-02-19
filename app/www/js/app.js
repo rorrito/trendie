@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource'])
 
-.run(function($ionicPlatform, $rootScope, $localstorage, $http) {
+.run(function($ionicPlatform, $rootScope, $localstorage, $http, $location) {
 
 
     $rootScope.semilla = Math.floor(Math.random()*10000);
@@ -25,6 +25,11 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
           console.log('something went wrong: ',error);
         });
     }
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+      if ( ($location.path() !== '/login' && $location.path() !== '/register' && $location.path() !== '/forgot' )  && !$rootScope.globals.currentUser) {
+        $location.path('/login');
+      }
+    });     
   $ionicPlatform.ready(function() {
     
 
@@ -71,10 +76,14 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       cordova.plugins.Keyboard.disableScroll(true);
 
     }
+
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+      if (ionic.Platform.isAndroid()) {
+        StatusBar.backgroundColorByHexString('#57828C');
+      } else {
+        // StatusBar.styleLightContent();
+      }
+    }    
   });
 })
 
@@ -172,5 +181,5 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/app/home');
 });

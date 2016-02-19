@@ -10,8 +10,8 @@
 	</ion-pane>	
 	<ion-content>
 		<!-- <pre>{{disenadores | json}}</pre> -->
-		<div ng-if="!loading">
-			<div class="categoria" ng-repeat="disenador in disenadores">
+		<div >
+			<div class="categoria disenadores-animation" ng-repeat="disenador in disenadores">
 				<div class="big" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}">
 					<a href="#/app/disenador/{{disenador.iddisenador}}">
 						<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="">

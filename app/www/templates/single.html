@@ -40,7 +40,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="list padding">
+			<div class="list">
+			<div class="row">
+				<div class="col col-50">
 				<label class="item item-input item-select">
 					<div class="input-label">
 						Talla
@@ -49,6 +51,9 @@
 						<option ng-repeat="talla in producto.tallas" value="{{$index}}">{{talla.talla}}</option>
 					</select>
 				</label>
+					
+				</div>
+				<div class="col col-50">
 				<label class="item item-input item-select">
 					<div class="input-label">
 						Cantidad
@@ -57,9 +62,12 @@
 						<option ng-repeat="numero in cantidad" value="{{numero}}">{{numero}}</option>
 					</select>
 				</label>
+					
+				</div>
+			</div>
 			</div>
 			<div class="padding">
-				<button class="button button-outline button-royal" ng-disabled="!tallaSelected || producto.cantidad == 'Agotado' || producto.cantidad=='' ">
+				<button class="button button-outline button-royal" ng-disabled="!tallaSelected || producto.cantidad == 0 || producto.cantidad=='' ">
 					Comprar
 				</button>
 			</div>

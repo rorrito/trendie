@@ -9775,7 +9775,7 @@ a.button {
         background: #FD858B;
         width: 100%;
         height: 60px;
-        border-radius: 30px;
+        border-radius: 10px;
         text-align: center; }
         .login form .botoncontenedor .loginboton span {
           display: block;
@@ -9808,11 +9808,13 @@ a.button {
     stroke-dasharray: 89,200;
     stroke-dashoffset: -124px; } }
         .login form .botoncontenedor .loginboton.cargando {
+          border-radius: 30px;
           transition: width ease-in-out 300ms;
           width: 60px; }
           .login form .botoncontenedor .loginboton.cargando .circular {
             opacity: 1; }
         .login form .botoncontenedor .loginboton.logged {
+          border-radius: 30px;
           transform: scale(80);
           transition: all ease-in-out 400ms;
           position: relative;
@@ -9885,9 +9887,9 @@ a.button {
       width: 100%; }
     .home .categoria .big h1 {
       font-family: 'OpenSansLight';
-      background: -webkit-linear-gradient(top, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+      background: -webkit-linear-gradient(top, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
       /* Chrome10-25,Safari5.1-6 */
-      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
       /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
       color: #fff;
       font-size: 34px;
@@ -10079,24 +10081,24 @@ a.button {
   justify-content: center; }
 
 .wishlist .empty {
-  transition: all ease-in-out 300ms;
   opacity: 1; }
   .wishlist .empty h1 {
     font-family: "OpenSansLight";
     color: #666;
     font-size: 18px; }
   .wishlist .empty.ng-enter {
-    opacity: 0; }
+    opacity: 0;
+    transition: all ease-in-out 300ms; }
+    .wishlist .empty.ng-enter.ng-enter-active {
+      opacity: 1; }
 
 .wishlist .producto {
   border: 1px solid #E6E6E6;
   margin: 12px;
-  height: 150px;
+  height: 152px;
   position: relative;
   padding-left: 160px;
-  padding-right: 12px;
-  transition: all ease-in-out 300ms;
-  /*transform: scale(1);*/ }
+  padding-right: 12px; }
   .wishlist .producto a {
     text-decoration: none; }
   .wishlist .producto img {
@@ -10113,20 +10115,17 @@ a.button {
   .wishlist .producto h1 {
     font-family: "OpenSansLight";
     color: #666;
-    font-size: 24px; }
+    font-size: 20px; }
   .wishlist .producto h3 {
     font-family: "OpenSansLight";
     color: #666;
-    font-size: 20px; }
+    font-size: 20px;
+    position: absolute;
+    bottom: 0px; }
   .wishlist .producto a.basurita {
     position: absolute;
-    top: 20px;
-    right: 10px; }
-  .wishlist .producto.ng-leave-active {
-    /*transform: translateY(-100%);*/
-    transform: scale(0.5);
-    opacity: 0;
-    height: 0; }
+    bottom: 0px;
+    right: 0px; }
 
 .disenadores .categoria {
   padding-bottom: 0; }
@@ -10138,3 +10137,69 @@ a.button {
   font-size: 10px;
   padding: 2px 5px;
   right: -5px; }
+
+.bgbg {
+  background: #f2f2f2; }
+
+.login100 {
+  height: 100%; }
+
+.disenadores-animation {
+  transition: all ease-in-out 300ms; }
+  .disenadores-animation.ng-enter {
+    opacity: 0;
+    transform: scale(1) translateY(30px); }
+    .disenadores-animation.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: scale(1) translateY(0px); }
+  .disenadores-animation.ng-enter-stagger {
+    transition-delay: 100ms;
+    transition-duration: 0s; }
+
+.home-animation {
+  transition: all ease-in-out 300ms; }
+  .home-animation.ng-enter {
+    opacity: 0;
+    transform: scale(1) translateY(30px); }
+    .home-animation.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: scale(1) translateY(0px); }
+  .home-animation.ng-enter-stagger {
+    transition-delay: 100ms;
+    transition-duration: 0s; }
+
+.catitem {
+  transition: all ease-in-out 300ms;
+  /*transition-delay: 300ms;*/ }
+  .catitem.ng-enter {
+    opacity: 0;
+    /*transform: scale(1) translateX(100%);*/ }
+    .catitem.ng-enter.ng-enter-active {
+      opacity: 1;
+      /*transform: scale(1) translateX(0);*/ }
+  .catitem.ng-enter-stagger {
+    transition-delay: 100ms;
+    transition-duration: 0s; }
+
+.cover-animation {
+  transition: all ease-in-out 300ms; }
+  .cover-animation.ng-enter {
+    opacity: 0;
+    transform: scale(1.1) translateY(-10px); }
+    .cover-animation.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: scale(1); }
+
+.producto-animation {
+  transition: all ease-in-out 300ms; }
+  .producto-animation.ng-enter {
+    transform: translateX(100%); }
+    .producto-animation.ng-enter.ng-enter-active {
+      transform: translateX(0); }
+  .producto-animation.ng-leave-active {
+    transform: scale(0.5);
+    opacity: 0;
+    height: 0; }
+  .producto-animation.ng-enter-stagger {
+    transition-delay: 100ms;
+    transition-duration: 0s; }

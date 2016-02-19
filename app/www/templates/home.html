@@ -10,8 +10,8 @@
 	</ion-pane>	
 	<ion-content>
 		<!-- <pre>{{categorias | json}}</pre> -->
-		<div ng-if="!loading">
-			<div class="categoria" ng-repeat="categoria in categorias">
+		<div>
+			<div class="categoria home-animation" ng-repeat="categoria in categorias" ng-animate-children>
 				<div class="big" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}">
 					<a href="#/app/categoria/{{categoria.idcategoria}}">
 						<img ng-src="{{imagesUrl}}categorias/{{categoria.foto_cat}}" alt="">

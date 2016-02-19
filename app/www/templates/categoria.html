@@ -9,9 +9,9 @@
 	</ion-pane>	
 	<ion-content>
 	<!-- <pre>{{productos |json }}</pre> -->
-		<div ng-if="!loading">
+		<div>
 			<div class="categoria">
-				<div class="big" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}">
+				<div class="big cover-animation" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}" ng-if="categoria.foto_cat">
 					<img ng-src="{{imagesUrl}}categorias/{{categoria.foto_cat}}" alt="">
 					<h1>{{categoria.nombre_cat}}</h1>
 				</div>

@@ -1,12 +1,30 @@
-<ion-content>
-	<a href="#/login" class="button button-clear icon-left ion-chevron-left">Login</a>
-	<form  name="loginForm">
-		<label class="item item-input">
-			<span class="input-label">Email</span>
-			<input type="email" ng-model="login.email" required>
-		</label>
-			<label class="item">
-			<button ng-click="forgot()" class="button button-block button-positive" type="submit" ng-disabled="loginForm.$invalid || util.loading">{{util.boton}}</button>
-		</label>
+<ion-pane class="bgbg">
+ 	<a href="#/login" class="button button-clear icon-left ion-chevron-left">Login</a>
+ 	<div class="login login100">
+	<div class="logo">
+		<img src="img/logo_big.png" alt="">
+	</div>
+	<form ng-submit="forgot()" name="loginForm">
+		<div class="list_">
+			<label class="itemlogin item_ item-input item-floating-label">
+				<span class="input-label">Email</span>
+				<input type="email" placeholder="Email" required ng-model="login.email">
+			</label>
+			<div class="botoncontenedor">
+				<div class="loginboton" 
+				ng-class="{'cargando': util.loading, 
+							'logged':util.logged,
+							'disabled': loginForm.$invalid}" 
+				ng-click="(loginForm.$invalid || util.loading) || forgot()">
+					<span>
+						{{util.boton}}
+					</span>
+					<svg class="circular" viewBox="25 25 50 50">
+						<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+					</svg>
+				</div>				
+			</div>
+		</div>
 	</form>
-</ion-content>
+	</div>
+</ion-pane>
