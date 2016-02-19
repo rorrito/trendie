@@ -33,7 +33,7 @@ angular.module('trendie.controllers', [])
 
 	$scope.login = {};
 
-	$scope.util = {loading: false, boton: 'Entrar'};
+	$scope.util = {loading: false, boton: 'Entrar', logged:false};
 
 	$scope.doLogin = function(){
 		// $ionicLoading.show();
@@ -54,10 +54,9 @@ angular.module('trendie.controllers', [])
 						disableBack: true
 					});
 					$location.path('/app/home');
-					$scope.util = {loading: false, boton: 'Entrar'};
 				}, 500);
 		}, function(err){
-			$scope.util = {loading: false, boton: 'Entrar'};
+			$scope.util = {loading: false, boton: 'Entrar', logged:false};
 				$ionicPopup.alert({
 					title: 'Error',
 					template: 'Email o contraseña invalidos',
