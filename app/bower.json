@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "angular-resource": "^1.5.0"
+  },
+  "resolutions": {
+    "angular": ">= 1.0.8"
   }
 }
