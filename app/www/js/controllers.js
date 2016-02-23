@@ -1,11 +1,18 @@
 angular.module('trendie.controllers', [])
 
-.controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup) {
+.controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup, $rootScope, productosEnCarritoService) {
 	
 	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
 
 	$scope.appAncho = $window.innerWidth;
 
+
+	if ($rootScope.globals.currentUser) {
+		productosEnCarritoService.get().$promise.then(
+			function(n){
+			$rootScope.productosCarrito = n.cantidad;
+		})
+	}
 
 	$scope.logout = function(){
 		var confirmPopup = $ionicPopup.confirm({
@@ -23,13 +30,11 @@ angular.module('trendie.controllers', [])
 				$location.path('/login');
 			}
 		});
-
-
 	}
 
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup, $ionicHistory, $timeout){
+.controller('LoginCtrl', function($scope, LoginService, $ionicLoading, $location, $timeout, Auth, $ionicPopup, $ionicHistory, $timeout, $rootScope){
 
 	$scope.login = {};
 
@@ -53,7 +58,11 @@ angular.module('trendie.controllers', [])
 						disableAnimate: true,
 						disableBack: true
 					});
-					$location.path('/app/home');
+					$location.path('/app/home');		
+					// productosEnCarritoService.get().$promise.then(
+					// 	function(n){
+					// 		$rootScope.productosCarrito = n.cantidad;
+					// });
 				}, 500);
 		}, function(err){
 			$scope.util = {loading: false, boton: 'Entrar', logged:false};
@@ -276,19 +285,15 @@ angular.module('trendie.controllers', [])
 
 })
 .controller('SingleCtrl', 
-	function($scope, $ionicScrollDelegate, SingleService, $stateParams, $ionicSlideBoxDelegate, 
-		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService){
+	function($scope, $ionicScrollDelegate, SingleService, $stateParams, $ionicSlideBoxDelegate, $rootScope,
+		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService, agregarProductoService, productosEnCarritoService){
 
 	$scope.producto = {};
-
+	$scope.tallaSelected = '';
 	$scope.loading = true;
-
 	$scope.cantidad = [];
-
 	$scope.carouselIndex = 0;
-
 	$scope.relacionados = [];
-
 	$scope.page = 1;
 
 	// $scope.idid = $stateParams.id;
@@ -339,6 +344,7 @@ angular.module('trendie.controllers', [])
 	}
 
 	$scope.tallaChanged = function(talla){
+		$scope.tallaSelected = talla;
 		if ($scope.producto.tallas[talla].existencia > 0) {
 			$scope.cantidad = [];
 			for (i = 1; i <= $scope.producto.tallas[talla].existencia; i++) { 
@@ -376,6 +382,20 @@ angular.module('trendie.controllers', [])
 				});
 			}
 		}, 1000)
+	}
+
+	$scope.enviarAlCarrito = function(){
+		agregarProductoService.save({
+			idtalla: $scope.producto.tallas[$scope.tallaSelected].idtalla,
+			cantidad: $scope.producto.cantidad
+		}).$promise.then(function(){
+			productosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+				})
+		}, function(err){
+			console.log(err);
+		})
 	}
 })
 .controller('WishlistCtrl', function($scope, WishlistService, desfavoritearService, $timeout){

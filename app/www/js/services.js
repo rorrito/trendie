@@ -122,4 +122,9 @@ angular.module('trendie.controllers')
 .factory('WishlistService',function($resource, $rootScope) {
 	return $resource(url+'wishlist');
 })
-
+.factory('agregarProductoService', function($resource){
+  return $resource(url+'agregarproducto');
+})
+.factory('productosEnCarritoService', function($resource){
+  return $resource(url+'nproductosencarrito');
+})

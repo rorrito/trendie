@@ -13,7 +13,7 @@
         <button class="button button-icon button-clear ion-ios-search-strong button-royal">
         </button>
         <button class="button button-clear button-bag" >
-          <span class="badge badge-balanced itemscarrito">10</span>
+          <span class="badge badge-balanced itemscarrito" ng-if="productosCarrito > 0">{{productosCarrito}}</span>
           <img src="img/bag.png" alt="">
         </button>
       </ion-nav-buttons>      
@@ -23,7 +23,7 @@
 
   <ion-side-menu side="left">
     <ion-content class="sidemenu">
-      <ion-list>
+      <ion-list class='sidemenusin'>
         <ion-item menu-close href="#/app/home">
           <img src="img/mail.png" alt="">Home
         </ion-item>

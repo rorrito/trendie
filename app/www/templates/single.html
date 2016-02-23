@@ -16,11 +16,6 @@
 						<div class="layer" ng-style="{width:appAncho+'px', height:appAncho+'px'}"><img ng-src="{{imagesUrl}}productos/{{foto.foto}}"></div>
 					</li>
 				</ul>
-				<!-- <div ng-repeat="foto in producto.fotos">
-					<div class="box">
-						<img ng-src="{{imagesUrl}}productos/{{foto.foto}}">
-					</div>
-				</div> -->
 				<div rn-carousel-indicators ng-if="producto.fotos.length > 1" slides="producto.fotos" rn-carousel-index="carouselIndex"></div>
 			</div>
 			<div class="header padding">
@@ -48,6 +43,12 @@
 			</div>
 			<div class="list">
 			<div class="row">
+				<div class="col">
+					<span class="precion" ng-if="producto.precio">{{producto.precio | number:0}}Bs. <span></span></span>
+					<span class="preciod">{{producto.precio_desc | number:0}}Bs.</span>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col col-50">
 				<label class="item item-input item-select">
 					<div class="input-label">
@@ -73,7 +74,7 @@
 			</div>
 			</div>
 			<div class="padding">
-				<button class="button button-outline button-royal" ng-disabled="!tallaSelected || producto.cantidad == 0 || producto.cantidad=='' ">
+				<button class="button button-outline button-royal" ng-disabled="!tallaSelected || producto.cantidad == 0 || producto.cantidad=='' " ng-click="enviarAlCarrito()">
 					Comprar
 				</button>
 			</div>

@@ -10022,6 +10022,26 @@ a.button {
 .single .layer img {
   width: 100%; }
 
+.single .precion {
+  font-family: "OpenSansLight";
+  font-size: 30px;
+  color: #cccccc;
+  position: relative;
+  margin-right: 15px; }
+  .single .precion span {
+    width: 100%;
+    top: 50%;
+    height: 1px;
+    background: #ccc;
+    z-index: 2;
+    position: absolute;
+    left: 0; }
+
+.single .preciod {
+  font-family: "OpenSansLight";
+  font-size: 30px;
+  color: #666666; }
+
 .titulo {
   padding: 20px 0;
   background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05) 0%, transparent 15%, transparent 100%);
@@ -10218,3 +10238,31 @@ a.button {
     color: #57828C !important; }
     [rn-carousel-indicators] span.active {
       color: #FD858B !important; }
+
+.sidemenusin ion-item {
+  transition: all ease-in-out 300ms;
+  border-right: 0;
+  transform: translateX(-100%); }
+  .sidemenusin ion-item:nth-child(0) {
+    transition-delay: 0ms; }
+  .sidemenusin ion-item:nth-child(1) {
+    transition-delay: 50ms; }
+  .sidemenusin ion-item:nth-child(2) {
+    transition-delay: 100ms; }
+  .sidemenusin ion-item:nth-child(3) {
+    transition-delay: 150ms; }
+  .sidemenusin ion-item:nth-child(4) {
+    transition-delay: 200ms; }
+  .sidemenusin ion-item:nth-child(5) {
+    transition-delay: 250ms; }
+  .sidemenusin ion-item:nth-child(6) {
+    transition-delay: 300ms; }
+  .sidemenusin ion-item:nth-child(7) {
+    transition-delay: 350ms; }
+  .sidemenusin ion-item:nth-child(8) {
+    transition-delay: 400ms; }
+  .sidemenusin ion-item:nth-child(9) {
+    transition-delay: 450ms; }
+
+.menu-open .sidemenusin ion-item {
+  transform: translateX(0%); }

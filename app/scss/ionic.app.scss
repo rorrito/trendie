@@ -389,6 +389,27 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 			width: 100%;
 		}
 	}
+	.precion {
+		font-family: "OpenSansLight";
+		font-size: 30px;
+		color:#cccccc;
+		position: relative;
+		margin-right: 15px;
+		span {
+			width: 100%;
+			top:50%;
+			height: 1px;
+			background: #ccc;
+			z-index: 2;
+			position: absolute;
+			left:0;
+		}
+	}
+	.preciod {
+		font-family: "OpenSansLight";
+		font-size: 30px;
+		color:#666666;
+	}
 }
 
 .titulo {
@@ -623,6 +644,27 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		color:#57828C !important;
 		&.active {
 			color:#FD858B !important;
+		}
+	}
+}
+.sidemenusin {
+	ion-item {
+		transition: all ease-in-out 300ms;
+		border-right: 0;
+		transform: translateX(-100%);
+		@for $i from 0 through 9 {
+			&:nth-child(#{$i}) {
+				transition-delay: 50ms * $i;
+			}
+
+		}
+	}
+
+}
+.menu-open {
+	.sidemenusin {
+		ion-item {
+			transform: translateX(0%);
 		}
 	}
 }

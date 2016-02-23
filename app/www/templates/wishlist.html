@@ -12,7 +12,7 @@
 		<div class="titulo">
 			<h1>Wishlist</h1>
 		</div>
-		<div class="empty padding" ng-if="wishlist.length < 1" >
+		<div class="empty padding" ng-if="wishlist.length < 1 && !loading" >
 			<h1>No tienes nada en tu wishlist, algun mensaje aqui</h1>
 		</div>		
 		<div class="producto producto-animation" ng-repeat="producto in wishlist">
