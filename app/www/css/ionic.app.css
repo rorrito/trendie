@@ -9752,15 +9752,16 @@ a.button {
   display: flex;
   flex-direction: column; }
   .login .logo {
-    flex-basis: 40%;
+    flex-basis: 30%;
     display: flex;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    overflow: hidden; }
     .login .logo img {
       max-width: 100%;
       padding: 16px; }
   .login form {
-    flex-basis: 60%; }
+    flex-basis: 70%; }
     .login form .botoncontenedor {
       display: flex;
       margin: 20px 30px;
@@ -10018,6 +10019,9 @@ a.button {
 .single .titulo {
   margin-top: 15px; }
 
+.single .layer img {
+  width: 100%; }
+
 .titulo {
   padding: 20px 0;
   background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05) 0%, transparent 15%, transparent 100%);
@@ -10191,7 +10195,7 @@ a.button {
       transform: scale(1); }
 
 .producto-animation {
-  transition: all ease-in-out 300ms; }
+  transition: all ease-in-out 250ms; }
   .producto-animation.ng-enter {
     transform: translateX(100%); }
     .producto-animation.ng-enter.ng-enter-active {
@@ -10201,5 +10205,16 @@ a.button {
     opacity: 0;
     height: 0; }
   .producto-animation.ng-enter-stagger {
-    transition-delay: 100ms;
+    transition-delay: 150ms;
     transition-duration: 0s; }
+
+[rn-carousel-indicators] {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  text-align: center; }
+  [rn-carousel-indicators] span {
+    font-size: 21px;
+    color: #57828C !important; }
+    [rn-carousel-indicators] span.active {
+      color: #FD858B !important; }

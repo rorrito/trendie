@@ -285,6 +285,8 @@ angular.module('trendie.controllers', [])
 
 	$scope.cantidad = [];
 
+	$scope.carouselIndex = 0;
+
 	$scope.relacionados = [];
 
 	$scope.page = 1;
@@ -298,7 +300,7 @@ angular.module('trendie.controllers', [])
 		$scope.producto.cantidad = '';
 		$scope.loading = false;
 		$ionicSlideBoxDelegate.update();
-		$scope.tallaSelected = 0;
+		// $scope.tallaSelected = '0';
 		ProductosRelacionadosService.query({
 			idcategoria:producto.idcategoria, 
 			idproducto: $stateParams.id, 
