@@ -33,7 +33,7 @@ angular.module('trendie.controllers', [])
 
 	$scope.login = {};
 
-	$scope.util = {loading: false, boton: 'Entrar'};
+	$scope.util = {loading: false, boton: 'Entrar', logged:false};
 
 	$scope.doLogin = function(){
 		// $ionicLoading.show();
@@ -54,7 +54,6 @@ angular.module('trendie.controllers', [])
 						disableBack: true
 					});
 					$location.path('/app/home');
-					$scope.util = {loading: false, boton: 'Entrar'};
 				}, 500);
 		}, function(err){
 			$scope.util = {loading: false, boton: 'Entrar'};
@@ -286,6 +285,8 @@ angular.module('trendie.controllers', [])
 
 	$scope.cantidad = [];
 
+	$scope.carouselIndex = 0;
+
 	$scope.relacionados = [];
 
 	$scope.page = 1;
@@ -299,7 +300,7 @@ angular.module('trendie.controllers', [])
 		$scope.producto.cantidad = '';
 		$scope.loading = false;
 		$ionicSlideBoxDelegate.update();
-		$scope.tallaSelected = 0;
+		// $scope.tallaSelected = '0';
 		ProductosRelacionadosService.query({
 			idcategoria:producto.idcategoria, 
 			idproducto: $stateParams.id, 

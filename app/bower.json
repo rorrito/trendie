@@ -7,7 +7,8 @@
     "ionic-platform-web-client": "^0.2.1"
   },
   "dependencies": {
-    "angular-resource": "^1.5.0"
+    "angular-resource": "^1.5.0",
+    "angular-carousel": "^1.0.1"
   },
   "resolutions": {
     "angular": "1.5.0"

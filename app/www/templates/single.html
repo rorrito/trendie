@@ -9,14 +9,20 @@
 	</ion-pane>		
 	<ion-content>
 	<!-- <pre>{{producto | json}}</pre> -->
-		<div ng-if="!loading">
-			<ion-slide-box  ng-style="{width:appAncho+'px', height:appAncho+'px'}">
-				<ion-slide ng-repeat="foto in producto.fotos">
+		<div>
+			<div  ng-style="{width:appAncho+'px', height:appAncho+'px', position:'relative'}">
+				<ul rn-carousel rn-carousel-index="carouselIndex" class="imagecarrousel" ng-style="{width:appAncho+'px', height:appAncho+'px'}">
+					<li ng-repeat="foto in producto.fotos">
+						<div class="layer" ng-style="{width:appAncho+'px', height:appAncho+'px'}"><img ng-src="{{imagesUrl}}productos/{{foto.foto}}"></div>
+					</li>
+				</ul>
+				<!-- <div ng-repeat="foto in producto.fotos">
 					<div class="box">
 						<img ng-src="{{imagesUrl}}productos/{{foto.foto}}">
 					</div>
-				</ion-slide>
-			</ion-slide-box>
+				</div> -->
+				<div rn-carousel-indicators ng-if="producto.fotos.length > 1" slides="producto.fotos" rn-carousel-index="carouselIndex"></div>
+			</div>
 			<div class="header padding">
 				<h2>
 					<a href="#/app/disenador/{{producto.iddisenador}}">{{producto.nombre_dis}}</a>

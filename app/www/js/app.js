@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource'])
+angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource', 'angular-carousel'])
 
 .run(function($ionicPlatform, $rootScope, $localstorage, $http, $location) {
 
@@ -92,6 +92,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
 
     .state('login', {
       url: '/login',
+      cache:false,
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
     })
