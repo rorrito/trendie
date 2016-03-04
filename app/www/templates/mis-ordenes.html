@@ -1,0 +1,28 @@
+<ion-view class="wishlist carrito checkout">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>
+	<!-- <pre>{{orden | json}}</pre> -->
+		<div class="empty padding" ng-if="carrito.length < 1 && !loading" >
+			<h1>No tienes ordenes aun, algun otro mensaje aqui</h1>
+		</div>
+
+		<ion-list>
+        <a href="#/app/home" ng-if="orders.length < 1">You haven't ordered anything yet.</a>
+    		<ion-item class="item item-avatar_" ng-repeat="order in ordenes" href="#/app/order/{{order.idorden}}">
+      			<h2>{{order.fecha | date:'MMM d, y h:mm a'}}</h2>
+      			<h3>{{order.tipo}}</h3>
+      			<h3>Bs. {{order.total}}</h3>
+      			<h3>{{order.estado}}</h3>
+      			<a href="" ng-if="order.estado == 'Esperando pago' ">Registrar pago</a>
+    		</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

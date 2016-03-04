@@ -22,7 +22,7 @@
 					<div class="catitem" ng-repeat="destacado in categoria.destacados">
 						<a href="#/app/single/{{destacado.idproducto}}">
 							<img ng-src="{{imagesUrl}}productos/{{destacado.fotoportada}}" >
-							<h2>{{destacado.precio_desc | number:0}}Bs.</h2>
+							<h2>Bs. {{destacado.precio_desc | number:0}}</h2>
 						</a>
 					</div>
 				</div>

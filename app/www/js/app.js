@@ -1,4 +1,4 @@
-angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource', 'angular-carousel'])
+angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource', 'angular-carousel','angular-credit-cards'])
 
 .run(function($ionicPlatform, $rootScope, $localstorage, $http, $location) {
 
@@ -29,6 +29,8 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
     
 
     if ($rootScope.globals.currentUser){
+
+    $http.defaults.headers.common['Token'] = $rootScope.globals.currentUser.token;
 
     $localstorage.remove('ionic_io_user_6f21c19c');
     Ionic.io();
@@ -211,6 +213,44 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       'menuContent': {
         templateUrl: 'templates/checkout.html',
         controller: 'CheckoutCtrl'
+      }
+    }
+  })
+  .state('app.pagarTransferencia', {
+    url: '/pagar-transferencia',
+    cache:false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pagar-transferencia.html',
+        controller: 'TransferenciaCtrl'
+      }
+    }
+  })
+  .state('app.misOrdenes', {
+    url: '/mis-ordenes',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/mis-ordenes.html',
+        controller: 'MisOrdenesCtrl'
+      }
+    }
+  })
+  .state('app.orderSingle',{
+    url: '/order/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/order-single.html',
+        controller: 'OrderSingleCtrl'
+      }
+    }
+  })
+  .state('app.registrarPagoTransferencia', {
+    url: '/registrar-pago/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pago-transferencia.html',
+        controller: 'PagoTransferenciaCtrl'
       }
     }
   })

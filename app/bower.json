@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "angular-resource": "^1.5.0",
-    "angular-carousel": "^1.0.1"
+    "angular-carousel": "^1.0.1",
+    "angular-credit-cards": "^2.4.3"
   },
   "resolutions": {
     "angular": "1.5.0"

@@ -499,6 +499,10 @@ angular.module('trendie.controllers', [])
 	$scope.billing = {};
 	$scope.form = {};
 
+	estadosService.query().$promise.then(function(estados){
+		$scope.form.estados = estados;
+	})	
+
 	$scope.igualChange = function(){
 		$timeout(function(){
 			$ionicScrollDelegate.resize();
@@ -506,21 +510,27 @@ angular.module('trendie.controllers', [])
 	}
 
 	direccionActualService.get().$promise.then(function(billing){
-		$scope.shipping = billing;
-		billing.BillingidCI = parseInt(billing.BillingidCI);
-		$scope.billing = billing;
-		if ($scope.shipping.ShipToAddress !== $scope.billing.BillingAddress) {
-			$timeout(function(){
-				$scope.util.diferentes = true;
-			},10)
-		}
+
+		$timeout(function(){
+			$scope.shipping = billing;
+			billing.BillingidCI = parseInt(billing.BillingidCI);
+			$scope.billing = billing;
+			if ($scope.shipping.ShipToAddress !== $scope.billing.BillingAddress) {
+				$timeout(function(){
+					$scope.util.diferentes = true;
+					$scope.BillingidestadoChange();
+					$scope.BillingidciudadChange();
+				},20)
+			}
+
+		},10)
+			
+
 	});
 
 
 
-	estadosService.query().$promise.then(function(estados){
-		$scope.form.estados = estados;
-	})
+
 
 	$scope.BillingidestadoChange = function(){
 		ciudadesService.query({idestado:$scope.billing.Billingidestado}).$promise.then(function(ciudades){
@@ -591,7 +601,7 @@ angular.module('trendie.controllers', [])
 
 	}
 })
-.controller('CheckoutCtrl', function($scope, guardaDireccionesService){
+.controller('CheckoutCtrl', function($scope, guardaDireccionesService, $ionicLoading, checkoutService, $location, nProductosEnCarritoService){
 	$scope.orden = {}
 	$scope.loading = true;
 
@@ -603,6 +613,112 @@ angular.module('trendie.controllers', [])
 			console.log(err);
 			$scope.loading = false;
 		})
+
+	$scope.pagarTransferencia = function(){
+		$ionicLoading.show();
+		checkoutService.save({tipo:'dt'}).$promise.then(function(){
+			$ionicLoading.hide();
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+				$rootScope.productosCarrito = n.cantidad;
+			})
+			$location.path('/app/pagar-transferencia');
+		}, function(err){
+			$ionicLoading.hide();
+			console.log(err);
+		});
+	}
+
+})
+.controller('TransferenciaCtrl', function($scope, $rootScope, bancosService){
+	$scope.bancos = [];
+	$scope.loading = true;
+	bancosService.query().$promise.then(
+		function(bancos){
+			$scope.bancos = bancos;
+			$scope.loading = false;
+		}, function(err){
+			console.log(err);
+			$scope.loading = false;
+		})
+
+})
+.controller('MisOrdenesCtrl', function($scope, misOrdenesService){
+	$scope.ordenes = [];
+	$scope.loading = true;
+	misOrdenesService.query().$promise.then(
+		function(ordenes){
+			$scope.loading = false;
+			$scope.ordenes = ordenes;
+		},
+		function(err){
+			$scope.loading = false;
+			console.log(err);
+		})
+})
+.controller('OrderSingleCtrl', function($scope, ordenSingleService, $stateParams){
+	$scope.orden = [];
+	$scope.loading = true;
+
+	ordenSingleService.get({idorden: $stateParams.id}).$promise.then(
+		function(orden){
+			$scope.orden = orden;
+			$scope.orden.idorden = $stateParams.id;
+			$scope.loading = false;
+		}, function(err){
+			console.log(err);
+			$scope.loading = false;
+		})
+
+})
+.controller('PagoTransferenciaCtrl', function($scope, $ionicHistory, $location, montoOrdenService, $stateParams, bancosService, registrarpagoService, $ionicLoading, $ionicPopup){
+	$scope.loading = true;
+	$scope.monto = {};
+	$scope.bancos = [];
+	$scope.trans = {}
+
+	bancosService.query().$promise.then(
+		function(bancos){
+			$scope.bancos = bancos;
+			$scope.loading = false;
+			$scope.trans.banco = $scope.bancos[0].idbanco;
+		}, function(err){
+			console.log(err);
+			$scope.loading = false;
+		});
+
+	montoOrdenService.get({idorden: $stateParams.id}).$promise.then(function(monto){
+		$scope.monto = monto.monto;
+	});
+
+	$scope.registrarPago = function(){
+		$ionicLoading.show();
+		registrarpagoService.save({
+			idorden: $stateParams.id,
+			idbanco: $scope.trans.banco,
+			confirmacion: $scope.trans.referencia
+		}).$promise.then(function(){
+			$ionicLoading.hide();
+			$ionicPopup.alert({
+				title: 'Exito',
+				template: 'Su pago ha sido registrado exitosamente, pronto será contactado',
+				okType: 'button-royal'
+			}).then(function(){
+				$ionicHistory.nextViewOptions({
+					disableAnimate: true,
+					disableBack: true
+				});
+				$location.path('/app/home');
+			});
+
+		}, function(err){
+			$ionicLoading.hide();
+
+		});
+	}
+
+
+
 
 })
 .controller('BloCtrl', function($scope){

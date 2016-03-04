@@ -1,0 +1,38 @@
+<ion-view class="wishlist transferencia">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>
+		<div class="titulo">
+			<h1>Registrar Pago</h1>
+		</div>
+		<div class="padding mensajebancos">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
+			<h3>Monto: Bs. {{monto | number:2}}</h3>
+		</div>
+			<form name="trasnForm" ng-submit="registrarPago()">
+				<div class="list">
+				<div class="item item-divider">Bancos</div>
+				<ion-radio ng-model="trans.banco" ng-value="{{banco.idbanco}}" ng-repeat="banco in bancos" ng-if="banco.activo==='S'">
+					<h2>{{banco.banco}}</h2>
+					<h3>{{banco.cuenta}}</h3>
+				</ion-radio>
+				<div class="item item-divider">Transferencia</div>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Número de Referencia</span>
+					<input type="text" maxlength="60" required ng-model="trans.referencia">
+				</label>
+				</div>
+				<div class="padding">
+					<button class="button button-block button-outline  button-balanced" ng-disabled="trasnForm.$invalid">
+						Registrar
+					</button>
+				</div>
+			</form>	
+	</ion-content>
+</ion-view>

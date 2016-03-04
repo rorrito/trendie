@@ -146,5 +146,25 @@ angular.module('trendie.controllers')
 .factory('direccionActualService', function($resource){
   return $resource(url+'direccionactual');
 })
+.factory('bancosService', function($resource){
+  return $resource(url+'bancos');
+})
+.factory('checkoutService', function($resource){
+  return $resource(url+'checkout');
+})
+.factory('misOrdenesService', function($resource){
+  return $resource(url+'misordenes');
+})
+.factory('ordenSingleService', function($resource){
+  return $resource(url+'productosOrdenes');
+})
+.factory('montoOrdenService', function($resource){
+  return $resource(url+'montoOrden');
+})
+.factory('registrarpagoService', function($resource){
+  return $resource(url+'registrarpago');
+})
+
+
 
 

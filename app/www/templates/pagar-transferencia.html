@@ -1,0 +1,32 @@
+<ion-view class="wishlist transferencia">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>
+		<div class="titulo">
+			<h1>Transferencia</h1>
+		</div>
+		<div class="padding mensajebancos">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
+
+			<div class="banco" ng-repeat="banco in bancos" ng-if="banco.activo==='S'">
+				<h2>{{banco.banco}}</h2>
+				<h3>{{banco.tipodecuenta}}</h3>
+				<h3>{{banco.cuenta}}</h3>
+			</div>
+		</div>
+	<ion-infinite-scroll
+		ng-if="moreDataCanBeLoaded && page>1"
+		on-infinite="loadMore()"
+		immediate-check="false"
+		spinner="dots"
+		distance="1%">
+	</ion-infinite-scroll>
+	</ion-content>
+</ion-view>
