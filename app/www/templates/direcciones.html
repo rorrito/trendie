@@ -1,0 +1,110 @@
+<ion-view class="wishlist carrito">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>
+		<div class="titulo">
+			<h1>Datos Facturación</h1>
+		</div>
+		<div class="list" style="margin-bottom:0">
+			<form name="billingForm">
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Nombre Completo</span>
+				<input type="text" placeholder=""  ng-model="billing.BillingName" required>
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Cédula de identidad</span>
+				<input type="number" placeholder=""  ng-model="billing.BillingidCI" required>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Estado
+				</div>
+				<select ng-model="billing.Billingidestado" ng-change="BillingidestadoChange()" required>
+					<option ng-repeat="estado in form.estados" value="{{estado.idestado}}">{{estado.estado}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Ciudad
+				</div>
+				<select ng-model="billing.Billingidciudad" ng-change="BillingidciudadChange()" required>
+					<option ng-repeat="ciudad in form.billingCiudades" value="{{ciudad.idciudad}}">{{ciudad.ciudad}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Urbanización
+				</div>
+				<select ng-model="billing.Billingidurbanizacion" required>
+					<option ng-repeat="urb in form.billingUrbanizaciones" value="{{urb.idurbanizacion}}">{{urb.urbanizacion}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Teléfono</span>
+				<input type="tel" placeholder=""  ng-model="billing.BillingPhone" required>
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Dirección</span>
+				<textarea type="text" placeholder=""  ng-model="billing.BillingAddress" required></textarea>
+			</label>
+			</form>
+		</div>
+		<div class="titulo">
+			<h1>Datos De Envio</h1>
+		</div>
+		<ion-list>
+			<ion-checkbox ng-model="util.diferentes" class="checkbox-royal" ng-change="igualChange()">Usar datos diferentes</ion-checkbox>
+			<form name="shippingForm">
+		<div ng-if="util.diferentes">
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Nombre Completo</span>
+				<input type="text" placeholder="" ng-model="shipping.ShipToName" required>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Estado
+				</div>
+				<select ng-model="shipping.ShipToidestado" ng-change="ShipToidestadoChange()" required>
+					<option ng-repeat="estado in form.estados" value="{{estado.idestado}}">{{estado.estado}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Ciudad
+				</div>
+				<select ng-model="shipping.ShipToidciudad" ng-change="ShipToidciudadChange()" required>
+					<option ng-repeat="ciudad in form.shippingCiudades" value="{{ciudad.idciudad}}">{{ciudad.ciudad}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Urbanización
+				</div>
+				<select ng-model="shipping.ShipToidurbanizacion" required>
+					<option ng-repeat="urb in form.shippingUrbanizaciones" value="{{urb.idurbanizacion}}">{{urb.urbanizacion}}</option>
+				</select>
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Teléfono</span>
+				<input type="text" placeholder=""  ng-model="shipping.ShipToPhone" required>
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Dirección</span>
+				<textarea type="text" placeholder=""  ng-model="shipping.ShipToAddress" required></textarea>
+			</label>
+			<input type="text" ng-model="shipping.valid" value="{{shippingForm.$valid}}">
+		</div>
+			</form>
+		</ion-list>
+		<a class="button button-clear button-full button-royal" style="margin-top:0; width:100%" ng-click="sendDirecciones()" ng-disabled="billingForm.$invalid || shippingForm.$invalid" >
+			Continuar
+		</a>
+	</ion-content>
+</ion-view>

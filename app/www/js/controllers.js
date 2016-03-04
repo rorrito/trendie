@@ -1,6 +1,7 @@
 angular.module('trendie.controllers', [])
 
-.controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup, $rootScope, productosEnCarritoService) {
+.controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup, 
+	$rootScope, nProductosEnCarritoService, productosEnCarritoService) {
 	
 	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
 
@@ -8,7 +9,7 @@ angular.module('trendie.controllers', [])
 
 
 	if ($rootScope.globals.currentUser) {
-		productosEnCarritoService.get().$promise.then(
+		nProductosEnCarritoService.get().$promise.then(
 			function(n){
 			$rootScope.productosCarrito = n.cantidad;
 		})
@@ -30,6 +31,12 @@ angular.module('trendie.controllers', [])
 				$location.path('/login');
 			}
 		});
+	}
+
+	$scope.irAlCarrito = function(){
+		productosEnCarritoService.get().$promise.then(function(res){
+			console.log(res);
+		})
 	}
 
 })
@@ -286,7 +293,7 @@ angular.module('trendie.controllers', [])
 })
 .controller('SingleCtrl', 
 	function($scope, $ionicScrollDelegate, SingleService, $stateParams, $ionicSlideBoxDelegate, $rootScope,
-		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService, agregarProductoService, productosEnCarritoService){
+		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService, agregarProductoService, nProductosEnCarritoService){
 
 	$scope.producto = {};
 	$scope.tallaSelected = '';
@@ -389,7 +396,7 @@ angular.module('trendie.controllers', [])
 			idtalla: $scope.producto.tallas[$scope.tallaSelected].idtalla,
 			cantidad: $scope.producto.cantidad
 		}).$promise.then(function(){
-			productosEnCarritoService.get().$promise.then(
+			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 					$rootScope.productosCarrito = n.cantidad;
 				})
@@ -433,6 +440,170 @@ angular.module('trendie.controllers', [])
 			console.log(err);
 		});
 	};	
+})
+.controller('CarritoCtrl', function($rootScope, $scope, productosEnCarritoService, agregarProductoService, nProductosEnCarritoService){
+	$scope.loading = true;
+	$scope.carrito = [];
+
+	productosEnCarritoService.get().$promise.then(
+		function(carrito){
+			$scope.carrito = carrito.productos;
+			$scope.loading = false;
+		}, function(err){
+			console.log(err);
+		})
+
+	$scope.addItem = function(producto){
+
+		producto.cantidad = +producto.cantidad+1;
+
+		agregarProductoService.save({
+			idtalla: producto.idtalla,
+			cantidad: producto.cantidad
+		}).$promise.then(function(){
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+				})
+		}, function(err){
+			producto.cantidad = +producto.cantidad-1
+			console.log(err);
+		})
+
+	}
+
+	$scope.removeItem = function(producto){
+
+		producto.cantidad = +producto.cantidad-1
+
+		agregarProductoService.save({
+			idtalla: producto.idtalla,
+			cantidad: producto.cantidad
+		}).$promise.then(function(){
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+				})
+		}, function(err){
+			producto.cantidad = +producto.cantidad+1
+			console.log(err);
+		})
+	}
+
+})
+.controller('DireccionesCtrl', function($scope, $ionicScrollDelegate, $timeout, estadosService, $location,
+	ciudadesService, urbanizacionesService, guardaDireccionesService, direccionActualService, $ionicLoading){
+
+	$scope.util = {diferentes : false};
+	$scope.shipping = {};
+	$scope.billing = {};
+	$scope.form = {};
+
+	$scope.igualChange = function(){
+		$timeout(function(){
+			$ionicScrollDelegate.resize();
+		},100);
+	}
+
+	direccionActualService.get().$promise.then(function(billing){
+		$scope.shipping = billing;
+		billing.BillingidCI = parseInt(billing.BillingidCI);
+		$scope.billing = billing;
+		if ($scope.shipping.ShipToAddress !== $scope.billing.BillingAddress) {
+			$timeout(function(){
+				$scope.util.diferentes = true;
+			},10)
+		}
+	});
+
+
+
+	estadosService.query().$promise.then(function(estados){
+		$scope.form.estados = estados;
+	})
+
+	$scope.BillingidestadoChange = function(){
+		ciudadesService.query({idestado:$scope.billing.Billingidestado}).$promise.then(function(ciudades){
+			$scope.form.billingCiudades = ciudades;
+		})
+	}
+
+	$scope.BillingidciudadChange = function(){
+		urbanizacionesService.query({idciudad:$scope.billing.Billingidciudad}).$promise.then(function(urbanizaciones){
+			$scope.form.billingUrbanizaciones = urbanizaciones;
+		})
+	}
+	$scope.ShipToidestadoChange = function(){
+		ciudadesService.query({idestado:$scope.shipping.ShipToidestado}).$promise.then(function(ciudades){
+			$scope.form.shippingCiudades = ciudades;
+		})
+	}
+
+	$scope.ShipToidciudadChange = function(){
+		urbanizacionesService.query({idciudad:$scope.shipping.ShipToidciudad}).$promise.then(function(urbanizaciones){
+			$scope.form.shippingUrbanizaciones = urbanizaciones;
+		})
+	}	
+
+
+
+
+	$scope.sendDirecciones = function(){
+
+		var billing = $scope.billing;
+
+		var direcciones = {
+			BillingName: billing.BillingName,
+			BillingidCI: billing.BillingidCI,
+			Billingidestado: billing.Billingidestado,
+			Billingidciudad: billing.Billingidciudad,
+			Billingidurbanizacion: billing.Billingidurbanizacion,
+			BillingAddress: billing.BillingAddress,
+			BillingPhone: billing.BillingPhone
+		}
+
+		if ($scope.util.diferentes) {
+			var shipping = $scope.shipping;
+			direcciones.ShipToName = shipping.ShipToName;
+			direcciones.ShipToidestado = shipping.ShipToidestado;
+			direcciones.ShipToidciudad = shipping.ShipToidciudad;
+			direcciones.ShipToidurbanizacion = shipping.ShipToidurbanizacion;
+			direcciones.ShipToAddress= shipping.ShipToAddress;
+			direcciones.ShipToPhone= shipping.ShipToPhone;
+		} else {
+			// var shipping = $scope.billing;
+			direcciones.ShipToName = billing.BillingName;
+			direcciones.ShipToidestado = billing.Billingidestado;
+			direcciones.ShipToidciudad = billing.Billingidciudad;
+			direcciones.ShipToidurbanizacion = billing.Billingidurbanizacion;
+			direcciones.ShipToAddress = billing.BillingAddress;
+			direcciones.ShipToPhone = billing.BillingPhone;
+		}
+
+		$ionicLoading.show();
+		guardaDireccionesService.save(direcciones).$promise.then(function(){
+			$ionicLoading.hide();
+			$location.path('/app/checkout')
+		}, function(err){
+			$ionicLoading.hide();
+			console.log(err);
+		})
+
+	}
+})
+.controller('CheckoutCtrl', function($scope, guardaDireccionesService){
+	$scope.orden = {}
+	$scope.loading = true;
+
+	guardaDireccionesService.get().$promise.then(
+		function(orden){
+			$scope.orden = orden;
+			$scope.loading = false;
+		}, function(err){
+			console.log(err);
+			$scope.loading = false;
+		})
+
 })
 .controller('BloCtrl', function($scope){
 

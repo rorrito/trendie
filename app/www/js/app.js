@@ -1,9 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
 angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource', 'angular-carousel'])
 
 .run(function($ionicPlatform, $rootScope, $localstorage, $http, $location) {
@@ -12,19 +6,20 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
     $rootScope.semilla = Math.floor(Math.random()*10000);
     $rootScope.globals = $localstorage.getObject('globals') || {};
 
-    if ($rootScope.globals.currentUser){
+    // if ($rootScope.globals.currentUser){
 
-      $http.defaults.headers.common['Token'] = $rootScope.globals.currentUser.token;
+    //   $http.defaults.headers.common['Token'] = $rootScope.globals.currentUser.token;
 
-      Ionic.User.load($rootScope.globals.currentUser.id).then(
-        function(loadedUser){
-          Ionic.User.current(loadedUser);
-          user = Ionic.User.current();
-        }, 
-        function(error){
-          console.log('something went wrong: ',error);
-        });
-    }
+    //   Ionic.User.load($rootScope.globals.currentUser.id).then(
+    //     function(loadedUser){
+    //       Ionic.User.current(loadedUser);
+    //       user = Ionic.User.current();
+    //     }, 
+    //     function(error){
+    //       console.log('something went wrong: ',error);
+    //     });
+    // }
+
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
       if ( ($location.path() !== '/login' && $location.path() !== '/register' && $location.path() !== '/forgot' )  && !$rootScope.globals.currentUser) {
         $location.path('/login');
@@ -33,8 +28,18 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
   $ionicPlatform.ready(function() {
     
 
+    if ($rootScope.globals.currentUser){
+
+    $localstorage.remove('ionic_io_user_6f21c19c');
     Ionic.io();
-    var user = Ionic.User.current();
+    Ionic.User.load($rootScope.globals.currentUser.id).then(
+      function(loadedUser){
+        Ionic.User.current(loadedUser);
+        user = Ionic.User.current();
+      }, 
+      function(error){
+        console.log('something went wrong: ',error);
+      });
 
     var push = new Ionic.Push({
       // "debug": true,
@@ -56,7 +61,6 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
     });
 
       push.register(function(pushToken) {
-        var user = Ionic.User.current();
         user.id = $rootScope.globals.currentUser.id;
         user.set('name', $rootScope.globals.currentUser.nombre);
        // user.set('image', todalainfo.picture);
@@ -67,6 +71,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
 
 
 
+    }
 
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -177,6 +182,35 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       'menuContent': {
         templateUrl: 'templates/blog.html',
         controller: 'BlogCtrl'
+      }
+    }
+  })
+  .state('app.carrito', {
+    url: '/carrito',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/carrito.html',
+        controller: 'CarritoCtrl'
+      }
+    }
+  })
+  .state('app.direcciones', {
+    url:'/direcciones',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/direcciones.html',
+        controller: 'DireccionesCtrl'
+      }
+    }
+  })
+  .state('app.checkout', {
+    url: '/checkout',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/checkout.html',
+        controller: 'CheckoutCtrl'
       }
     }
   })

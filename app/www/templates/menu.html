@@ -12,10 +12,10 @@
       <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-ios-search-strong button-royal">
         </button>
-        <button class="button button-clear button-bag" >
+        <a class="button button-clear button-bag" href="#/app/carrito">
           <span class="badge badge-balanced itemscarrito" ng-if="productosCarrito > 0">{{productosCarrito}}</span>
           <img src="img/bag.png" alt="">
-        </button>
+        </a>
       </ion-nav-buttons>      
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
@@ -42,8 +42,8 @@
         <ion-item menu-close href="#/app/disenadores">
           <img src="img/disenadores.png" alt="">Diseñadores
         </ion-item>
-        <ion-item menu-close href="#/app/home">
-          <img src="img/checkout.png" alt="">Checkout
+        <ion-item menu-close href="#/app/carrito">
+          <img src="img/checkout.png" alt="">Carrito
         </ion-item>
         <ion-item menu-close href="#/app/home">
           <img src="img/checkout.png" alt="">Historial

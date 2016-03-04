@@ -125,6 +125,26 @@ angular.module('trendie.controllers')
 .factory('agregarProductoService', function($resource){
   return $resource(url+'agregarproducto');
 })
-.factory('productosEnCarritoService', function($resource){
+.factory('nProductosEnCarritoService', function($resource){
   return $resource(url+'nproductosencarrito');
 })
+.factory('productosEnCarritoService', function($resource){
+  return $resource(url+'productosencarrito');
+})
+.factory('estadosService', function($resource){
+  return $resource(url+'estados');
+})
+.factory('ciudadesService', function($resource){
+  return $resource(url+'ciudades');
+})
+.factory('urbanizacionesService', function($resource){
+  return $resource(url+'urbanizaciones');
+})
+.factory('guardaDireccionesService', function($resource){
+  return $resource(url+'gurdadirecciones');
+})
+.factory('direccionActualService', function($resource){
+  return $resource(url+'direccionactual');
+})
+
+
