@@ -717,11 +717,14 @@ angular.module('trendie.controllers', [])
 		});
 	}
 })
-.controller('PagoTarjetaCtrl', function($scope, guardaDireccionesService){
+.controller('PagoTarjetaCtrl', function($scope, guardaDireccionesService, checkoutService, $ionicLoading, $rootScope, nProductosEnCarritoService, $location){
 	// $scope.loading = true;
 
 	$scope.ccard = {};
 	$scope.util = {};
+
+	$scope.respuesta = false;
+	$scope.voucher = '';
 
 	guardaDireccionesService.get().$promise.then(
 		function(orden){
@@ -740,7 +743,29 @@ angular.module('trendie.controllers', [])
 	}
 
 	$scope.cardPay = function(){
-		console.log('pay!');
+		$ionicLoading.show();
+
+		$scope.ccard.tipo = 'tc';
+
+		checkoutService.save($scope.ccard).$promise.then(function(card_res){
+			$ionicLoading.hide();
+
+			if(card_res.respuesta === 'Aprobada' ) {
+				$scope.respuesta = 'Transacción Aprobada';
+				$scope.voucher = card_res.voucher;
+				nProductosEnCarritoService.get().$promise.then(
+					function(n){
+					$rootScope.productosCarrito = n.cantidad;
+				})
+			} else {
+				$scope.respuesta = 'Transacción Rechazada';
+				$scope.voucher = card_res.voucher;
+			}
+		}, function(err){
+			$ionicLoading.hide();
+			console.log(err);
+		});
+
 	}
 
 })

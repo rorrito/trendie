@@ -709,3 +709,16 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		}
 	}
 }
+.divvoucher {
+	padding: 20px 0;
+	.normal-left {font-family: Tahoma;font-size: 7pt;text-align: left;}
+	.normal-right {font-family: Tahoma;font-size: 7pt;text-align: right;}
+	.big-center {font-family: Tahoma;font-size: 9pt;text-align: center;font-weight: 900;}
+	.big-center-especial {font-family: Tahoma;font-size: 9pt;text-align: center;font-weight: 900;letter-spacing: .9em;}
+	.big-left {font-family: Tahoma;font-size: 9pt;text-align: left;font-weight: 900;}
+	.big-right {font-family: Tahoma;font-size: 9pt;text-align: right;font-weight: 900;}
+	.normal-center {font-family: Tahoma;font-size: 7pt;text-align: center;}
+	div > table {margin: 0px auto;}
+	table tbody tr td > div {border: 1px solid #222; padding: 9px; text-align: center; width:255px}
+	table tbody tr td > div td {padding: 0;margin: 0;}	
+}
