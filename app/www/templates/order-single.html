@@ -27,7 +27,7 @@
 			<p>Sub-Total: Bs. {{orden.subtotal | number:2}}</p>
 			<p>I.V.A.: Bs. {{orden.iva | number:2}}</p>
 			<p>Envio: Bs. {{orden.costoenvio | number:2}}</p>
-			<h1>Total: Bs.{{orden.total | number:2}}</h1>
+			<h1>Total: Bs. {{orden.total | number:2}}</h1>
 		</div>
 		<div class="padding" ng-if="orden.estado == 'Esperando pago' ">
 			<a class="button button-block button-outline  button-balanced" href="#/app/registrar-pago/{{orden.idorden}}">

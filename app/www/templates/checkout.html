@@ -28,10 +28,10 @@
 			<p>Sub-Total: Bs. {{orden.subtotal | number:2}}</p>
 			<p>I.V.A.: Bs. {{orden.iva | number:2}}</p>
 			<p>Envio: Bs. {{orden.costoenvio | number:2}}</p>
-			<h1>Total: Bs.{{orden.total | number:2}}</h1>
+			<h1>Total: Bs. {{orden.total | number:2}}</h1>
 		</div>
 		<div class="padding">
-			<a class="button button-block button-outline button-balanced">
+			<a class="button button-block button-outline button-balanced" href="#/app/pago-tarjeta">
 				Pagar con Tarjeta
 			</a>
 			<a class="button button-block button-outline  button-balanced" ng-click="pagarTransferencia()">

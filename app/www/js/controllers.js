@@ -447,7 +447,7 @@ angular.module('trendie.controllers', [])
 
 	productosEnCarritoService.get().$promise.then(
 		function(carrito){
-			$scope.carrito = carrito.productos;
+			$scope.carrito = carrito.productos || [];
 			$scope.loading = false;
 		}, function(err){
 			console.log(err);
@@ -601,7 +601,7 @@ angular.module('trendie.controllers', [])
 
 	}
 })
-.controller('CheckoutCtrl', function($scope, guardaDireccionesService, $ionicLoading, checkoutService, $location, nProductosEnCarritoService){
+.controller('CheckoutCtrl', function($rootScope, $scope, guardaDireccionesService, $ionicLoading, checkoutService, $location, nProductosEnCarritoService){
 	$scope.orden = {}
 	$scope.loading = true;
 
@@ -716,9 +716,32 @@ angular.module('trendie.controllers', [])
 
 		});
 	}
+})
+.controller('PagoTarjetaCtrl', function($scope, guardaDireccionesService){
+	// $scope.loading = true;
 
+	$scope.ccard = {};
+	$scope.util = {};
 
+	guardaDireccionesService.get().$promise.then(
+		function(orden){
+			$scope.orden = orden;
+			$scope.loading = false;
+		}, function(err){
+			console.log(err);
+			$scope.loading = false;
+		});
 
+	$scope.cambiarFecha = function(){
+		var fecha = new Date($scope.util.mes);
+		console.log(fecha.getFullYear())
+		$scope.ccard.ExpMonth = fecha.getMonth()+1;
+		$scope.ccard.ExpYear = fecha.getFullYear();
+	}
+
+	$scope.cardPay = function(){
+		console.log('pay!');
+	}
 
 })
 .controller('BloCtrl', function($scope){
