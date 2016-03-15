@@ -19,9 +19,9 @@
     		<ion-item class="item item-avatar_" ng-repeat="order in ordenes" href="#/app/order/{{order.idorden}}">
       			<h2>{{order.fecha | date:'MMM d, y h:mm a'}}</h2>
       			<h3>{{order.tipo}}</h3>
-      			<h3>Bs. {{order.total}}</h3>
+      			<h3>Bs. {{order.total | number:2}}</h3>
       			<h3>{{order.estado}}</h3>
-      			<a href="" ng-if="order.estado == 'Esperando pago' ">Registrar pago</a>
+      			<a href="#/app/registrar-pago/{{order.idorden}}" ng-if="order.estado == 'Esperando pago' ">Registrar pago</a>
     		</ion-item>
 		</ion-list>
 	</ion-content>
