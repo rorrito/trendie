@@ -62,7 +62,7 @@
 		<ion-list>
 			<ion-checkbox ng-model="util.diferentes" class="checkbox-royal" ng-change="igualChange()">Usar datos diferentes</ion-checkbox>
 			<form name="shippingForm">
-		<div ng-if="util.diferentes">
+		<div ng-show="util.diferentes">
 			<label class="item item-input item-stacked-label">
 				<span class="input-label">Nombre Completo</span>
 				<input type="text" placeholder="" ng-model="shipping.ShipToName" required>
@@ -103,8 +103,10 @@
 		</div>
 			</form>
 		</ion-list>
-		<a class="button button-clear button-full button-royal" style="margin-top:0; width:100%" ng-click="sendDirecciones()" ng-disabled="billingForm.$invalid || shippingForm.$invalid" >
+		<div class="padding">
+			<a class="button button-block button-outline  button-balanced"  style="margin-top:0; width:100%" ng-click="sendDirecciones()" ng-disabled="billingForm.$invalid || (shippingForm.$invalid && util.diferentes)" >
 			Continuar
 		</a>
+		</div>
 	</ion-content>
 </ion-view>

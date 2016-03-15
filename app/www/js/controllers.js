@@ -494,6 +494,8 @@ angular.module('trendie.controllers', [])
 .controller('DireccionesCtrl', function($scope, $ionicScrollDelegate, $timeout, estadosService, $location,
 	ciudadesService, urbanizacionesService, guardaDireccionesService, direccionActualService, $ionicLoading){
 
+	$ionicLoading.show();
+
 	$scope.util = {diferentes : false};
 	$scope.shipping = {};
 	$scope.billing = {};
@@ -501,6 +503,65 @@ angular.module('trendie.controllers', [])
 
 	estadosService.query().$promise.then(function(estados){
 		$scope.form.estados = estados;
+
+		direccionActualService.get().$promise.then(function(billing){
+
+			$ionicLoading.hide();
+
+			$timeout(function(){
+				$scope.shipping = billing;
+				billing.BillingidCI = parseInt(billing.BillingidCI);
+				$scope.billing = billing;
+
+				if ($scope.shipping.ShipToAddress !== $scope.billing.BillingAddress) {
+					// $timeout(function(){
+						$scope.util.diferentes = true;
+
+						$scope.BillingidestadoChange(function(){
+						})
+						$scope.$apply(function(){
+							$scope.BillingidestadoChange();	
+						});
+						
+						$scope.BillingidciudadChange(function(){
+
+						});
+						$scope.$apply(function(){
+							$scope.BillingidciudadChange();	
+						});
+						$scope.ShipToidestadoChange(function(){
+						})
+						$scope.$apply(function(){
+							$scope.ShipToidestadoChange();	
+						});
+						
+						$scope.ShipToidciudadChange(function(){
+
+						});
+						$scope.$apply(function(){
+							$scope.ShipToidciudadChange();	
+						});						
+					// },20)
+				} else {
+						$scope.BillingidestadoChange(function(){
+							// console.log('hey');
+						})
+						$scope.$apply(function(){
+							$scope.BillingidestadoChange();	
+						});
+						
+						$scope.BillingidciudadChange(function(){
+
+						});
+						$scope.$apply(function(){
+							$scope.BillingidciudadChange();	
+						});
+				}
+			},20)
+				
+
+		});
+
 	})	
 
 	$scope.igualChange = function(){
@@ -509,49 +570,36 @@ angular.module('trendie.controllers', [])
 		},100);
 	}
 
-	direccionActualService.get().$promise.then(function(billing){
-
-		$timeout(function(){
-			$scope.shipping = billing;
-			billing.BillingidCI = parseInt(billing.BillingidCI);
-			$scope.billing = billing;
-			if ($scope.shipping.ShipToAddress !== $scope.billing.BillingAddress) {
-				$timeout(function(){
-					$scope.util.diferentes = true;
-					$scope.BillingidestadoChange();
-					$scope.BillingidciudadChange();
-				},20)
-			}
-
-		},10)
-			
-
-	});
 
 
 
 
 
-	$scope.BillingidestadoChange = function(){
+
+	$scope.BillingidestadoChange = function(cb){
 		ciudadesService.query({idestado:$scope.billing.Billingidestado}).$promise.then(function(ciudades){
 			$scope.form.billingCiudades = ciudades;
+			if (cb) cb();
 		})
 	}
 
-	$scope.BillingidciudadChange = function(){
+	$scope.BillingidciudadChange = function(cb){
 		urbanizacionesService.query({idciudad:$scope.billing.Billingidciudad}).$promise.then(function(urbanizaciones){
 			$scope.form.billingUrbanizaciones = urbanizaciones;
+			if (cb) cb();
 		})
 	}
-	$scope.ShipToidestadoChange = function(){
+	$scope.ShipToidestadoChange = function(cb){
 		ciudadesService.query({idestado:$scope.shipping.ShipToidestado}).$promise.then(function(ciudades){
 			$scope.form.shippingCiudades = ciudades;
+			if (cb) cb();
 		})
 	}
 
-	$scope.ShipToidciudadChange = function(){
+	$scope.ShipToidciudadChange = function(cb){
 		urbanizacionesService.query({idciudad:$scope.shipping.ShipToidciudad}).$promise.then(function(urbanizaciones){
 			$scope.form.shippingUrbanizaciones = urbanizaciones;
+			if (cb) cb();
 		})
 	}	
 
@@ -601,7 +649,7 @@ angular.module('trendie.controllers', [])
 
 	}
 })
-.controller('CheckoutCtrl', function($rootScope, $scope, guardaDireccionesService, $ionicLoading, checkoutService, $location, nProductosEnCarritoService){
+.controller('CheckoutCtrl', function($rootScope, $scope, $ionicHistory, guardaDireccionesService, $ionicLoading, checkoutService, $location, nProductosEnCarritoService){
 	$scope.orden = {}
 	$scope.loading = true;
 
@@ -622,6 +670,11 @@ angular.module('trendie.controllers', [])
 				function(n){
 				$rootScope.productosCarrito = n.cantidad;
 			})
+
+			$ionicHistory.nextViewOptions({
+				disableAnimate: true,
+				disableBack: true
+			});			
 			$location.path('/app/pagar-transferencia');
 		}, function(err){
 			$ionicLoading.hide();
