@@ -11,43 +11,53 @@
 		<div class="titulo">
 			<h1>Tarjeta de Crédito</h1>
 		</div>
-		<div class="padding mensajebancos">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
-			<h3>Monto: Bs. {{orden.total | number:2}}</h3>
-		</div>
-		<form name="cardForm" submit="cardPay()">
-			<div class="list">
-				<label class="item item-input item-floating-label">
-					<span class="input-label">Nombre del tarjetahabiente</span>
-					<input type="text" ng-model="ccard.CardHolder" placeholder="Nombre del tarjetahabiente" required>
-				</label>
-				<label class="item item-input item-floating-label">
-					<span class="input-label">Cédula de identidad</span>
-					<input type="tel" ng-model="ccard.CardHolderId" placeholder="Cédula de identidad" required>
-				</label>
-				<label class="item item-input item-floating-label">
-					<span class="input-label">Número de la tarjeta</span>
-					<input type="tel" maxlength="16" ng-model="ccard.CardNumber" placeholder="Número de la tarjeta"  cc-number>
-				</label>
-				<label class="item item-input item-floating-label">
-					<span class="input-label">Código de seguridad</span>
-					<input type="tel" ng-model="ccard.VerificationCode" placeholder="Codigo de seguridad" cc-cvc maxlength="3">
-				</label>
-				<label class="item item-input item-stacked-label">
-					<span class="input-label">Fecha de Vencimiento</span>
-					<input type="month" ng-model="util.mes" placeholder="Fecha de Vencimiento" ng-change="cambiarFecha()">
-				</label>
-				<div cc-exp style="display:none">
-				<input ng-model="ccard.ExpMonth" cc-exp-month>
-				<input ng-model="ccard.ExpYear" cc-exp-year>
+		<div ng-if="!respuesta">
+			<div class="padding mensajebancos">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
+				<h3>Monto: Bs. {{orden.total | number:2}}</h3>
+			</div>		
+			<form name="cardForm" ng-submit="cardPay()">
+				<div class="list">
+					<label class="item item-input item-floating-label">
+						<span class="input-label">Nombre del tarjetahabiente</span>
+						<input type="text" ng-model="ccard.CardHolder" placeholder="Nombre del tarjetahabiente" required>
+					</label>
+					<label class="item item-input item-floating-label">
+						<span class="input-label">Cédula de identidad</span>
+						<input type="tel" ng-model="ccard.CardHolderId" placeholder="Cédula de identidad" required>
+					</label>
+					<label class="item item-input item-floating-label">
+						<span class="input-label">Número de la tarjeta</span>
+						<input type="tel" maxlength="16" ng-model="ccard.CardNumber" placeholder="Número de la tarjeta"  cc-number>
+					</label>
+					<label class="item item-input item-floating-label">
+						<span class="input-label">Código de seguridad</span>
+						<input type="tel" ng-model="ccard.VerificationCode" placeholder="Codigo de seguridad" cc-cvc maxlength="3">
+					</label>
+					<label class="item item-input item-stacked-label">
+						<span class="input-label">Fecha de Vencimiento</span>
+						<input type="month" ng-model="util.mes" placeholder="Fecha de Vencimiento" ng-change="cambiarFecha()">
+					</label>
+					<div cc-exp style="display:none">
+					<input ng-model="ccard.ExpMonth" cc-exp-month>
+					<input ng-model="ccard.ExpYear" cc-exp-year>
+					</div>
 				</div>
-			</div>
-			<!-- <pre>{{cardForm | json}}</pre> -->
+				<!-- <pre>{{cardForm | json}}</pre> -->
+				<div class="padding">
+					<button class="button button-block button-outline  button-balanced" ng-disabled="cardForm.$invalid">
+						Pagar
+					</button>
+				</div>			
+			</form>
+		</div>
+		<div ng-if="respuesta">
 			<div class="padding">
-				<button class="button button-block button-outline  button-balanced" ng-disabled="cardForm.$invalid">
-					Pagar
-				</button>
-			</div>			
-		</form>
+				<h3>{{respuesta}}</h3>
+				<div ng-bind-html="voucher" class="divvoucher"></div>
+				<a href="#/app/carrito" class="button button-block button-outline  button-balanced" ng-if="respuesta === 'Transacción Rechazada' ">Mi Compra</a>
+				<a href="#/app/mis-ordenes" class="button button-block button-outline button-balanced">Mis Ordenes</a>
+			</div>
+		</div>
 	</ion-content>
 </ion-view>
