@@ -2,8 +2,9 @@ var MD5=function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){va
 
 angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource', 'angular-carousel', 'credit-cards', 'ngCordova'])
 
-.run(function($ionicPlatform, $rootScope, $localstorage, $http, $location) {
+.run(function($ionicPlatform, $rootScope, $localstorage, $http, $location, elIdService) {
 
+//go-trendy-app 
 
     $rootScope.semilla = Math.floor(Math.random()*10000);
     $rootScope.globals = $localstorage.getObject('globals') || {};
@@ -57,6 +58,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
                     Ionic.Auth.login('basic', { remember: true }, details).then(
                       function(finaluser){
                         // console.log(finaluser);
+                        elIdService.save({idnotificaciones: finaluser.id});
                         user = Ionic.User.current();
                         user.details.name = $rootScope.globals.currentUser.nombre;
                         hacerTokenPush();
@@ -73,7 +75,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
 
     function hacerTokenPush() {
       var push = new Ionic.Push({
-        "debug": true,
+        "debug": false,
         onNotification: function(notification){
           // $state.go('app.order.success');
           if (!notification._raw.additionalData.foreground ) {

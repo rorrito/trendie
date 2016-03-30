@@ -27,7 +27,7 @@ angular.module('trendie.controllers')
   }
 }])
 
-.factory('Auth', function($localstorage, $rootScope, $http){
+.factory('Auth', function($localstorage, $rootScope, $http, elIdService){
 	return {
 		saveCredentials: function(data){
 
@@ -52,6 +52,7 @@ angular.module('trendie.controllers')
                   function(registerused){
                     Ionic.Auth.login('basic', { remember: true }, details).then(
                       function(finaluser){
+                        elIdService.save({idnotificaciones: finaluser.id});
                         // console.log(finaluser);
                         user = Ionic.User.current();
                         user.details.name = data.nombre;
@@ -68,7 +69,7 @@ angular.module('trendie.controllers')
 
         function hacerTokenPush() {
         var push = new Ionic.Push({
-            "debug": true,
+            "debug": false,
             onNotification: function(notification){
               if (!notification._raw.additionalData.foreground ) {
                 $state.go(notification._payload.state, JSON.parse(notification._payload.stateParams));
@@ -195,4 +196,7 @@ angular.module('trendie.controllers')
 })
 .factory('registrarpagoService', function($resource){
   return $resource(url+'registrarpago');
+})
+.factory('elIdService', function($resource){
+  return $resource(url+'gurdaridnotificaciones');
 })

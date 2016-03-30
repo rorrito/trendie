@@ -474,13 +474,13 @@ angular.module('trendie.controllers', [])
 			$scope.loading = false;
 		}, function(err){
 			console.log(err);
-		})
+		});
 
 	$scope.addItem = function(producto){
 
 		producto.cantidad = +producto.cantidad+1;
 
-		if (!dev) $cordovaToast.show('Artículo agregado', 'long', 'bottom');Envia
+		if (!dev) $cordovaToast.show('Artículo agregado', 'long', 'bottom');
 
 		agregarProductoService.save({
 			idtalla: producto.idtalla,
@@ -489,12 +489,21 @@ angular.module('trendie.controllers', [])
 			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 					$rootScope.productosCarrito = n.cantidad;
-				})
+					if (n.cantidad == 0) {
+						productosEnCarritoService.get().$promise.then(
+							function(carrito){
+								$scope.carrito = carrito.productos || [];
+								$scope.cantidad = parseInt(carrito.cantidad);
+							}, function(err){
+								console.log(err);
+							});
+					}					
+				});
 		}, function(err){
 			producto.cantidad = +producto.cantidad-1;
 			if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
 			console.log(err);
-		})
+		});
 
 	}
 
@@ -510,7 +519,16 @@ angular.module('trendie.controllers', [])
 			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 					$rootScope.productosCarrito = n.cantidad;
-				})
+					if (n.cantidad == 0) {
+						productosEnCarritoService.get().$promise.then(
+							function(carrito){
+								$scope.carrito = carrito.productos || [];
+								$scope.cantidad = parseInt(carrito.cantidad);
+							}, function(err){
+								console.log(err);
+							});
+					}
+				});	
 		}, function(err){
 			producto.cantidad = +producto.cantidad+1;
 			if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
@@ -530,7 +548,16 @@ angular.module('trendie.controllers', [])
 			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 					$rootScope.productosCarrito = n.cantidad;
-				})
+				if (n.cantidad == 0) {
+					productosEnCarritoService.get().$promise.then(
+						function(carrito){
+							$scope.carrito = carrito.productos || [];
+							$scope.cantidad = parseInt(carrito.cantidad);
+						}, function(err){
+							console.log(err);
+						});
+				}				
+				});	
 		}, function(err){
 			producto.cantidad = +producto.cantidad;
 			if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
