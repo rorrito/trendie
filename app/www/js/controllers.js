@@ -1,3 +1,5 @@
+var dev = false;
+
 angular.module('trendie.controllers', [])
 
 .controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup, 
@@ -293,7 +295,8 @@ angular.module('trendie.controllers', [])
 })
 .controller('SingleCtrl', 
 	function($scope, $ionicScrollDelegate, SingleService, $stateParams, $ionicSlideBoxDelegate, $rootScope,
-		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService, agregarProductoService, nProductosEnCarritoService){
+		ProductosRelacionadosService, $timeout, desfavoritearService, favoritearService, agregarProductoService, 
+		nProductosEnCarritoService, $cordovaToast, $cordovaSocialSharing){
 
 	$scope.producto = {};
 	$scope.tallaSelected = '';
@@ -392,6 +395,8 @@ angular.module('trendie.controllers', [])
 	}
 
 	$scope.enviarAlCarrito = function(){
+
+		if (!dev) $cordovaToast.show('Artículo agregado', 'long', 'bottom');
 		agregarProductoService.save({
 			idtalla: $scope.producto.tallas[$scope.tallaSelected].idtalla,
 			cantidad: $scope.producto.cantidad
@@ -403,6 +408,22 @@ angular.module('trendie.controllers', [])
 		}, function(err){
 			console.log(err);
 		})
+	}
+
+	$scope.SShare = function(producto){
+		var message = null;
+		var subject = null;
+		var file = null;
+		var link = 'http://productoid.com/'+$stateParams.id;
+
+
+		$cordovaSocialSharing
+			.share(message, subject, file, link) // Share via native share sheet
+			.then(function(result) {
+				if (!dev) $cordovaToast.show('Articulo Compartido', 'long', 'bottom');
+			}, function(err) {
+				if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
+		});
 	}
 })
 .controller('WishlistCtrl', function($scope, WishlistService, desfavoritearService, $timeout){
@@ -441,13 +462,15 @@ angular.module('trendie.controllers', [])
 		});
 	};	
 })
-.controller('CarritoCtrl', function($rootScope, $scope, productosEnCarritoService, agregarProductoService, nProductosEnCarritoService){
+.controller('CarritoCtrl', function($rootScope, $cordovaToast, $scope, productosEnCarritoService, agregarProductoService, nProductosEnCarritoService){
 	$scope.loading = true;
 	$scope.carrito = [];
+	$scope.cantidad = {};
 
 	productosEnCarritoService.get().$promise.then(
 		function(carrito){
 			$scope.carrito = carrito.productos || [];
+			$scope.cantidad = parseInt(carrito.cantidad);
 			$scope.loading = false;
 		}, function(err){
 			console.log(err);
@@ -457,6 +480,8 @@ angular.module('trendie.controllers', [])
 
 		producto.cantidad = +producto.cantidad+1;
 
+		if (!dev) $cordovaToast.show('Artículo agregado', 'long', 'bottom');Envia
+
 		agregarProductoService.save({
 			idtalla: producto.idtalla,
 			cantidad: producto.cantidad
@@ -466,7 +491,8 @@ angular.module('trendie.controllers', [])
 					$rootScope.productosCarrito = n.cantidad;
 				})
 		}, function(err){
-			producto.cantidad = +producto.cantidad-1
+			producto.cantidad = +producto.cantidad-1;
+			if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
 			console.log(err);
 		})
 
@@ -475,6 +501,7 @@ angular.module('trendie.controllers', [])
 	$scope.removeItem = function(producto){
 
 		producto.cantidad = +producto.cantidad-1
+		if (!dev) $cordovaToast.show('Artículo Eliminado', 'long', 'bottom');
 
 		agregarProductoService.save({
 			idtalla: producto.idtalla,
@@ -485,10 +512,31 @@ angular.module('trendie.controllers', [])
 					$rootScope.productosCarrito = n.cantidad;
 				})
 		}, function(err){
-			producto.cantidad = +producto.cantidad+1
+			producto.cantidad = +producto.cantidad+1;
+			if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
 			console.log(err);
 		})
 	}
+
+	$scope.removeItemFull = function(producto){
+
+		producto.cantidad = 0;
+		if (!dev) $cordovaToast.show('Artículo Eliminado', 'long', 'bottom');
+
+		agregarProductoService.save({
+			idtalla: producto.idtalla,
+			cantidad: producto.cantidad
+		}).$promise.then(function(){
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+				})
+		}, function(err){
+			producto.cantidad = +producto.cantidad;
+			if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
+			console.log(err);
+		})
+	}	
 
 })
 .controller('DireccionesCtrl', function($scope, $ionicScrollDelegate, $timeout, estadosService, $location,
@@ -569,12 +617,6 @@ angular.module('trendie.controllers', [])
 			$ionicScrollDelegate.resize();
 		},100);
 	}
-
-
-
-
-
-
 
 	$scope.BillingidestadoChange = function(cb){
 		ciudadesService.query({idestado:$scope.billing.Billingidestado}).$promise.then(function(ciudades){

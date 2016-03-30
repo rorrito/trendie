@@ -13,7 +13,7 @@
 			<h1>Datos Facturación</h1>
 		</div>
 		<div class="list" style="margin-bottom:0">
-			<form name="billingForm">
+			<form name="billingForm" class="trendieform">
 			<label class="item item-input item-stacked-label">
 				<span class="input-label">Nombre Completo</span>
 				<input type="text" placeholder=""  ng-model="billing.BillingName" required>
@@ -61,7 +61,7 @@
 		</div>
 		<ion-list>
 			<ion-checkbox ng-model="util.diferentes" class="checkbox-royal" ng-change="igualChange()">Usar datos diferentes</ion-checkbox>
-			<form name="shippingForm">
+			<form name="shippingForm" class="trendieform">
 		<div ng-show="util.diferentes">
 			<label class="item item-input item-stacked-label">
 				<span class="input-label">Nombre Completo</span>

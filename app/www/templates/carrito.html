@@ -12,23 +12,24 @@
 		<div class="titulo">
 			<h1>Mi Compra</h1>
 		</div>
-		<div class="empty padding" ng-if="carrito.length < 1 && !loading" >
+		<div class="empty padding" ng-if="cantidad < 1 && !loading" >
 			<h1>No tienes nada en tu carrito, algun otro mensaje aqui</h1>
 		</div>
 		<div class="producto producto-animation" ng-repeat="producto in carrito" ng-if="producto.cantidad > 0">
 			<a href="#/app/single/{{producto.idproducto}}">
 				<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />
 			</a>
-				<h1>{{producto.nombre_prod}}</h1>
-				<h1>Talla {{producto.talla}}</h1>
+				<h1 class="name">{{producto.nombre_prod}}</h1>
+				<h1 class="tallita">Talla {{producto.talla}}</h1>
 				<div class="row">
-					<div class="col"><a class="cosoboton button button-icon ion-android-remove-circle royal" ng-click="removeItem(producto)" ></a></div>
-					<div class="col cantidadcol">{{producto.cantidad}}</div>
-					<div class="col"><a class="cosoboton button button-icon ion-android-add-circle royal" ng-click="addItem(producto)" ng-show="+producto.existencia > +producto.cantidad"></a></div>
+					<div class="col"><a class="cosoboton button button-icon ion-ios-minus-empty royal" ng-click="removeItem(producto)" ></a></div>
+					<div class="col cantidadcol"><span>{{producto.cantidad}}</span></div>
+					<div class="col"><a class="cosoboton button button-icon ion-ios-plus-empty royal" ng-click="addItem(producto)" ng-show="+producto.existencia > +producto.cantidad"></a></div>
 				</div>
 				<h3>Bs. {{producto.precio_desc | number:0}}</h3>
+				<a class="basurita button button-icon icon ion-trash-a royal" ng-click="removeItemFull(producto)" ></a>
 		</div>
-		<div class="padding">
+		<div class="padding" ng-if="cantidad > 0 && !loading">
 			<a class="button button-block button-outline  button-balanced" style="margin-top:0; width:100%" href="#/app/direcciones">
 				Continuar
 			</a>

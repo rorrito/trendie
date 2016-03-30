@@ -20,8 +20,8 @@
 			<a href="#/app/single/{{producto.idproducto}}">
 				<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />
 			</a>
-				<h1>{{producto.cantidad}}x {{producto.nombre_prod}}</h1>
-				<h1>Talla {{producto.talla}} </h1>
+				<h1 class="name">{{producto.nombre_prod}}</h1>
+				<h1 class="tallita">Talla {{producto.talla}}</h1>
 				<h3> Bs.{{producto.precio_tot_prod | number:0}}</h3>
 		</div>
 		<div class="padding totales">

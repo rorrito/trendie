@@ -14,11 +14,12 @@
 		</div>
 		<div class="padding mensajebancos">
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
-
-			<div class="banco" ng-repeat="banco in bancos" ng-if="banco.activo==='S'">
+		</div>
+		<div class="list">
+			<div class="item banco" ng-repeat="banco in bancos" ng-if="banco.activo==='S'">
 				<h2>{{banco.banco}}</h2>
-				<h3>{{banco.tipodecuenta}}</h3>
-				<h3>{{banco.cuenta}}</h3>
+				<h3>{{banco.tipocuenta}}</h3>
+				<h2>{{banco.cuenta}}</h2>
 			</div>
 		</div>
 	<ion-infinite-scroll
