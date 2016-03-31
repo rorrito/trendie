@@ -88,7 +88,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
             "sound": true
           },
           "android": {
-            "iconColor": "#fb7d00",
+            "iconColor": "#FD858B",
             "icon": "trendie_ic"
           }
         }
