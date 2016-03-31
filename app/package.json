@@ -23,7 +23,7 @@
     "ionic-plugin-keyboard",
     {
       "variables": {
-        "SENDER_ID": "go-trendy-app"
+        "SENDER_ID": "912227162279"
       },
       "locator": "phonegap-plugin-push",
       "id": "phonegap-plugin-push"
