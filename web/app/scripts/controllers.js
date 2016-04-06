@@ -1,7 +1,7 @@
 angular.module('trendy.controllers', [])
 
-.controller('AppCtrl', ['$scope', 'ngDialog', 'Auth',
-	function($scope, ngDialog, Auth){
+.controller('AppCtrl', ['$scope', 'ngDialog', 'Auth', '$location',
+	function($scope, ngDialog, Auth, $location){
 
 	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
 
@@ -11,6 +11,7 @@ angular.module('trendy.controllers', [])
 
 	$scope.logOut = function(){
 		Auth.clearCredentials();
+		$location.path('/')
 	};
 
 }])
@@ -286,6 +287,7 @@ angular.module('trendy.controllers', [])
 		}
 	}
 
+
 	$scope.enviarAlCarrito = function(){
 
 		if ($rootScope.globals.currentUser) {
@@ -464,8 +466,8 @@ angular.module('trendy.controllers', [])
 
 }])
 
-.controller('CarritoCtrl', ['$scope', 'productosEnCarritoService', 'agregarProductoService', 'nProductosEnCarritoService', '$timeout', 
-	function($scope, productosEnCarritoService, agregarProductoService, nProductosEnCarritoService, $timeout){
+.controller('CarritoCtrl', ['$scope', 'productosEnCarritoService', 'agregarProductoService', 'nProductosEnCarritoService', '$timeout', '$rootScope',
+	function($scope, productosEnCarritoService, agregarProductoService, nProductosEnCarritoService, $timeout, $rootScope){
 
 	$scope.loading = true;
 	$scope.carrito = [];
@@ -488,6 +490,34 @@ angular.module('trendy.controllers', [])
 		}, function(err){
 			console.log(err);
 		});
+
+	$scope.changeCantidad = function(producto){
+
+		agregarProductoService.save({
+			idtalla: producto.idtalla,
+			cantidad: producto.cantidad
+		}).$promise.then(function(){
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+					if (n.cantidad == 0) {
+						productosEnCarritoService.get().$promise.then(
+							function(carrito){
+								$scope.carrito = carrito.productos || [];
+								$scope.cantidad = parseInt(carrito.cantidad);
+							}, function(err){
+								console.log(err);
+							});
+					}					
+				});
+		}, function(err){
+			producto.cantidad = +producto.cantidad-1;
+			console.log(err);
+		});
+
+
+	}
+
 
 	$scope.addItem = function(producto){
 

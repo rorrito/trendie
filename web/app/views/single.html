@@ -3,7 +3,7 @@
 </div>
 <main id="main-content" class="single" ng-if="!loading">
 	<div id="breadcrumbs">
-		<a href="#">Inicio</a> > <a href="#/categoria/{{producto.idcategoria}}">CAMBIARCategoria</a> > <a>{{producto.nombre_prod}}</a>
+		<a href="#">Inicio</a> > <a href="#/categoria/{{producto.idcategoria}}">{{producto.nombre_cat}}</a> > <a>{{producto.nombre_prod}}</a>
 	</div>
 	<section id="item">
 		<div class="wrapper">
@@ -62,7 +62,7 @@
 		<div class="wrapper clearfix">
 			<div class="storefront">
 				<div class="title">
-					<h2>CAMBIARCategoria relacionados</h2>
+					<h2>{{producto.nombre_cat}} relacionados</h2>
 				</div>
 				<div class="itemlist row clearfix">
 					<div class="box" ng-repeat="relacionado in relacionados">

@@ -20,7 +20,7 @@
 								<div class="item-name">{{producto.nombre_prod}}</div>
 								<div class="actions clearfix">
 									<span class="qt">
-										<select ng-model="producto.cantidad">
+										<select ng-model="producto.cantidad"  ng-change="changeCantidad(producto)">
 											<option ng-repeat="i in getNumber(producto.existencia) track by $index" value="{{$index+1}}">{{$index+1}}</option>
 										</select>
 									</span>
