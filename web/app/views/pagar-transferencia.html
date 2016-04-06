@@ -1,0 +1,19 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" ng-if="!loading">
+		<div class="titulo">
+			<h1>Transferencia</h1>
+		</div>
+		<div class="padding mensajebancos">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
+		</div>
+		<div class="list">
+			<div class="item banco" ng-repeat="banco in bancos" ng-if="banco.activo==='S'">
+				<h2>{{banco.banco}}</h2>
+				<h3>{{banco.tipocuenta}}</h3>
+				<h2>{{banco.cuenta}}</h2>
+			</div>
+		</div>
+	</section>
+</main>

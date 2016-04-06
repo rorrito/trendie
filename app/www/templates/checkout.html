@@ -15,7 +15,7 @@
 		</div>
 		<div class="empty padding" ng-if="carrito.length < 1 && !loading" >
 			<h1>No tienes nada en tu carrito, algun otro mensaje aqui</h1>
-		</div>		
+		</div>	
 		<div class="producto producto-animation" ng-repeat="producto in orden.productos" ng-if="producto.cantidad > 0">
 			<a href="#/app/single/{{producto.idproducto}}">
 				<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />

@@ -1,0 +1,85 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<div id="breadcrumbs">
+		<a href="#">Inicio</a> > <a href="#/categoria/{{producto.idcategoria}}">CAMBIARCategoria</a> > <a>{{producto.nombre_prod}}</a>
+	</div>
+	<section id="item">
+		<div class="wrapper">
+			<div class="item-main clearfix">
+				<!-- <div class="item-nav">
+					<a href="" class="prev">Anterior</a>
+					<a href="" class="next">Siguiente</a>
+				</div> -->
+				<div class="item-gallery">
+					<div class="img">
+						<img ng-src="{{imagesUrl}}productos/{{producto.bigimg}}" alt="" />
+					</div>
+					<div class="thumbs clearfix">
+						<div class="thumb" ng-repeat="foto in producto.fotos">
+							<img ng-src="{{imagesUrl}}productos/{{foto.foto}}" alt="imagen del producto {{producto.nombre_prod}}" ng-click="ponerThumb($index)"/>
+						</div>
+					</div>
+				</div>
+				<div class="item-details">
+					<div class="header">
+						<h3><a href="#/disenador/{{producto.iddisenador}}">{{producto.nombre_dis}}</a></h3>
+						<h2>{{producto.nombre_prod}}</h2>
+						<h4><span class="sale">Bs. {{producto.precio | number:0}}</span> Bs. {{producto.precio_desc | number:0}}</h4>
+						<form>
+							<label>Tallas</label>
+							<select ng-change="tallaChanged(tallaSelected)") ng-model="tallaSelected">
+								<option ng-repeat="talla in producto.tallas" value="{{$index}}">{{talla.talla}}</option>
+							</select>
+
+							<label>Cantidad</label>
+							<select ng-model="producto.cantidad">
+								<option ng-repeat="numero in cantidad" value="{{numero}}">{{numero}}</option>
+							</select>
+						</form>
+					</div>
+					<div class="content">
+						<div ng-bind-html="producto.descripcion_prod"></div>
+						<button class="buy-button" ng-disabled="!tallaSelected || producto.cantidad == 0 || producto.cantidad=='' " ng-click="enviarAlCarrito()">
+							Comprar
+						</button>
+
+					</div>
+					<div class="actions">
+						<a class="favorite" ng-click="favorite(producto)">
+							<span aria-hidden="true" ng-class="{'icon_heart': producto.favoriteado!=0, 'icon_heart_alt': producto.favoriteado==0}"></span> 
+							<span class="text">Favorito</span>
+						</a>
+
+						<a class="share"><span aria-hidden="true" class="social_share"></span> <span class="text">Compartir</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="related" class="section bottom">
+		<div class="wrapper clearfix">
+			<div class="storefront">
+				<div class="title">
+					<h2>CAMBIARCategoria relacionados</h2>
+				</div>
+				<div class="itemlist row clearfix">
+					<div class="box" ng-repeat="relacionado in relacionados">
+						<a href="#/producto/{{relacionado.idproducto}}">
+							<div class="img">
+								<img ng-src="{{imagesUrl}}productos/{{relacionado.fotoportada}}" alt="imagen de {{relacionado.nombre_prod}}">
+							</div>
+							<div class="text">
+								<div class="item-brand"><a href="#/disenador/{{relacionado.iddisenador}}">{{relacionado.nombre_dis}}</a></div>
+								<div class="item-name">{{relacionado.nombre_prod}}</div>
+								<div class="item-price"><span class="sale">{{relacionado.precio | number:0}} Bs</span> {{relacionado.precio_desc | number:0}} Bs</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded"><span aria-hidden="true" class="arrow_carrot-down"></span> Cargar más</a>			
+</main>

@@ -1,0 +1,53 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<section id="account-info" class="section">
+		<div class="wrapper">
+			<h2 class="title center">Tarjeta de Crédito</h2>
+			<div class="payment rounded">
+				<div ng-if="!respuesta">
+					<div class="padding mensajebancos">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
+						<h3>Monto: Bs. {{orden.total | number:2}}</h3>
+					</div>		
+					<form name="cardForm" ng-submit="cardPay()" novalidate>
+						<div class="list">
+							<label class="item item-input item-floating-label">
+								<span class="input-label">Nombre del tarjetahabiente</span>
+								<input type="text" ng-model="ccard.CardHolder" placeholder="Nombre del tarjetahabiente" required>
+							</label>
+							<label class="item item-input item-floating-label">
+								<span class="input-label">Cédula de identidad</span>
+								<input type="text" ng-model="ccard.CardHolderId" placeholder="Cédula de identidad" required>
+							</label>
+							<label class="item item-input item-floating-label">
+								<span class="input-label">Número de la tarjeta</span>
+								<input type="text" cc-format ng-model="ccard.CardNumber" placeholder="Número de la tarjeta"  cc-number>
+							</label>
+							<label class="item item-input item-floating-label">
+								<span class="input-label">Código de seguridad</span>
+								<input type="text" ng-model="ccard.VerificationCode" placeholder="Codigo de seguridad" cc-cvc maxlength="3">
+							</label>
+							<label class="item item-input item-stacked-label">
+								<span class="input-label">Fecha de Vencimiento</span>
+								<input ng-model="ccard.ExpMonth" cc-exp-month> <input ng-model="ccard.ExpYear" cc-exp-year>
+							</label>
+						</div>
+						<button class="next-btn" ng-disabled="cardForm.$invalid">
+							Pagar
+						</button>
+					</form>
+				</div>
+				<div ng-if="respuesta">
+					<div class="padding">
+						<h3>{{respuesta}}</h3>
+						<div ng-bind-html="voucher" class="divvoucher"></div>
+						<a href="#/cart" class="button button-block button-outline  button-balanced" ng-if="respuesta === 'Transacción Rechazada' ">Mi Compra</a>
+						<a href="#/mis-ordenes" class="button button-block button-outline button-balanced">Mis Ordenes</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</section>
+</main>

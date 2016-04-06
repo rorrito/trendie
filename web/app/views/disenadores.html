@@ -1,0 +1,22 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single"  ng-if="!loading">
+	<section id="designers">
+		<h2 class="title bar center">Diseñadores</h2>
+		<div class="wrapper">
+			<div class="deslist row clearfix">
+				<div class="box" ng-repeat="disenador in disenadores">
+					<a href="#/disenador/{{disenador.iddisenador}}" title="{{disenador.nombre_dis}}">
+						<div class="img">
+							<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="{{disenador.nombre_dis}}">
+						</div>
+					</a>
+				</div>
+			</div>	
+		</div>
+		<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded">
+			<span aria-hidden="true" ng-class="{'arrow_carrot-down': !loadingMore.loading, 'icon_loading animate360': loadingMore.loading}"></span> {{loadingMore.boton}}
+		</a>
+	</section>
+</main>

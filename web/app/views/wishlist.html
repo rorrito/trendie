@@ -1,0 +1,34 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<section id="favoritos" class="section">
+		<div class="wrapper">
+			<h2 class="title center">Mis Favoritos</h2>
+			<div class="itemlist row clearfix">
+				<a href="#/producto/{{producto.idproducto}}">
+				<div class="card" ng-repeat="producto in wishlist">
+					<div class="inner clearfix">
+						<div class="img">
+							<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />
+						</div>
+						<div class="text">
+							<div class="item-brand">{{producto.nombre_dis}}</div>
+							<div class="item-name">{{producto.nombre_prod}}</div>
+							<div class="actions clearfix">
+								<!-- <a href="#" class="favorite"><span aria-hidden="true" class="icon_heart"></span> Favorito</a> -->
+								<!-- <a href="#" class="buy"><span aria-hidden="true" class="icon_bag_alt"></span> Comprar</a> -->
+								<a  ng-click="remove($index)" class="delete"><span aria-hidden="true" class="icon_trash_alt"></span></a>
+							</div>
+							<div class="item-price">Bs. <span>{{producto.precio_desc | number:0}}</span></div>
+						</div>
+					</div>
+				</div>
+				</a>
+			</div>
+		</div>
+	</section>
+	<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded">
+		<span aria-hidden="true" ng-class="{'arrow_carrot-down': !loadingMore.loading, 'icon_loading animate360': loadingMore.loading}"></span> {{loadingMore.boton}}
+	</a>
+</main>

@@ -1,0 +1,25 @@
+	<div id="loginlb">
+		<div class="login" ng-controller="LoginCtrl">
+			<h1>Login</h1>
+			<div ng-if="util.message">
+				<h2>{{util.message}}</h2>
+			</div>
+			<form name="loginForm" ng-submit="doLogin()">
+				<input type="email" ng-model="user.email" required  placeholder="Email">
+				<input type="password" ng-model="user.clave" required placeholder="Contraseña">
+				<button type="submit" ng-disabled="loginForm.$invalid || util.loading" >{{util.boton}}</button>
+			</form>
+		</div>
+		<div class="signup" ng-submit="doSignup()" ng-controller="SignupCtrl">
+			<h1>Registro</h1>
+			<div ng-if="util.message">
+				<h2>{{util.message}}</h2>
+			</div>
+			<form name="signupForm">
+				<input type="text" ng-model="user.nombre" required placeholder="Nombre">
+				<input type="email" ng-model="user.email" required placeholder="Email">
+				<input type="password" ng-model="user.clave" required placeholder="Contraseña">
+				<button type="submit" ng-disabled="signupForm.$invalid || util.loading" >{{util.boton}}</button>
+			</form>
+		</div>
+	</div>

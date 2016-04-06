@@ -1,0 +1,52 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<section id="checkout">
+		<h2 class="title bar center"><a ui-sref="misOrdenes">volver</a> Mi Orden</h2>
+		<div class="wrapper">
+			<div class="checkout-main clearfix">
+				<div class="empty padding" ng-if="cantidad < 1 && !loading">
+					<h1>No tienes nada en tu carrito, algun otro mensaje aqui</h1>
+				</div>
+				<div class="cart-list column">
+					<div class="card" ng-repeat="producto in orden.productos" ng-if="producto.cantidad > 0">
+						<div class="inner clearfix">
+							<div class="img">
+								<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}" alt="" />
+							</div>
+							<div class="text">
+								<!-- <div class="item-brand">???</div> -->
+								<div class="item-name">{{producto.nombre_prod}}</div>
+								<div class="actions clearfix">
+									<span class="qt">
+										<select>
+											<option>{{producto.cantidad}}</option>
+										</select>
+									</span>
+									<span class="size">
+										<select>
+											<option>{{producto.talla}}</option>
+										</select>
+									</span>
+								</div>
+								<div class="item-price">Bs. <span>{{producto.precio_desc | number:0}}</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="cart-summary column">
+					<p>Sub-Total: Bs. {{orden.subtotal | number:2}}<br/>
+					I.V.A.: Bs. {{orden.iva | number:2}}<br/>
+					Envío: Bs. {{orden.costoenvio | number:2}}</p>
+					<h3>Total: Bs. {{orden.total | number:2}}</h3>
+					<div ng-if="orden.estado == 'Esperando pago' ">
+						<a class="buy-button" href="#/pago-transferencia/{{orden.idorden}}">
+							Registrar Pago
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

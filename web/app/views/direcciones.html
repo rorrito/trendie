@@ -1,0 +1,56 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<section id="account-info" class="section">
+		<div class="wrapper">
+			<h2 class="title center">Info de pago y envío</h2>
+			<div class="invoice rounded">
+				<div class="details">
+					<h3>Datos Facturación</h3>
+					<form name="billingForm">
+						<input type="text" placeholder="Nombre Completo"  ng-model="billing.BillingName" required>
+						<input type="number" placeholder="Cedula de Identidad"  ng-model="billing.BillingidCI" required>
+						
+						<textarea type="text" placeholder="Dirección"  ng-model="billing.BillingAddress" required></textarea>
+						
+						<select ng-model="billing.Billingidestado" ng-change="BillingidestadoChange()" required>
+							<option ng-repeat="estado in form.estados" value="{{estado.idestado}}">{{estado.estado}}</option>
+						</select>
+						<select ng-model="billing.Billingidciudad" ng-change="BillingidciudadChange()" required>
+							<option ng-repeat="ciudad in form.billingCiudades" value="{{ciudad.idciudad}}">{{ciudad.ciudad}}</option>
+						</select>
+						<select ng-model="billing.Billingidurbanizacion" required>
+							<option ng-repeat="urb in form.billingUrbanizaciones" value="{{urb.idurbanizacion}}">{{urb.urbanizacion}}</option>
+						</select>
+						<input type="tel" placeholder="Teléfono"  ng-model="billing.BillingPhone" required>
+					</form>
+				</div>			
+				<div class="details">
+					<h3>Datos de Envio</h3>
+					<input type="checkbox" ng-model="util.diferentes" ng-change="igualChange()" id="checkid"> <label for="checkid">Usar datos de diferentes de facturación</label>
+					<form name="shippingForm" class="trendieform">
+					<div ng-show="util.diferentes">
+						<input type="text" placeholder="Nombre Completo" ng-model="shipping.ShipToName" required>
+						<select ng-model="shipping.ShipToidestado" ng-change="ShipToidestadoChange()" required>
+							<option ng-repeat="estado in form.estados" value="{{estado.idestado}}">{{estado.estado}}</option>
+						</select>
+						<select ng-model="shipping.ShipToidciudad" ng-change="ShipToidciudadChange()" required>
+							<option ng-repeat="ciudad in form.shippingCiudades" value="{{ciudad.idciudad}}">{{ciudad.ciudad}}</option>
+						</select>
+						<select ng-model="shipping.ShipToidurbanizacion" required>
+							<option ng-repeat="urb in form.shippingUrbanizaciones" value="{{urb.idurbanizacion}}">{{urb.urbanizacion}}</option>
+						</select>
+						<input type="text" placeholder="Teléfono"  ng-model="shipping.ShipToPhone" required>
+						<textarea type="text" placeholder="Dirección"  ng-model="shipping.ShipToAddress" required></textarea>
+						<input type="text" ng-model="shipping.valid" value="{{shippingForm.$valid}}">
+					</div>
+					</form>
+				</div>
+			</div>
+			<button class="next-btn"  style="margin-top:0; width:100%" ng-click="sendDirecciones()" ng-disabled="billingForm.$invalid || (shippingForm.$invalid && util.diferentes)" >
+				Continuar
+			</button>
+		</div>
+	</section>
+</main>

@@ -1,0 +1,36 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<section id="account-info" class="section">
+		<div class="wrapper">
+			<h2 class="title center">Registrar Transferencia</h2>
+			<div class="payment rounded">
+				<div class="padding mensajebancos">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure sunt aliquam veniam, sint eius obcaecati velit hic earum temporibus natus iusto ab tenetur consectetur unde rerum quae fugiat quo consequuntur.</p>
+					<h3>Monto: Bs. {{monto | number:2}}</h3>
+				</div>
+				<form name="trasnForm" ng-submit="registrarPago()">
+					<div class="list">
+					<div class="item item-divider">Bancos</div>
+					<label ng-repeat="banco in bancos" ng-if="banco.activo==='S'">
+					<input type="radio" ng-model="trans.banco" ng-value="{{banco.idbanco}}">
+						{{banco.banco}}<br />
+						{{banco.cuenta}}
+					</label>
+					<div class="item item-divider">Transferencia</div>
+					<label class="item item-input item-stacked-label">
+						<span class="input-label">Número de Referencia</span>
+						<input type="text" maxlength="60" required ng-model="trans.referencia">
+					</label>
+					</div>
+					<div class="padding">
+						<button class="button button-block button-outline  button-balanced" ng-disabled="trasnForm.$invalid">
+							Registrar
+						</button>
+					</div>
+				</form>	
+			</div>
+		</div>	
+	</section>
+</main>

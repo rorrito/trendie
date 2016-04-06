@@ -1,0 +1,81 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single"  ng-if="!loading">
+	<section id="profile">
+		<div class="des-banner">
+			<img ng-src="{{imagesUrl}}productos/{{disenador.fondo_dis}}" alt="Imagen de {{disenador.nombre_dis}}" />
+		</div>
+		<div class="wrapper">
+			<div class="des-info clearfix">
+				<div class="left">
+					<div class="des-logo">
+						<div class="inner">
+							<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="Imagen de {{disenador.nombre_dis}}" />
+						</div>
+					</div>
+					<div class="social">
+						<a href="https://twitter.com/{{disenador.twitter}}" class="tw" ng-if="disenador.twitter"><span aria-hidden="true" class="social_twitter"></span></a>
+						<a href="https://instagram.com/{{disenador.instagram}}" class="ig" ng-if="disenador.instagram"><span aria-hidden="true" class="social_instagram"></span></a>
+						<a href="https://facebook.com/{{disenador.facebook}}" class="fc" ng-if="disenador.facebook"><span aria-hidden="true" class="social_facebook"></span></a>
+					</div>
+				</div>
+				<div class="right">
+					<h2>{{disenador.nombre_dis}}</h2>
+					<h4>Caracas, Venezuela</h4>
+					<div ng-bind-html="disenador.descripcion_dis"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="item">
+	
+	</section>
+	<section id="related" class="section bottom">
+		<div class="wrapper clearfix">
+			<div class="storefront">
+				<div class="title clearfix">
+					<h2>Productos</h2>
+					<div class="sorting">
+						<form>
+							<div class="option">
+								<h4>Categoría</h4>
+								<select class="precio">
+									<option>Shorts</option>
+									<option>Faldas</option>
+									<option>Vestidos</option>
+								</select>
+							</div>
+							<div class="option">
+								<h4>Filtro 2</h4>
+								<select class="precio">
+									<option>Opción 1</option>
+									<option>Opción 2</option>
+									<option>Opción 3</option>
+									<option>Opción 4</option>
+								</select>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="itemlist row clearfix">
+					<div class="box" ng-repeat="producto in productos">
+						<a href="#/producto/{{producto.idproducto}}">
+							<div class="img">
+								<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}"  alt="Imagen de {{producto.nombre_prod}}" />
+							</div>
+							<div class="text">
+								<div class="item-brand">{{producto.nombre_dis}}</div>
+								<div class="item-name">{{producto.nombre_prod}}</div>
+								<div class="item-price"><span class="sale">Bs. {{producto.precio | number:0}}</span>Bs. {{producto.precio_desc | number:0}}</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded">
+		<span aria-hidden="true" ng-class="{'arrow_carrot-down': !loadingMore.loading, 'icon_loading animate360': loadingMore.loading}"></span> {{loadingMore.boton}}
+	</a>
+</main>

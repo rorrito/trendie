@@ -1,0 +1,63 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" ng-if="!loading">
+	<div class="banner">
+		<img ng-src="{{imagesUrl}}categorias/{{categoria.foto_cat}}" alt="imagen de {{categoria.nombre_cat}}" />
+		<h2>{{categoria.nombre_cat}}</h2>
+	</div>
+	<section id="showcase" class="section">
+		<div class="wrapper clearfix">
+			<aside class="store-navigation">
+				<ul class="categories">
+					<li ng-repeat="categoria in categorias">
+						<a href="#/categoria/{{categoria.idcategoria}}">{{categoria.nombre_cat}}</a>
+						<ul class="sub-categories">
+							<li ng-repeat="destacado in categoria.destacados">
+								<a href="#/producto/{{destacado.idproducto}}">{{destacado.nombre_prod}}</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</aside>
+			<div class="storefront">
+				<div class="sorting">
+					<form>
+						<div class="option">
+							<h4>Precio</h4>
+							<select class="precio">
+								<option>100 - 900</option>
+								<option>1000 - 9000</option>
+								<option>10000 - 90000</option>
+							</select>
+						</div>
+						<div class="option">
+							<h4>Talla</h4>
+							<select class="precio">
+								<option>XS</option>
+								<option>S</option>
+								<option>M</option>
+								<option>L</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="itemlist row clearfix">
+					<div class="box" ng-repeat="relacionado in productos">
+						<a href="#/producto/{{relacionado.idproducto}}">
+							<div class="img">
+								<img ng-src="{{imagesUrl}}productos/{{relacionado.fotoportada}}" alt="imagen de {{relacionado.nombre_prod}}" />
+							</div>
+							<div class="text">
+								<div class="item-brand"><a href="#/disenador/{{relacionado.iddisenador}}">{{relacionado.nombre_dis}}</a></div>
+								<div class="item-name">{{relacionado.nombre_prod}}</div>
+								<div class="item-price"><span class="sale"> Bs. {{relacionado.precio | number:0}}</span> Bs. {{relacionado.precio_desc | number:0}}</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded"><span aria-hidden="true" class="arrow_carrot-down"></span> Cargar más</a>
+	</section>
+</main>

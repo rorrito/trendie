@@ -357,7 +357,7 @@ angular.module('trendie.controllers', [])
 		$scope.tallaSelected = talla;
 		if ($scope.producto.tallas[talla].existencia > 0) {
 			$scope.cantidad = [];
-			for (i = 1; i <= $scope.producto.tallas[talla].existencia; i++) { 
+			for (var i = 1; i <= $scope.producto.tallas[talla].existencia; i++) { 
 				$scope.cantidad.push(i.toString());
 			}
 		} else {
