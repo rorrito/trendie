@@ -71,6 +71,7 @@ angular.module('trendie.controllers')
         var push = new Ionic.Push({
             "debug": false,
             onNotification: function(notification){
+              console.log(notification);
               if (!notification._raw.additionalData.foreground ) {
                 $state.go(notification._payload.state, JSON.parse(notification._payload.stateParams));
               }

@@ -109,16 +109,44 @@ angular.module('trendy.controllers', [])
 
 }])
 
-.controller('CategoriaCtrl', ['$scope', 'CategoriaService', 'ProductosCategoriaService', '$stateParams', 'CategoriasInicioService', '$timeout',
-	function($scope, CategoriaService, ProductosCategoriaService, $stateParams, CategoriasInicioService, $timeout){
+.controller('CategoriaCtrl', ['$scope', 'CategoriaService', 'ProductosCategoriaService', '$stateParams', 'CategoriasInicioService', '$timeout', 'rangosService', 'tallascategoriaService', 'disenadorescategoriasService',
+	function($scope, CategoriaService, ProductosCategoriaService, $stateParams, CategoriasInicioService, $timeout, rangosService, tallascategoriaService, disenadorescategoriasService){
 
 	$scope.categoria = {};
 	$scope.categorias = [];
 	$scope.productos = [];
 	$scope.loading = true;
 	$scope.loadingprod = true;
+	$scope.rangos = [];
+	$scope.tallascat = [];
 
 	$scope.page = 1;
+	$scope.filtro = {desde: '', hasta: '', tallacat: '', iddisenador: ''};
+	var elQuery = {
+				idcategoria: $stateParams.id,
+				pagina: $scope.page,
+				limite: 8,
+				desde: $scope.filtro.desde,
+				hasta: $scope.filtro.hasta,
+				tallacat: $scope.filtro.tallacat,
+				iddisenador: $scope.filtro.iddisenador
+			};
+
+	rangosService.query().$promise
+	.then(function(rangos){
+		$scope.rangos = rangos;
+	});
+
+	tallascategoriaService.query({idcategoria: $stateParams.id}).$promise
+	.then(function(tallascat){
+		$scope.tallascat = tallascat;
+	});
+
+	disenadorescategoriasService.query().$promise
+	.then(function(disenadorescat){
+		$scope.iddisenador = disenadorescat;
+	});
+
 
 
 	CategoriasInicioService.query({pagina: 1, limite: 100}).$promise
@@ -126,22 +154,26 @@ angular.module('trendy.controllers', [])
 		$scope.categorias = categorias;
 		$timeout(function(){
 			menuCategory();
-		}, 10);
+		}, 100);
 		$timeout(function(){
 			afterLoad();
 		}, 100);
 	});
 
 
+
+
 	CategoriaService.get({idcategoria: $stateParams.id}).$promise
 	.then(function(categoria){
 		$scope.loading = false;
 		$scope.categoria = categoria;
-		ProductosCategoriaService.query({idcategoria: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
+		ProductosCategoriaService.query(
+			elQuery
+		).$promise
 		.then(function(productos){
 			$scope.loadingprod = false;
 			$scope.productos = $scope.productos.concat(productos);
-			$scope.page++;
+			elQuery.pagina++;
 
 			if (productos.length < 8) {
 				$scope.moreDataCanBeLoaded = false;
@@ -158,17 +190,78 @@ angular.module('trendy.controllers', [])
 	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
-		ProductosCategoriaService.query({idcategoria: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
+		ProductosCategoriaService.query(elQuery).$promise
 		.then(function(productos){
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
 			$scope.productos = $scope.productos.concat(productos);
-			$scope.page++;
+			elQuery.pagina++;
 		}, function(err){
 			console.log(err);
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 		});
 	};
+
+	$scope.precioChange = function(){
+		var desdehasta = $scope.filtro.precio.split(',');
+
+		elQuery.desde = desdehasta[0];
+		elQuery.hasta = desdehasta[1];
+		elQuery.pagina = 1;
+
+		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
+		ProductosCategoriaService.query(elQuery).$promise
+		.then(function(productos){
+			$scope.productos = [];
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
+			$scope.productos = $scope.productos.concat(productos);
+			elQuery.pagina++;
+		}, function(err){
+			console.log(err);
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+		});
+	};
+
+	$scope.tallitaChange = function(){
+		console.log('jklhkj');
+
+		elQuery.tallacat = $scope.filtro.talla;
+		elQuery.pagina = 1;
+
+		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
+		ProductosCategoriaService.query(elQuery).$promise
+		.then(function(productos){
+			$scope.productos = [];
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
+			$scope.productos = $scope.productos.concat(productos);
+			elQuery.pagina++;
+		}, function(err){
+			console.log(err);
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+		});
+	};
+
+	$scope.disenadorChange = function(){
+		elQuery.iddisenador = $scope.filtro.iddisenador;
+		elQuery.pagina = 1;
+
+		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
+		ProductosCategoriaService.query(elQuery).$promise
+		.then(function(productos){
+			$scope.productos = [];
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
+			$scope.productos = $scope.productos.concat(productos);
+			elQuery.pagina++;
+		}, function(err){
+			console.log(err);
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+		});
+	};
+
+
 }])
 .controller('SingleCtrl', ['$sce', '$scope', 'SingleService', 'ProductosRelacionadosService', 'agregarProductoService', '$rootScope', 'desfavoritearService', 'favoritearService', '$stateParams', '$timeout', 'ngDialog', 'nProductosEnCarritoService',
 	function($sce, $scope, SingleService, ProductosRelacionadosService, agregarProductoService, $rootScope, desfavoritearService, favoritearService, $stateParams, $timeout, ngDialog, nProductosEnCarritoService){
@@ -368,12 +461,34 @@ angular.module('trendy.controllers', [])
 	};
 
 }])
-.controller('DisenadorCtrl', ['$timeout', '$scope', '$stateParams', 'DisenadorSingleService', 'ProductosDisenadoresService', '$sce',
-	function($timeout, $scope, $stateParams, DisenadorSingleService, ProductosDisenadoresService, $sce){
+.controller('DisenadorCtrl', ['$timeout', '$scope', '$stateParams', 'DisenadorSingleService', 'ProductosDisenadoresService', '$sce', 'rangosService', 'tallascategoriaService', 'categoriasdisenadoresService',
+	function($timeout, $scope, $stateParams, DisenadorSingleService, ProductosDisenadoresService, $sce, rangosService, tallascategoriaService, categoriasdisenadoresService){
 	$scope.page = 1;
 	$scope.loading = true;
 	$scope.disenador = {};
 	$scope.productos = [];
+
+	$scope.filtro = {desde: '', hasta: '', tallacat: '', idcategoria: ''};
+	var elQuery = {
+				iddisenador: $stateParams.id,
+				pagina: $scope.page,
+				limite: 8,
+				desde: $scope.filtro.desde,
+				hasta: $scope.filtro.hasta,
+				idcategoria: $scope.filtro.idcategoria
+			};
+
+	rangosService.query().$promise
+	.then(function(rangos){
+		$scope.rangos = rangos;
+	});
+
+	categoriasdisenadoresService.query().$promise
+	.then(function(disenadorescat){
+		$scope.idcategoria = disenadorescat;
+	});
+
+
 
 	DisenadorSingleService.get({iddisenador: $stateParams.id}).$promise
 	.then(function(disenador){
@@ -385,10 +500,10 @@ angular.module('trendy.controllers', [])
 			afterLoad();
 		}, 100);
 
-		ProductosDisenadoresService.query({iddisenador: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
+		ProductosDisenadoresService.query(elQuery).$promise
 		.then(function(productos){
 			$scope.productos = $scope.productos.concat(productos);
-			$scope.page++;
+			elQuery.pagina++;
 
 			if (productos.length < 8) {
 				$scope.moreDataCanBeLoaded = false;
@@ -405,17 +520,61 @@ angular.module('trendy.controllers', [])
 	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
-		ProductosDisenadoresService.query({iddisenador: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
+		ProductosDisenadoresService.query(elQuery).$promise
 		.then(function(productos){
 			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 			$scope.productos = $scope.productos.concat(productos);
-			$scope.page++;
+			elQuery.pagina++;
 		}, function(err){
 			console.log(err);
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 		});
 	};
+
+
+	$scope.precioChange = function(){
+		var desdehasta = $scope.filtro.precio.split(',');
+
+		elQuery.desde = desdehasta[0];
+		elQuery.hasta = desdehasta[1];
+		elQuery.pagina = 1;
+
+		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
+		ProductosDisenadoresService.query(elQuery).$promise
+		.then(function(productos){
+			$scope.productos = [];
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
+			$scope.productos = $scope.productos.concat(productos);
+			elQuery.pagina++;
+		}, function(err){
+			console.log(err);
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+		});
+	};
+
+
+	$scope.categoriaChange = function(){
+
+		elQuery.idcategoria = $scope.filtro.idcategoria;
+		elQuery.pagina = 1;
+
+		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
+		ProductosDisenadoresService.query(elQuery).$promise
+		.then(function(productos){
+			$scope.productos = [];
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
+			$scope.productos = $scope.productos.concat(productos);
+			elQuery.pagina++;
+		}, function(err){
+			console.log(err);
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+		});
+	};
+
+
 }])
 .controller('WishlistCtrl', ['$scope', 'WishlistService', 'desfavoritearService', '$timeout',
 	function($scope, WishlistService, desfavoritearService, $timeout){

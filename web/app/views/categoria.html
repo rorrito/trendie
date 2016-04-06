@@ -25,19 +25,23 @@
 					<form>
 						<div class="option">
 							<h4>Precio</h4>
-							<select class="precio">
-								<option>100 - 900</option>
-								<option>1000 - 9000</option>
-								<option>10000 - 90000</option>
+							<select class="precio" ng-model="filtro.precio" ng-change="precioChange()">
+								<option value="" >Todos</option>
+								<option value="{{rango.desde+','+rango.hasta}}" ng-repeat="rango in rangos">{{rango.desde}} - {{rango.hasta}}</option>
 							</select>
 						</div>
 						<div class="option">
 							<h4>Talla</h4>
-							<select class="precio">
-								<option>XS</option>
-								<option>S</option>
-								<option>M</option>
-								<option>L</option>
+							<select class="precio" ng-model="filtro.talla" ng-change="tallitaChange()">
+								<option value="">Todas</option>
+								<option ng-repeat="talla in tallascat" value="{{talla.tallacat}}">{{talla.tallacat}}</option>
+							</select>
+						</div>
+						<div class="option">
+							<h4>Categoría</h4>
+							<select class="precio" ng-model="filtro.iddisenador" ng-change="categoriaChange()">
+								<option value="">Todos</option>
+								<option ng-repeat="disenador in iddisenador" value="{{disenador.iddisenador}}">{{disenador.nombre_dis}}</option>
 							</select>
 						</div>
 					</form>

@@ -133,6 +133,18 @@ angular.module('trendy.controllers')
 .factory('registrarpagoService', ['$resource', function($resource){
 	return $resource(url + 'registrarpago');
 }])
+.factory('rangosService', ['$resource', function($resource){
+	return $resource(url + 'rangos');
+}])
+.factory('tallascategoriaService', ['$resource', function($resource){
+	return $resource(url + 'tallascategoria');
+}])
+.factory('disenadorescategoriasService', ['$resource', function($resource){
+	return $resource(url + 'disenadorescategorias');
+}])
+.factory('categoriasdisenadoresService', ['$resource', function($resource){
+	return $resource(url + 'categoriasdisenadores');
+}])
 .factory('elIdService', ['$resource', function($resource){
 	return $resource(url + 'gurdaridnotificaciones');
 }]);
