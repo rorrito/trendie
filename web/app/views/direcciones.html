@@ -14,10 +14,10 @@
 						
 						<textarea type="text" placeholder="Dirección"  ng-model="billing.BillingAddress" required></textarea>
 						
-						<select ng-model="billing.Billingidestado" ng-change="BillingidestadoChange()" required>
+						<select ng-model="billing.Billingidestado" ng-change="billingidestadoChange()" required>
 							<option ng-repeat="estado in form.estados" value="{{estado.idestado}}">{{estado.estado}}</option>
 						</select>
-						<select ng-model="billing.Billingidciudad" ng-change="BillingidciudadChange()" required>
+						<select ng-model="billing.Billingidciudad" ng-change="billingidciudadChange()" required>
 							<option ng-repeat="ciudad in form.billingCiudades" value="{{ciudad.idciudad}}">{{ciudad.ciudad}}</option>
 						</select>
 						<select ng-model="billing.Billingidurbanizacion" required>
@@ -32,10 +32,10 @@
 					<form name="shippingForm" class="trendieform">
 					<div ng-show="util.diferentes">
 						<input type="text" placeholder="Nombre Completo" ng-model="shipping.ShipToName" required>
-						<select ng-model="shipping.ShipToidestado" ng-change="ShipToidestadoChange()" required>
+						<select ng-model="shipping.ShipToidestado" ng-change="shipToidestadoChange()" required>
 							<option ng-repeat="estado in form.estados" value="{{estado.idestado}}">{{estado.estado}}</option>
 						</select>
-						<select ng-model="shipping.ShipToidciudad" ng-change="ShipToidciudadChange()" required>
+						<select ng-model="shipping.ShipToidciudad" ng-change="shipToidciudadChange()" required>
 							<option ng-repeat="ciudad in form.shippingCiudades" value="{{ciudad.idciudad}}">{{ciudad.ciudad}}</option>
 						</select>
 						<select ng-model="shipping.ShipToidurbanizacion" required>

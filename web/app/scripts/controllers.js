@@ -1,3 +1,6 @@
+/* globals angular:false, menuCategory, afterLoad, hacerSlideHome */
+'use strict';
+
 angular.module('trendy.controllers', [])
 
 .controller('AppCtrl', ['$scope', 'ngDialog', 'Auth', '$location',
@@ -11,14 +14,14 @@ angular.module('trendy.controllers', [])
 
 	$scope.logOut = function(){
 		Auth.clearCredentials();
-		$location.path('/')
+		$location.path('/');
 	};
 
 }])
 
 .controller('LoginCtrl', ['$scope', 'LoginService', 'Auth', 'nProductosEnCarritoService', '$rootScope', 'ngDialog',
 	function($scope, LoginService, Auth, nProductosEnCarritoService, $rootScope, ngDialog){
-	
+
 	$scope.user = {};
 
 	$scope.util = {loading: false, boton: 'Entrar', message: false};
@@ -34,7 +37,7 @@ angular.module('trendy.controllers', [])
 						token: data.token,
 						nombre: data.nombre,
 						email: $scope.user.email
-					});	
+					});
 					nProductosEnCarritoService.get().$promise.then(
 						function(n){
 							$rootScope.productosCarrito = n.cantidad;
@@ -43,7 +46,8 @@ angular.module('trendy.controllers', [])
 						ngDialog.close();
 					});
 		}, function(err){
-			$scope.util = {loading: false, boton: 'Entrar', message :'Email o contraseña invalidos'};
+			console.log(err);
+			$scope.util = {loading: false, boton: 'Entrar', message: 'Email o contraseña invalidos'};
 		});
 	};
 }])
@@ -62,18 +66,18 @@ angular.module('trendy.controllers', [])
 		.then(
 			function(data){
 					Auth.saveCredentials({
-						nombre:$scope.user.nombre,
+						nombre: $scope.user.nombre,
 						email: $scope.user.email,
 						token: data.token,
 						id: data.idusuario
 					});
 					ngDialog.close();
 				$scope.util = {loading: false, boton: 'Registrarse', message: false};
-			},function(err){
+			}, function(err){
+				console.log(err);
 				$scope.util = {loading: false, boton: 'Registrarse', message: 'Ya existe un usuario con ese email'};
-			}
-		);	
-	}
+			});
+	};
 
 
 }])
@@ -87,7 +91,7 @@ angular.module('trendy.controllers', [])
 
 	$scope.page = 1;
 
-	CategoriasInicioService.query({pagina:$scope.page, limite:10}).$promise
+	CategoriasInicioService.query({pagina: $scope.page, limite: 10}).$promise
 	.then(function(categorias){
 		$scope.categorias = $scope.categorias.concat(categorias);
 		$scope.loading = false;
@@ -101,7 +105,7 @@ angular.module('trendy.controllers', [])
 	}, function(err){
 		console.log(err);
 		$scope.loading = false;
-	})	
+	});
 
 }])
 
@@ -117,7 +121,7 @@ angular.module('trendy.controllers', [])
 	$scope.page = 1;
 
 
-	CategoriasInicioService.query({pagina:1, limite:100}).$promise
+	CategoriasInicioService.query({pagina: 1, limite: 100}).$promise
 	.then(function(categorias){
 		$scope.categorias = categorias;
 		$timeout(function(){
@@ -125,15 +129,15 @@ angular.module('trendy.controllers', [])
 		}, 10);
 		$timeout(function(){
 			afterLoad();
-		},100);
+		}, 100);
 	});
 
 
-	CategoriaService.get({idcategoria:$stateParams.id}).$promise
+	CategoriaService.get({idcategoria: $stateParams.id}).$promise
 	.then(function(categoria){
 		$scope.loading = false;
 		$scope.categoria = categoria;
-		ProductosCategoriaService.query({idcategoria:$stateParams.id, pagina:$scope.page, limite:8}).$promise
+		ProductosCategoriaService.query({idcategoria: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
 		.then(function(productos){
 			$scope.loadingprod = false;
 			$scope.productos = $scope.productos.concat(productos);
@@ -144,27 +148,27 @@ angular.module('trendy.controllers', [])
 			} else {
 				$scope.moreDataCanBeLoaded = true;
 			}
-		})
+		});
 	}, function(err){
 		$scope.loading = false;
 		$scope.loadingprod = false;
 		console.log(err);
-	})
+	});
 
 	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
-		ProductosCategoriaService.query({idcategoria:$stateParams.id, pagina:$scope.page, limite:8}).$promise
+		ProductosCategoriaService.query({idcategoria: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
 		.then(function(productos){
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
-			if (productos.length < 8) $scope.moreDataCanBeLoaded = false;
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
 			$scope.productos = $scope.productos.concat(productos);
 			$scope.page++;
 		}, function(err){
 			console.log(err);
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 		});
-	};	
+	};
 }])
 .controller('SingleCtrl', ['$sce', '$scope', 'SingleService', 'ProductosRelacionadosService', 'agregarProductoService', '$rootScope', 'desfavoritearService', 'favoritearService', '$stateParams', '$timeout', 'ngDialog', 'nProductosEnCarritoService',
 	function($sce, $scope, SingleService, ProductosRelacionadosService, agregarProductoService, $rootScope, desfavoritearService, favoritearService, $stateParams, $timeout, ngDialog, nProductosEnCarritoService){
@@ -184,28 +188,28 @@ angular.module('trendy.controllers', [])
 
 		$scope.producto = producto;
 		$scope.producto.bigimg = producto.fotos[0].foto;
-		$scope.producto.descripcion_prod = $sce.trustAsHtml(producto.descripcion_prod)
+		$scope.producto.descripcionProd = $sce.trustAsHtml(producto.descripcion_prod);
 		$scope.producto.cantidad = '';
 		$scope.loading = false;
 
 		$timeout(function(){
 			afterLoad();
-		},100)
-		
+		}, 100);
+
 
 		ProductosRelacionadosService.query({
-			idcategoria:producto.idcategoria, 
-			idproducto: $stateParams.id, 
-			pagina:$scope.page, 
+			idcategoria: producto.idcategoria,
+			idproducto: $stateParams.id,
+			pagina: $scope.page,
 			iddisenador: $scope.producto.iddisenador,
-			limite:8 }
+			limite: 8 }
 		).$promise
 		.then(function(relacionados){
 
 			if (relacionados.length < 8) {
 				$scope.moreDataCanBeLoaded = false;
 			} else {
-				$relacionados.moreDataCanBeLoaded = true;
+				$scope.moreDataCanBeLoaded = true;
 			}
 
 			$scope.relacionados = relacionados;
@@ -214,7 +218,7 @@ angular.module('trendy.controllers', [])
 	}, function(err){
 		$scope.loading = false;
 		console.log(err);
-	})
+	});
 
 	$scope.ponerThumb = function($index){
 		$scope.producto.bigimg = $scope.producto.fotos[$index].foto;
@@ -224,28 +228,28 @@ angular.module('trendy.controllers', [])
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
 		ProductosRelacionadosService.query({
-			idcategoria:$scope.producto.idcategoria, 
-			idproducto: $stateParams.id, 
-			pagina:$scope.page, 
+			idcategoria: $scope.producto.idcategoria,
+			idproducto: $stateParams.id,
+			pagina: $scope.page,
 			iddisenador: $scope.producto.iddisenador,
-			limite:8 }
+			limite: 8 }
 		).$promise
 		.then(function(relacionados){
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
-			if (relacionados.length < 8) $scope.moreDataCanBeLoaded = false;
+			if (relacionados.length < 8) { $scope.moreDataCanBeLoaded = false; }
 			$scope.relacionados = $scope.relacionados.concat(relacionados);
 			$scope.page++;
 		}, function(err){
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 			console.log(err);
-		})
-	}
+		});
+	};
 
 	$scope.tallaChanged = function(talla){
 		$scope.tallaSelected = talla;
 		if ($scope.producto.tallas[talla].existencia > 0) {
 			$scope.cantidad = [];
-			for (var i = 1; i <= $scope.producto.tallas[talla].existencia; i++) { 
+			for (var i = 1; i <= $scope.producto.tallas[talla].existencia; i++) {
 				$scope.cantidad.push(i.toString());
 			}
 		} else {
@@ -253,41 +257,41 @@ angular.module('trendy.controllers', [])
 		}
 		$timeout(function(){
 			$scope.producto.cantidad = $scope.cantidad[0];
-		},0);
-	}
+		}, 0);
+	};
 
 	var enviar;
 	$scope.favorite = function(fav){
 
 		if ($rootScope.globals.currentUser) {
-			if (fav.favoriteado == 0) {
+			if (fav.favoriteado === 0) {
 				fav.favoriteado = 1;
 			} else {
 				fav.favoriteado = 0;
-			};
+			}
 			$timeout.cancel(enviar);
 
 			enviar = $timeout(function(){
-				if (fav.favoriteado == 0 ){
-					desfavoritearService.save({idproducto:parseInt($stateParams.id)}).$promise
+				if (fav.favoriteado === 0 ){
+					desfavoritearService.save({idproducto: parseInt($stateParams.id)}).$promise
 					.then({}, function(err){
-						fav.favoriteado = 1
+						console.log(err);
+						fav.favoriteado = 1;
 					});
 				} else {
-					favoritearService.save({idproducto:parseInt($stateParams.id)}).$promise
+					favoritearService.save({idproducto: parseInt($stateParams.id)}).$promise
 					.then({}, function(err){
-						fav.favoriteado = 0
+						console.log(err);
+						fav.favoriteado = 0;
 					});
 				}
 			}, 1000);
 		} else {
-			// var dialog = 
+			// var dialog =
 			ngDialog.open({ template: 'views/loginTemplate.html', className: 'ngdialog-theme-default' });
 			// dialog.closePromise.then(function () {});
 		}
-	}
-
-
+	};
 	$scope.enviarAlCarrito = function(){
 
 		if ($rootScope.globals.currentUser) {
@@ -298,7 +302,7 @@ angular.module('trendy.controllers', [])
 				nProductosEnCarritoService.get().$promise.then(
 					function(n){
 						$rootScope.productosCarrito = n.cantidad;
-					})
+					});
 			}, function(err){
 				console.log(err);
 			});
@@ -312,13 +316,13 @@ angular.module('trendy.controllers', [])
 					nProductosEnCarritoService.get().$promise.then(
 						function(n){
 							$rootScope.productosCarrito = n.cantidad;
-						})
+						});
 				}, function(err){
 					console.log(err);
 				});
 			});
 		}
-	}
+	};
 
 }])
 .controller('DisenadoresCtrl', ['$scope', 'DisenadoresService', '$timeout',
@@ -328,7 +332,7 @@ angular.module('trendy.controllers', [])
 	$scope.disenadores = [];
 	$scope.loading = true;
 
-	DisenadoresService.query({pagina:$scope.page, limite:10}).$promise
+	DisenadoresService.query({pagina: $scope.page, limite: 10}).$promise
 	.then(function(disenadores){
 		$scope.disenadores = $scope.disenadores.concat(disenadores);
 		$scope.page++;
@@ -347,13 +351,13 @@ angular.module('trendy.controllers', [])
 		console.log(err);
 	});
 
-	
+
 	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
-		DisenadoresService.query({pagina:$scope.page, limite:10}).$promise
+		DisenadoresService.query({pagina: $scope.page, limite: 10}).$promise
 		.then(function(disenadores){
-			if (disenadores.length == 0) $scope.moreDataCanBeLoaded = false;
+			if (disenadores.length === 0) { $scope.moreDataCanBeLoaded = false; }
 			$scope.disenadores = $scope.disenadores.concat(disenadores);
 			$scope.page++;
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
@@ -361,10 +365,10 @@ angular.module('trendy.controllers', [])
 			console.log(err);
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 		});
-	}		
+	};
 
 }])
-.controller('DisenadorCtrl', ['$timeout','$scope', '$stateParams', 'DisenadorSingleService', 'ProductosDisenadoresService', '$sce',
+.controller('DisenadorCtrl', ['$timeout', '$scope', '$stateParams', 'DisenadorSingleService', 'ProductosDisenadoresService', '$sce',
 	function($timeout, $scope, $stateParams, DisenadorSingleService, ProductosDisenadoresService, $sce){
 	$scope.page = 1;
 	$scope.loading = true;
@@ -374,14 +378,14 @@ angular.module('trendy.controllers', [])
 	DisenadorSingleService.get({iddisenador: $stateParams.id}).$promise
 	.then(function(disenador){
 		$scope.disenador = disenador;
-		$scope.disenador.descripcion_dis = $sce.trustAsHtml(disenador.descripcion_dis);
+		$scope.disenador.descripcionDis = $sce.trustAsHtml(disenador.descripcion_dis);
 		$scope.loading = false;
 
 		$timeout(function(){
 			afterLoad();
 		}, 100);
 
-		ProductosDisenadoresService.query({iddisenador:$stateParams.id, pagina:$scope.page, limite:8}).$promise
+		ProductosDisenadoresService.query({iddisenador: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
 		.then(function(productos){
 			$scope.productos = $scope.productos.concat(productos);
 			$scope.page++;
@@ -401,9 +405,9 @@ angular.module('trendy.controllers', [])
 	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
-		ProductosDisenadoresService.query({iddisenador:$stateParams.id, pagina:$scope.page, limite:8}).$promise
+		ProductosDisenadoresService.query({iddisenador: $stateParams.id, pagina: $scope.page, limite: 8}).$promise
 		.then(function(productos){
-			if (productos.length < 8) $scope.moreDataCanBeLoaded = false;
+			if (productos.length < 8) { $scope.moreDataCanBeLoaded = false; }
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 			$scope.productos = $scope.productos.concat(productos);
 			$scope.page++;
@@ -411,7 +415,7 @@ angular.module('trendy.controllers', [])
 			console.log(err);
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 		});
-	}
+	};
 }])
 .controller('WishlistCtrl', ['$scope', 'WishlistService', 'desfavoritearService', '$timeout',
 	function($scope, WishlistService, desfavoritearService, $timeout){
@@ -421,12 +425,12 @@ angular.module('trendy.controllers', [])
 
 	$scope.wishlist = [];
 
-	WishlistService.query({pagina:$scope.page, limite:8}).$promise
+	WishlistService.query({pagina: $scope.page, limite: 8}).$promise
 	.then(function(wishlist){
 		$scope.loading = false;
 		$timeout(function(){
-			$scope.wishlist = $scope.wishlist.concat(wishlist);	
-		},1);
+			$scope.wishlist = $scope.wishlist.concat(wishlist);
+		}, 1);
 
 		if (wishlist.length < 8) {
 			$scope.moreDataCanBeLoaded = false;
@@ -436,25 +440,25 @@ angular.module('trendy.controllers', [])
 
 		$timeout(function(){
 			afterLoad();
-		},100);	
+		}, 100);
 
 		$scope.page++;
 	}, function(err){
 		console.log(err);
-	})
+	});
 
 	$scope.remove = function($index) {
 		desfavoritearService.save({idproducto: parseInt($scope.wishlist[$index].idproducto)});
-		$scope.wishlist.splice($index,1);
-	}
+		$scope.wishlist.splice($index, 1);
+	};
 
 	$scope.moreDataCanBeLoaded = true;
 	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
 	$scope.loadMore = function(){
 		$scope.loadingMore = {loading: true, boton: 'Cargando...'};
-		WishlistService.query({pagina:$scope.page, limite:8}).$promise
+		WishlistService.query({pagina: $scope.page, limite: 8}).$promise
 		.then(function(wishlist){
-			if (wishlist.length < 8) $scope.moreDataCanBeLoaded = false;
+			if (wishlist.length < 8) { $scope.moreDataCanBeLoaded = false; }
 			$scope.wishlist = $scope.wishlist.concat(wishlist);
 			$scope.page++;
 			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
@@ -476,17 +480,17 @@ angular.module('trendy.controllers', [])
 
 	$scope.getNumber = function(num) {
 		return new Array(parseInt(num));
-	}
+	};
 
 	productosEnCarritoService.get().$promise.then(
 		function(carrito){
 			$scope.carrito = carrito.productos || [];
 			$scope.cantidad = parseInt(carrito.cantidad);
 			$scope.loading = false;
-			
+
 			$timeout(function(){
 				afterLoad();
-			},100);	
+			}, 100);
 		}, function(err){
 			console.log(err);
 		});
@@ -500,67 +504,7 @@ angular.module('trendy.controllers', [])
 			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 					$rootScope.productosCarrito = n.cantidad;
-					if (n.cantidad == 0) {
-						productosEnCarritoService.get().$promise.then(
-							function(carrito){
-								$scope.carrito = carrito.productos || [];
-								$scope.cantidad = parseInt(carrito.cantidad);
-							}, function(err){
-								console.log(err);
-							});
-					}					
-				});
-		}, function(err){
-			producto.cantidad = +producto.cantidad-1;
-			console.log(err);
-		});
-
-
-	}
-
-
-	$scope.addItem = function(producto){
-
-		producto.cantidad = +producto.cantidad+1;
-
-
-		agregarProductoService.save({
-			idtalla: producto.idtalla,
-			cantidad: producto.cantidad
-		}).$promise.then(function(){
-			nProductosEnCarritoService.get().$promise.then(
-				function(n){
-					$rootScope.productosCarrito = n.cantidad;
-					if (n.cantidad == 0) {
-						productosEnCarritoService.get().$promise.then(
-							function(carrito){
-								$scope.carrito = carrito.productos || [];
-								$scope.cantidad = parseInt(carrito.cantidad);
-							}, function(err){
-								console.log(err);
-							});
-					}					
-				});
-		}, function(err){
-			producto.cantidad = +producto.cantidad-1;
-			console.log(err);
-		});
-
-	}
-
-	$scope.removeItem = function(producto){
-
-		producto.cantidad = +producto.cantidad-1
-		if (!dev) $cordovaToast.show('Artículo Eliminado', 'long', 'bottom');
-
-		agregarProductoService.save({
-			idtalla: producto.idtalla,
-			cantidad: producto.cantidad
-		}).$promise.then(function(){
-			nProductosEnCarritoService.get().$promise.then(
-				function(n){
-					$rootScope.productosCarrito = n.cantidad;
-					if (n.cantidad == 0) {
+					if (n.cantidad === 0) {
 						productosEnCarritoService.get().$promise.then(
 							function(carrito){
 								$scope.carrito = carrito.productos || [];
@@ -569,12 +513,72 @@ angular.module('trendy.controllers', [])
 								console.log(err);
 							});
 					}
-				});	
+				});
 		}, function(err){
-			producto.cantidad = +producto.cantidad+1;
+			producto.cantidad = +producto.cantidad - 1;
 			console.log(err);
-		})
-	}
+		});
+
+
+	};
+
+
+	$scope.addItem = function(producto){
+
+		producto.cantidad = +producto.cantidad + 1;
+
+
+		agregarProductoService.save({
+			idtalla: producto.idtalla,
+			cantidad: producto.cantidad
+		}).$promise.then(function(){
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+					if (n.cantidad === 0) {
+						productosEnCarritoService.get().$promise.then(
+							function(carrito){
+								$scope.carrito = carrito.productos || [];
+								$scope.cantidad = parseInt(carrito.cantidad);
+							}, function(err){
+								console.log(err);
+							});
+					}
+				});
+		}, function(err){
+			producto.cantidad = +producto.cantidad - 1;
+			console.log(err);
+		});
+
+	};
+
+	$scope.removeItem = function(producto){
+
+		producto.cantidad = +producto.cantidad - 1;
+
+
+		agregarProductoService.save({
+			idtalla: producto.idtalla,
+			cantidad: producto.cantidad
+		}).$promise.then(function(){
+			nProductosEnCarritoService.get().$promise.then(
+				function(n){
+					$rootScope.productosCarrito = n.cantidad;
+					if (n.cantidad === 0) {
+						productosEnCarritoService.get().$promise.then(
+							function(carrito){
+								$scope.carrito = carrito.productos || [];
+								$scope.cantidad = parseInt(carrito.cantidad);
+							}, function(err){
+								console.log(err);
+							});
+					}
+				});
+		}, function(err){
+			producto.cantidad = +producto.cantidad + 1;
+			console.log(err);
+		});
+	};
 
 	$scope.removeItemFull = function(producto){
 
@@ -587,7 +591,7 @@ angular.module('trendy.controllers', [])
 			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 					$rootScope.productosCarrito = n.cantidad;
-				if (n.cantidad == 0) {
+				if (n.cantidad === 0) {
 					productosEnCarritoService.get().$promise.then(
 						function(carrito){
 							$scope.carrito = carrito.productos || [];
@@ -595,13 +599,13 @@ angular.module('trendy.controllers', [])
 						}, function(err){
 							console.log(err);
 						});
-				}				
-				});	
+				}
+				});
 		}, function(err){
 			producto.cantidad = +producto.cantidad;
 			console.log(err);
-		})
-	}	
+		});
+	};
 
 
 }])
@@ -612,7 +616,7 @@ angular.module('trendy.controllers', [])
 
 	$scope.loading = true;
 
-	$scope.util = {diferentes : false};
+	$scope.util = {diferentes: false};
 	$scope.shipping = {};
 	$scope.billing = {};
 	$scope.form = {};
@@ -624,7 +628,7 @@ angular.module('trendy.controllers', [])
 
 			$timeout(function(){
 				afterLoad();
-			},100);
+			}, 100);
 
 			$scope.loading = false;
 
@@ -637,85 +641,85 @@ angular.module('trendy.controllers', [])
 					// $timeout(function(){
 						$scope.util.diferentes = true;
 
-						$scope.BillingidestadoChange(function(){
-						})
-						$scope.$apply(function(){
-							$scope.BillingidestadoChange();	
+						$scope.billingidestadoChange(function(){
 						});
-						
-						$scope.BillingidciudadChange(function(){
+						$scope.$apply(function(){
+							$scope.billingidestadoChange();
+						});
+
+						$scope.billingidciudadChange(function(){
 
 						});
 						$scope.$apply(function(){
-							$scope.BillingidciudadChange();	
+							$scope.billingidciudadChange();
 						});
-						$scope.ShipToidestadoChange(function(){
-						})
+						$scope.shipToidestadoChange(function(){
+						});
 						$scope.$apply(function(){
-							$scope.ShipToidestadoChange();	
+							$scope.shipToidestadoChange();
 						});
-						
-						$scope.ShipToidciudadChange(function(){
+
+						$scope.shipToidciudadChange(function(){
 
 						});
 						$scope.$apply(function(){
-							$scope.ShipToidciudadChange();	
-						});						
+							$scope.shipToidciudadChange();
+						});
 					// },20)
 				} else {
-						$scope.BillingidestadoChange(function(){
+						$scope.billingidestadoChange(function(){
 							// console.log('hey');
-						})
-						$scope.$apply(function(){
-							$scope.BillingidestadoChange();	
 						});
-						
-						$scope.BillingidciudadChange(function(){
+						$scope.$apply(function(){
+							$scope.billingidestadoChange();
+						});
+
+						$scope.billingidciudadChange(function(){
 
 						});
 						$scope.$apply(function(){
-							$scope.BillingidciudadChange();	
+							$scope.billingidciudadChange();
 						});
 				}
-			},20)
-				
+			}, 20);
+
 
 		});
 
-	})	
+	});
 
 	$scope.igualChange = function(){
 		$timeout(function(){
 			afterLoad();
-		},100);
-	}
+		}, 100);
+	};
 
-	$scope.BillingidestadoChange = function(cb){
-		ciudadesService.query({idestado:$scope.billing.Billingidestado}).$promise.then(function(ciudades){
+	$scope.billingidestadoChange = function(cb){
+		ciudadesService.query({idestado: $scope.billing.Billingidestado}).$promise.then(function(ciudades){
 			$scope.form.billingCiudades = ciudades;
-			if (cb) cb();
-		})
-	}
+			if (cb) { cb(); }
+		});
+	};
 
-	$scope.BillingidciudadChange = function(cb){
-		urbanizacionesService.query({idciudad:$scope.billing.Billingidciudad}).$promise.then(function(urbanizaciones){
+	$scope.billingidciudadChange = function(cb){
+		urbanizacionesService.query({idciudad: $scope.billing.Billingidciudad}).$promise.then(function(urbanizaciones){
 			$scope.form.billingUrbanizaciones = urbanizaciones;
-			if (cb) cb();
-		})
-	}
-	$scope.ShipToidestadoChange = function(cb){
-		ciudadesService.query({idestado:$scope.shipping.ShipToidestado}).$promise.then(function(ciudades){
+			if (cb) { cb(); }
+		});
+	};
+	$scope.shipToidestadoChange = function(cb){
+		ciudadesService.query({idestado: $scope.shipping.ShipToidestado}).$promise.then(function(ciudades){
 			$scope.form.shippingCiudades = ciudades;
-			if (cb) cb();
-		})
-	}
+			if (cb) { cb(); }
+		});
+	};
 
-	$scope.ShipToidciudadChange = function(cb){
-		urbanizacionesService.query({idciudad:$scope.shipping.ShipToidciudad}).$promise.then(function(urbanizaciones){
+	$scope.shipToidciudadChange = function(cb){
+		urbanizacionesService.query({idciudad: $scope.shipping.ShipToidciudad}).$promise.then(function(urbanizaciones){
 			$scope.form.shippingUrbanizaciones = urbanizaciones;
-			if (cb) cb();
-		})
-	}	
+			if (cb) { cb(); }
+		});
+	};
 
 
 
@@ -732,7 +736,7 @@ angular.module('trendy.controllers', [])
 			Billingidurbanizacion: billing.Billingidurbanizacion,
 			BillingAddress: billing.BillingAddress,
 			BillingPhone: billing.BillingPhone
-		}
+		};
 
 		if ($scope.util.diferentes) {
 			var shipping = $scope.shipping;
@@ -740,8 +744,8 @@ angular.module('trendy.controllers', [])
 			direcciones.ShipToidestado = shipping.ShipToidestado;
 			direcciones.ShipToidciudad = shipping.ShipToidciudad;
 			direcciones.ShipToidurbanizacion = shipping.ShipToidurbanizacion;
-			direcciones.ShipToAddress= shipping.ShipToAddress;
-			direcciones.ShipToPhone= shipping.ShipToPhone;
+			direcciones.ShipToAddress = shipping.ShipToAddress;
+			direcciones.ShipToPhone = shipping.ShipToPhone;
 		} else {
 			// var shipping = $scope.billing;
 			direcciones.ShipToName = billing.BillingName;
@@ -752,17 +756,17 @@ angular.module('trendy.controllers', [])
 			direcciones.ShipToPhone = billing.BillingPhone;
 		}
 
-		
+
 		$scope.loading = true;
 		guardaDireccionesService.save(direcciones).$promise.then(function(){
 			// $ionicLoading.hide();
-			$location.path('/checkout')
+			$location.path('/checkout');
 		}, function(err){
 			$scope.loading = false;
 			console.log(err);
-		})
+		});
 
-	}
+	};
 
 
 }])
@@ -770,7 +774,7 @@ angular.module('trendy.controllers', [])
 .controller('CheckoutCtlr', ['$rootScope', '$scope', 'guardaDireccionesService', 'checkoutService', '$location', 'nProductosEnCarritoService', '$timeout',
 	function($rootScope, $scope, guardaDireccionesService, checkoutService, $location, nProductosEnCarritoService, $timeout){
 
-	$scope.orden = {}
+	$scope.orden = {};
 	$scope.loading = true;
 
 	guardaDireccionesService.get().$promise.then(
@@ -785,7 +789,7 @@ angular.module('trendy.controllers', [])
 		}, function(err){
 			console.log(err);
 			$scope.loading = false;
-		})
+		});
 
 	$scope.pagarTransferencia = function(){
 		$scope.loading = true;
@@ -794,14 +798,14 @@ angular.module('trendy.controllers', [])
 			nProductosEnCarritoService.get().$promise.then(
 				function(n){
 				$rootScope.productosCarrito = n.cantidad;
-			})
-		
+			});
+
 			$location.path('/pagar-transferencia');
 		}, function(err){
 			$scope.loading = false;
 			console.log(err);
 		});
-	}
+	};
 
 }])
 
@@ -836,30 +840,30 @@ angular.module('trendy.controllers', [])
 
 		$scope.ccard.tipo = 'tc';
 
-		checkoutService.save($scope.ccard).$promise.then(function(card_res){
+		checkoutService.save($scope.ccard).$promise.then(function(cardRes){
 			$scope.loading = false;
 
 			$timeout(function(){
 				afterLoad();
 			}, 100);
 
-			if(card_res.respuesta === 'Aprobada' ) {
+			if(cardRes.respuesta === 'Aprobada' ) {
 				$scope.respuesta = 'Transacción Aprobada';
-				$scope.voucher = $sce.trustAsHtml(card_res.voucher);
+				$scope.voucher = $sce.trustAsHtml(cardRes.voucher);
 				nProductosEnCarritoService.get().$promise.then(
 					function(n){
 					$rootScope.productosCarrito = n.cantidad;
-				})
+				});
 			} else {
 				$scope.respuesta = 'Transacción Rechazada';
-				$scope.voucher = $sce.trustAsHtml(card_res.voucher);
+				$scope.voucher = $sce.trustAsHtml(cardRes.voucher);
 			}
 		}, function(err){
 			$scope.loading = false;
 			console.log(err);
 		});
 
-	}
+	};
 }])
 
 .controller('TransferenciaCtrl', ['$scope', 'bancosService', '$timeout',
@@ -889,7 +893,7 @@ angular.module('trendy.controllers', [])
 	$scope.loading = true;
 	$scope.monto = {};
 	$scope.bancos = [];
-	$scope.trans = {}
+	$scope.trans = {};
 
 	bancosService.query().$promise.then(
 		function(bancos){
@@ -922,10 +926,10 @@ angular.module('trendy.controllers', [])
 				$location.path('/');
 			});
 		}, function(err){
+			console.log(err);
 			$scope.loading = false;
 		});
-	}
-
+	};
 }])
 
 .controller('MisOrdenesCtrl', ['$scope', 'misOrdenesService', '$timeout',
@@ -944,7 +948,7 @@ angular.module('trendy.controllers', [])
 		function(err){
 			$scope.loading = false;
 			console.log(err);
-		})
+		});
 }])
 .controller('OrderSingleCtrl', ['$scope', 'ordenSingleService', '$stateParams', '$timeout',
 	function($scope, ordenSingleService, $stateParams, $timeout){
@@ -964,6 +968,5 @@ angular.module('trendy.controllers', [])
 		}, function(err){
 			console.log(err);
 			$scope.loading = false;
-		})
-
-}])
+		});
+}]);

@@ -40,7 +40,7 @@
 						</form>
 					</div>
 					<div class="content">
-						<div ng-bind-html="producto.descripcion_prod"></div>
+						<div ng-bind-html="producto.descripcionProd"></div>
 						<button class="buy-button" ng-disabled="!tallaSelected || producto.cantidad == 0 || producto.cantidad=='' " ng-click="enviarAlCarrito()">
 							Comprar
 						</button>

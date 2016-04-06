@@ -1,3 +1,6 @@
+/* globals angular:false */
+'use strict';
+
 angular.module('gotrendy', [
 	'trendy.controllers',
 	'ui.router',
@@ -6,16 +9,16 @@ angular.module('gotrendy', [
 	'ngDialog',
 	'credit-cards'])
 
-	.run(['$rootScope', '$localstorage', '$http', 
+	.run(['$rootScope', '$localstorage', '$http',
 		function($rootScope, $localstorage, $http){
-    		
-    		$rootScope.semilla = Math.floor(Math.random()*10000);
-    		$rootScope.globals = $localstorage.getObject('globals') || {};
+
+			$rootScope.semilla = Math.floor(Math.random() * 10000);
+			$rootScope.globals = $localstorage.getObject('globals') || {};
 
 
-    		if ($rootScope.globals.currentUser){
-    			$http.defaults.headers.common['Token'] = $rootScope.globals.currentUser.token;
-    		};
+			if ($rootScope.globals.currentUser){
+				$http.defaults.headers.common.Token = $rootScope.globals.currentUser.token;
+			}
 
 	}])
 	.config(['$stateProvider', '$urlRouterProvider',
@@ -108,7 +111,7 @@ angular.module('gotrendy', [
 					}
 				})
 				.state('pagoTarjeta', {
-					url: '/pago-tarjeta', 
+					url: '/pago-tarjeta',
 					views: {
 						'full': {
 							templateUrl: 'views/pago-tarjeta.html',
@@ -151,5 +154,5 @@ angular.module('gotrendy', [
 							controller: 'OrderSingleCtrl'
 						}
 					}
-				})
+				});
 	}]);
