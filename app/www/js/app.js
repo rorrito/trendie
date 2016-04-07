@@ -2,7 +2,7 @@ var MD5=function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){va
 
 angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers', 'ngResource', 'angular-carousel', 'credit-cards', 'ngCordova'])
 
-.run(function($ionicPlatform, $rootScope, $localstorage, $http, $location, elIdService) {
+.run(function($ionicPlatform, $rootScope, $localstorage, $http, $location, elIdService, $state) {
 
 //go-trendy-app 
 
@@ -39,7 +39,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
     user = Ionic.User.current();
     if (user.isAuthenticated()) {
       // console.log('is auth');
-      // hacerTokenPush();
+      hacerTokenPush();
     } else {
 
         var details = {
@@ -79,7 +79,7 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
         onNotification: function(notification){
           console.log(notification);
           if (!notification._raw.additionalData.foreground ) {
-            $state.go(notification._payload.state, JSON.parse(notification._payload.stateParams));
+              $state.go(notification._payload.state, notification._payload.stateParams.id);
           }
         },
         "pluginConfig": {

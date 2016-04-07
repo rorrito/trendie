@@ -27,7 +27,7 @@ angular.module('trendie.controllers')
   }
 }])
 
-.factory('Auth', function($localstorage, $rootScope, $http, elIdService){
+.factory('Auth', function($localstorage, $rootScope, $http, elIdService, $state){
 	return {
 		saveCredentials: function(data){
 
@@ -45,7 +45,7 @@ angular.module('trendie.controllers')
         Ionic.Auth.login('basic', { remember: true }, details).then(
           function(userlogged){
             user = Ionic.User.current();
-            hacerTokenPush()
+            hacerTokenPush();
           },function(err){
               if (err.response.body.meta.status === 401) {
                 Ionic.Auth.signup(details).then(
@@ -73,7 +73,7 @@ angular.module('trendie.controllers')
             onNotification: function(notification){
               console.log(notification);
               if (!notification._raw.additionalData.foreground ) {
-                $state.go(notification._payload.state, JSON.parse(notification._payload.stateParams));
+                $state.go(notification._payload.state, notification._payload.stateParams.id);
               }
             },
             "pluginConfig": {
