@@ -1,0 +1,24 @@
+<ion-view class="wishlist carrito checkout">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>
+	<!-- <pre>{{orden | json}}</pre> -->
+		<div class="empty padding" ng-if="mensajes.length < 1 && !loading" >
+			<h1>No tienes ningun mensaje aún</h1>
+		</div>
+		<ion-list>
+    		<ion-item class="item item-avatar_" ng-repeat="mensaje in mensajes" ng-class="{'noleido item-icon-right ': mensaje.estado === 'N'}" ng-click="goToMensaje(mensaje)">
+    			<h2>{{mensaje.titulo}}</h2>
+    			<p>{{mensaje.cuerpo}}</p>
+    			<i class="icon ion-record" ng-if="mensaje.estado === 'N'"></i>
+    		</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

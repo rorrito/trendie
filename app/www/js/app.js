@@ -287,6 +287,15 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       }
     }
   })
+  .state('app.notificaciones', {
+    url: '/notificaciones',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/notificaciones.html',
+        controller: 'NotificacionesCtrl'
+      }
+    }
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');

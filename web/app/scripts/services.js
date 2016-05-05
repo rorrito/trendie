@@ -1,7 +1,7 @@
 /* globals angular: false */
 'use strict';
 
-var url = 'http://www.papayainteriordesign.com/sites/gotrendyapp/services/';
+var url = "http://gotrendyapp.com/restapi/";
 
 angular.module('trendy.controllers')
 .factory('UserService', function(){
@@ -115,6 +115,9 @@ angular.module('trendy.controllers')
 .factory('direccionActualService', ['$resource', function($resource){
 	return $resource(url + 'direccionactual');
 }])
+.factory('ultimasDireccionesService', function($resource){
+  return $resource(url+'ultimasdirecciones');
+})
 .factory('bancosService', ['$resource', function($resource){
 	return $resource(url + 'bancos');
 }])

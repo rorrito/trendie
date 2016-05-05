@@ -6,7 +6,7 @@ angular.module('trendy.controllers', [])
 .controller('AppCtrl', ['$scope', 'ngDialog', 'Auth', '$location',
 	function($scope, ngDialog, Auth, $location){
 
-	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
+	$scope.imagesUrl = 'http://gotrendyapp.com/fotos/';
 
 	$scope.loginLb = function(){
 		ngDialog.open({ template: 'views/loginTemplate.html', className: 'ngdialog-theme-default' });

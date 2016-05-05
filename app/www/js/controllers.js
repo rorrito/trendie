@@ -1,11 +1,11 @@
-var dev = false;
+var dev = true;
 
 angular.module('trendie.controllers', [])
 
 .controller('AppCtrl', function($scope, $window, $location, Auth, $ionicHistory, $ionicPopup, 
-	$rootScope, nProductosEnCarritoService, productosEnCarritoService) {
+	$rootScope, nProductosEnCarritoService, productosEnCarritoService, numeroMensajesService) {
 	
-	$scope.imagesUrl = 'http://www.papayainteriordesign.com/sites/gotrendyapp/fotos/';
+	$scope.imagesUrl = 'http://gotrendyapp.com/fotos/';
 
 	$scope.appAncho = $window.innerWidth;
 
@@ -15,6 +15,10 @@ angular.module('trendie.controllers', [])
 			function(n){
 			$rootScope.productosCarrito = n.cantidad;
 		})
+		numeroMensajesService.get().$promise.then(
+			function(n){
+				$rootScope.mensajesNuevos = n.total;
+			})
 	}
 
 	$scope.logout = function(){
@@ -889,7 +893,33 @@ angular.module('trendie.controllers', [])
 		});
 
 	}
+})
+.controller('NotificacionesCtrl', function($scope, mensajesService, $location){
+	$scope.mensajes = [];
+	$scope.loading = true;
 
+	mensajesService.query().$promise
+	.then(function(mensajes){
+		$scope.loading = false;
+		$scope.mensajes = mensajes;
+	});
+
+	$scope.goToMensaje = function(mensaje) {
+
+		if ( mensaje.estado === 'N' ){
+			mensajesService.save({idmensaje: mensaje.idmensaje});
+		};
+
+		if (mensaje.seccion === 'categoria') {
+			$location.path('/app/categoria/'+mensaje.parametros);
+		};
+		if (mensaje.seccion === 'disenador') {
+			$location.path('/app/disenador/'+mensaje.parametros);
+		};
+		if (mensaje.seccion === 'producto') {
+			$location.path('/app/single/'+mensaje.parametros);
+		};
+	}
 })
 .controller('BloCtrl', function($scope){
 

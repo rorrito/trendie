@@ -12,9 +12,9 @@
 		<!-- <pre>{{categorias | json}}</pre> -->
 		<div>
 			<div class="categoria home-animation" ng-repeat="categoria in categorias" ng-animate-children>
-				<div class="big" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}">
+				<div class="big" ng-style="{width:appAncho+'px', height:appAncho+'px'}">
 					<a href="#/app/categoria/{{categoria.idcategoria}}">
-						<img ng-src="{{imagesUrl}}categorias/{{categoria.foto_cat}}" alt="">
+						<img ng-src="{{imagesUrl}}categorias/m/tn/{{categoria.foto_cat}}" alt="">
 						<h1>{{categoria.nombre_cat}}</h1>
 					</a>
 				</div>
