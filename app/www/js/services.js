@@ -210,3 +210,9 @@ angular.module('trendie.controllers')
 .factory('numeroMensajesService', function($resource){
   return $resource(url+'numero_mensajes');
 })
+.factory('blogService', function($resource){
+  return $resource(url+'blog');
+})
+.factory('postService', function($resource){
+  return $resource(url+'post');
+})

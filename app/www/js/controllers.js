@@ -921,6 +921,45 @@ angular.module('trendie.controllers', [])
 		};
 	}
 })
-.controller('BloCtrl', function($scope){
+.controller('BlogCtrl', function($scope, blogService, $state){
+	$scope.posts = [];
+	$scope.loading = true;
+	$scope.page = 1;
 
+	blogService.query({pagina:$scope.page, limite:10}).$promise
+	.then(function(posts){
+		$scope.posts = posts;
+		console.log(posts)
+		$scope.loading = false;
+		$scope.page++;
+	});
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		blogService.query({pagina:$scope.page, limite:10}).$promise
+		.then(function(posts){
+			if (posts.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.categorias = $scope.posts.concat(posts);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	}
+
+	$scope.goToPost = function(id) {
+		$state.go('app.post', {id: id});
+	};
+})
+.controller('PostCtrl', function($scope, postService, $stateParams) {
+	$scope.post = {};
+	$scope.loading = true;
+
+	postService.get({idpost: $stateParams.id}).$promise
+	.then(function(post){
+		$scope.post = post;
+		console.log(post)
+		$scope.loading = false;
+	});
 })

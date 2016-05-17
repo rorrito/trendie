@@ -10,14 +10,18 @@
 	</ion-pane>	
 	<ion-content>
 		<!-- <pre>{{disenadores | json}}</pre> -->
-		<div >
-			<div class="categoria disenadores-animation" ng-repeat="disenador in disenadores">
-				<div class="big" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}">
-					<a href="#/app/disenador/{{disenador.iddisenador}}">
-						<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="">
-						<h1>{{disenador.nombre_dis}}</h1>
-					</a>
-				</div>
+		<div class="row" ng-if="$even" ng-repeat="disenador in disenadores" class="rowdisenadores">
+			<div class="col-50 col disenador">
+				<a href="#/app/disenador/{{disenadores[$index].iddisenador}}">
+					<img ng-src="{{imagesUrl}}disenadores/{{disenadores[$index].avatar_dis}}" alt="">
+					<h1>{{disenadores[$index].nombre_dis}}</h1>
+				</a>
+			</div>
+			<div class="col-50 col disenador" ng-if="disenadores[$index+1]">
+				<a href="#/app/disenador/{{disenadores[$index+1].iddisenador}}">
+					<img ng-src="{{imagesUrl}}disenadores/{{disenadores[$index+1].avatar_dis}}" alt="">
+					<h1>{{disenadores[$index+1].nombre_dis}}</h1>
+				</a>
 			</div>
 		</div>
 	<ion-infinite-scroll

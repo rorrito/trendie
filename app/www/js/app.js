@@ -211,6 +211,15 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       }
     }
   })
+  .state('app.post', {
+    url: '/post/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/post.html',
+        controller: 'PostCtrl'
+      }
+    }
+  })
   .state('app.carrito', {
     url: '/carrito',
     cache: false,

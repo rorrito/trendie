@@ -12,20 +12,13 @@
 		<div class="titulo">
 			<h1>Blog</h1>
 		</div>
-		<div class="post" ng-repeat="post in posts" ng-click="goToPost(post.idpost)">
+		<div class="post">
 			<img ng-src="{{imagesUrl}}/blog/{{post.foto}}" alt="">
 			<div class="padding">
 				<h1>{{post.titulo}}</h1>
-				<div class="resume" ng-bind-html="post.resumen"></div>
+				<div class="resume" ng-bind-html="post.cuerpo"></div>
 				<a class="button button-icon icon ion-share"></a>
 			</div>
-		</div>
-	<ion-infinite-scroll
-		ng-if="moreDataCanBeLoaded && page>1"
-		on-infinite="loadMore()"
-		immediate-check="false"
-		spinner="dots"
-		distance="1%">
-	</ion-infinite-scroll>		
+		</div>	
 	</ion-content>
 </ion-view>

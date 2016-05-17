@@ -10209,6 +10209,23 @@ a.button {
 .login100 {
   height: 100%; }
 
+.disenadores .disenador a {
+  text-decoration: none; }
+
+.disenadores .disenador img {
+  width: 70%;
+  border-radius: 50%;
+  margin: 20px auto 0;
+  display: block; }
+
+.disenadores .disenador h1 {
+  font-family: "OpenSans";
+  color: #57828C;
+  font-weight: 300;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 5px; }
+
 .disenadores-animation {
   transition: all ease-in-out 300ms; }
   .disenadores-animation.ng-enter {
@@ -10334,6 +10351,78 @@ a.button {
 
 .item-content span {
   color: #808080; }
+
+.misordenes h2 {
+  font-size: 20px;
+  font-family: "OpenSans";
+  font-weight: 300;
+  color: #666; }
+
+.misordenes h3 {
+  font-size: 15px;
+  font-family: "OpenSans";
+  font-weight: 300;
+  color: #999; }
+
+.misordenes h4 {
+  font-size: 15px;
+  font-family: "OpenSans";
+  font-weight: 300;
+  color: #999;
+  margin-top: 20px; }
+  .misordenes h4.proceso {
+    color: #999; }
+  .misordenes h4.Esperando {
+    color: #FD858C; }
+  .misordenes h4.Aprobada {
+    color: #57828C; }
+
+.blog .post {
+  padding-bottom: 40px; }
+  .blog .post img {
+    max-width: 100%; }
+  .blog .post h1 {
+    font-family: "OpenSans";
+    font-size: 25px;
+    font-weight: 300;
+    color: #666666; }
+  .blog .post p {
+    font-family: "OpenSans";
+    font-size: 14px;
+    font-weight: 300;
+    color: #666666; }
+
+.dis_single .header_dis {
+  position: relative; }
+  .dis_single .header_dis > img {
+    width: 100%; }
+  .dis_single .header_dis .avatar {
+    position: absolute;
+    bottom: -40px;
+    width: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.3); }
+    .dis_single .header_dis .avatar img {
+      max-width: 100%;
+      display: block; }
+
+.dis_single h1.dis_title {
+  font-family: "OpenSans";
+  font-size: 28px;
+  font-weight: 300;
+  color: #57828C;
+  text-transform: uppercase;
+  padding: 40px 15px 0; }
+  .dis_single h1.dis_title .social {
+    float: left; }
+    .dis_single h1.dis_title .social a {
+      border-radius: 16px;
+      padding-bottom: 0;
+      min-height: 28px;
+      line-height: 24px; }
 
 .divvoucher {
   padding: 20px 0; }

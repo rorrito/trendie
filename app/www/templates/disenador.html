@@ -1,4 +1,4 @@
-<ion-view class="home">
+<ion-view class="home dis_single">
 	<ion-nav-title>
 		<div class="hlogo">
 			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
@@ -11,10 +11,20 @@
 	<!-- <pre>{{disenador |json }}</pre> -->
 		<div>
 			<div class="categoria">
-				<div class="big cover-animation" ng-style="{width:appAncho+'px', height:appAncho*181/345+'px'}" ng-if="disenador.avatar_dis">
-					<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="">
-					<h1>{{disenador.nombre_dis}}</h1>
+				<div class="header_dis" ng-if="disenador.avatar_dis">
+					<img ng-src="{{imagesUrl}}disenadores/m/{{disenador.fondo_dis}}" alt="">
+					<div class="avatar">
+						<img ng-src="{{imagesUrl}}disenadores/{{disenador.avatar_dis}}" alt="">
+					</div>
 				</div>
+					<h1 class="dis_title">
+						{{disenador.nombre_dis}}
+						<span class="social">
+							<a class="button button-small button-balanced icon ion-social-twitter"></a>
+							<a class="button button-small button-balanced icon ion-social-facebook"></a>
+							<a class="button button-small button-balanced icon ion-social-instagram"></a>
+						</span>
+					</h1>
 				<div class="padding">
 					<p ng-bind-html="disenador.descripcion_dis"></p>
 				</div>
