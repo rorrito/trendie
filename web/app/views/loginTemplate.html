@@ -1,5 +1,5 @@
-	<div id="loginlb">
-		<div class="login" ng-controller="LoginCtrl">
+	<div id="loginlb" class="clearfix">
+		<div class="login box" ng-controller="LoginCtrl">
 			<h1>Login</h1>
 			<div ng-if="util.message">
 				<h2>{{util.message}}</h2>
@@ -10,7 +10,7 @@
 				<button type="submit" ng-disabled="loginForm.$invalid || util.loading" >{{util.boton}}</button>
 			</form>
 		</div>
-		<div class="signup" ng-submit="doSignup()" ng-controller="SignupCtrl">
+		<div class="signup box" ng-submit="doSignup()" ng-controller="SignupCtrl">
 			<h1>Registro</h1>
 			<div ng-if="util.message">
 				<h2>{{util.message}}</h2>
