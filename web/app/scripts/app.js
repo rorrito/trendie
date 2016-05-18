@@ -146,6 +146,24 @@ angular.module('gotrendy', [
 						}
 					}
 				})
+				.state('blog', {
+					url: '/blog',
+					views: {
+						'full': {
+							templateUrl: 'views/blog.html',
+							controller: 'BlogCtrl'
+						}
+					}
+				})
+				.state('post', {
+					url: '/post/:id',
+					views: {
+						'full': {
+							templateUrl: 'views/post.html',
+							controller: 'PostCtrl'
+						}
+					}
+				})
 				.state('orden', {
 					url: '/orden/:id',
 					views: {

@@ -9,7 +9,8 @@
 				<div class="box" ng-repeat="disenador in disenadores">
 					<a href="#/disenador/{{disenador.iddisenador}}" title="{{disenador.nombre_dis}}">
 						<div class="img">
-							<img ng-src="{{imagesUrl}}productos/{{disenador.avatar_dis}}" alt="{{disenador.nombre_dis}}">
+							<img ng-src="{{imagesUrl}}disenadores/{{disenador.avatar_dis}}" alt="{{disenador.nombre_dis}}">
+							<h1>{{disenador.nombre_dis}}</h1>
 						</div>
 					</a>
 				</div>

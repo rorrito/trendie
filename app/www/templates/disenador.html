@@ -20,9 +20,9 @@
 					<h1 class="dis_title">
 						{{disenador.nombre_dis}}
 						<span class="social">
-							<a class="button button-small button-balanced icon ion-social-twitter"></a>
-							<a class="button button-small button-balanced icon ion-social-facebook"></a>
-							<a class="button button-small button-balanced icon ion-social-instagram"></a>
+							<a ng-click="goSocial('twitter')" ng-if="disenador.twitter" class="button button-small button-balanced icon ion-social-twitter"></a>
+							<a ng-click="goSocial('facebook')" ng-if="disenador.facebook" class="button button-small button-balanced icon ion-social-facebook"></a>
+							<a ng-click="goSocial('instagram')" ng-if="disenador.instagram" class="button button-small button-balanced icon ion-social-instagram"></a>
 						</span>
 					</h1>
 				<div class="padding">

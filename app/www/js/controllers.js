@@ -256,6 +256,20 @@ angular.module('trendie.controllers', [])
 		});
 	}
 
+	$scope.goSocial = function(web) {
+		var url;
+		if (web === 'twitter') {
+			url = 'https://twitter.com/' + $scope.disenador.twitter;
+		}
+		if (web === 'facebook') {
+			url = 'https://facebook.com/' + $scope.disenador.facebook;
+		}
+		if (web === 'instagram') {
+			url = 'https://instagram.com/' + $scope.disenador.instagram;
+		}
+    	window.open(url,'_system');
+	}
+
 })
 .controller('CategoriaCtrl', function($scope, $ionicScrollDelegate,  ProductosCategoriaService, CategoriaService, $stateParams){
 	$scope.categoria = {};
@@ -921,7 +935,7 @@ angular.module('trendie.controllers', [])
 		};
 	}
 })
-.controller('BlogCtrl', function($scope, blogService, $state){
+.controller('BlogCtrl', function($scope, blogService, $state, $cordovaSocialSharing){
 	$scope.posts = [];
 	$scope.loading = true;
 	$scope.page = 1;
@@ -929,7 +943,6 @@ angular.module('trendie.controllers', [])
 	blogService.query({pagina:$scope.page, limite:10}).$promise
 	.then(function(posts){
 		$scope.posts = posts;
-		console.log(posts)
 		$scope.loading = false;
 		$scope.page++;
 	});
@@ -948,18 +961,47 @@ angular.module('trendie.controllers', [])
 		});
 	}
 
-	$scope.goToPost = function(id) {
+	$scope.goToPost = function(id, $event) {
+  		$event.stopPropagation();
 		$state.go('app.post', {id: id});
 	};
+	$scope.SShare = function(id){
+		var message = null;
+		var subject = null;
+		var file = null;
+		var link = 'http://gotrendyapp.com/#/post/' + id;
+
+		$cordovaSocialSharing
+			.share(message, subject, file, link)
+			.then(function(result) {
+				if (!dev) $cordovaToast.show('Articulo Compartido', 'long', 'bottom');
+			}, function(err) {
+				if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
+		});
+	}	
 })
-.controller('PostCtrl', function($scope, postService, $stateParams) {
+.controller('PostCtrl', function($scope, postService, $stateParams, $cordovaSocialSharing) {
 	$scope.post = {};
 	$scope.loading = true;
 
 	postService.get({idpost: $stateParams.id}).$promise
 	.then(function(post){
 		$scope.post = post;
-		console.log(post)
 		$scope.loading = false;
 	});
+
+	$scope.SShare = function(id){
+		var message = null;
+		var subject = null;
+		var file = null;
+		var link = 'http://gotrendyapp.com/#/post/' + id;
+
+		$cordovaSocialSharing
+			.share(message, subject, file, link)
+			.then(function(result) {
+				if (!dev) $cordovaToast.show('Articulo Compartido', 'long', 'bottom');
+			}, function(err) {
+				if (!dev) $cordovaToast.show('Ha Ocurrido un error', 'long', 'bottom');
+		});
+	}	
 })

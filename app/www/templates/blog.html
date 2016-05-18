@@ -17,7 +17,7 @@
 			<div class="padding">
 				<h1>{{post.titulo}}</h1>
 				<div class="resume" ng-bind-html="post.resumen"></div>
-				<a class="button button-icon icon ion-share"></a>
+				<a class="button button-icon icon ion-share" ng-click="SShare(post.idpost, $event)"></a>
 			</div>
 		</div>
 	<ion-infinite-scroll

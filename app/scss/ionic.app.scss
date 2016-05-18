@@ -851,9 +851,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		font-weight: 300;
 		color: #57828C;
 		text-transform: uppercase;
-		padding: 40px 15px 0;
+		padding: 40px 115px 0 15px;
+		position: relative;
 		.social {
-			float:left;
+			position: absolute;
+			width: 100px;
+			top: 40px;
+			right: 15px;
 			a {
 				border-radius: 16px;
 				padding-bottom: 0;

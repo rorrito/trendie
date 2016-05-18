@@ -1128,4 +1128,64 @@ angular.module('trendy.controllers', [])
 			console.log(err);
 			$scope.loading = false;
 		});
+}])
+
+.controller('BlogCtrl', ['$scope', 'blogService', '$timeout', function($scope, blogService, $timeout){
+	$scope.loading = true;
+	$scope.posts = [];
+	$scope.page = 1;
+
+	blogService.query({pagina: $scope.page, limite: 10}).$promise
+	.then(function(posts){
+		$scope.posts = posts;
+		$scope.loading = false;
+		$scope.page++;
+		$timeout(function(){
+			afterLoad();
+		}, 100);
+	});
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		blogService.query({pagina: $scope.page, limite: 10}).$promise
+		.then(function(posts){
+			if (posts.length === 0) {
+				$scope.moreDataCanBeLoaded = false;
+			}
+			$scope.categorias = $scope.posts.concat(posts);
+			$scope.page++;
+			$timeout(function(){
+				afterLoad();
+			}, 100);
+		}, function(err){
+			console.log(err);
+		});
+	};
+
+}])
+.controller('PostCtrl', ['$scope', 'postService', '$stateParams', '$timeout', '$sce', 'blogService', function($scope, postService, $stateParams, $timeout, $sce, blogService){
+	$scope.loading = true;
+	$scope.posts = [];
+	$scope.page = 1;
+	$scope.post = {};
+
+	postService.get({idpost: $stateParams.id}).$promise
+	.then(function(post){
+		$scope.post = post;
+		$scope.post.cuerpo = $sce.trustAsHtml(post.cuerpo);
+		$scope.loading = false;
+		$timeout(function(){
+			afterLoad();
+		}, 100);
+	});
+
+	blogService.query({pagina: 1, limite: 3, idpost: $stateParams.id}).$promise
+	.then(function(posts){
+		$scope.posts = posts;
+		$scope.page++;
+		$timeout(function(){
+			afterLoad();
+		}, 100);
+	});
+
 }]);

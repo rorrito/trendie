@@ -1,0 +1,38 @@
+<div class="loadingtime" ng-if="loading">
+	<span aria-hidden="true" class="icon_loading animate360"></span>
+</div>
+<main id="main-content" class="single">
+	<section id="blog" class="section">
+		<div class="wrapper">
+			<div class="header clearfix">
+				<h2 class="title">Nuestro Blog</h2>
+				<section class="social">
+					<a href="" class="tw"><span aria-hidden="true" class="social_twitter"></span></a>
+					<a href="" class="ig"><span aria-hidden="true" class="social_instagram"></span></a>
+					<a href="" class="fc"><span aria-hidden="true" class="social_facebook"></span></a>
+				</section>
+			</div>
+			<div class="blogposts row clearfix">
+				<article class="box" ng-repeat="post in posts">
+					<div class="inner">
+						<div class="img">
+							<a ui-sref="post({id: post.idpost})">
+								<img ng-src="{{imagesUrl}}/blog/{{post.foto}}" alt="">
+							</a>
+						</div>
+						<div class="content">
+							<!-- <h4><a href="">Summer</a></h4> -->
+							<h3><a ui-sref="post({id: post.idpost})">{{post.titulo}}</a></h3>
+							<div ng-bind-html="post.resumen"></div>
+						</div>
+						<div class="share-me">
+							<!-- <a class=""><span aria-hidden="true" class="icon_heart_alt"></span></a> -->
+							<a class="share-this"><span aria-hidden="true" class="social_share"></span></a>
+						</div>
+					</div>
+				</article>
+			</div>
+			<a class="next-btn" ng-if="moreDataCanBeLoaded" ng-click="loadMore()">Ver más <span aria-hidden="true" class="icon_plus_alt2"></span></a>
+		</div>
+	</section>
+</main>

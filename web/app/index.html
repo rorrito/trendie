@@ -54,7 +54,7 @@
 						<li ng-if="globals.currentUser" ui-sref-active="active"><a ui-sref="misOrdenes"><span aria-hidden="true" class="icon_genius"></span> <span class="text">Mi cuenta</span></a></li>
 						<li  ng-if="globals.currentUser" ui-sref-active="active"><a ui-sref="wishlist"><span aria-hidden="true" class="icon_heart_alt"></span> <span class="text">Wishlist</span></a></li>
 						<li ui-sref-active="active"><a ui-sref="disenadores"><span aria-hidden="true" class="icon_star_alt"></span> <span class="text">Diseñadores</span></a></li>
-						<li><a href="blog.html"><span aria-hidden="true" class="icon_comment_alt"></span> <span class="text">Blog</span></a></li>
+						<li ui-sref-active="blog"><a ui-sref="blog"><span aria-hidden="true" class="icon_comment_alt"></span> <span class="text">Blog</span></a></li>
 						<li ng-if="globals.currentUser" ui-sref-active="active"><a ui-sref="carrito"><span aria-hidden="true" class="icon_bag_alt"> <span class="bubble" ng-if="productosCarrito > 0">{{productosCarrito}}</span></span> <span class="text">Checkout</span></a></li>
 						<li ng-if="globals.currentUser"><a ng-click="logOut()"><span aria-hidden="true" class="icon_genius"></span> <span class="text">Salir</span></a></li>
 					</ul>
@@ -68,7 +68,7 @@
 				<li ng-if="globals.currentUser" ui-sref-active="active"><a ui-sref="misOrdenes"><span aria-hidden="true" class="icon_genius"></span> Mi cuenta</a></li>
 				<li  ng-if="globals.currentUser" ui-sref-active="active"><a ui-sref="wishlist"><span aria-hidden="true" class="icon_heart_alt"></span> Wishlist</a></li>
 				<li ui-sref-active="active"><a ui-sref="disenadores"><span aria-hidden="true" class="icon_star_alt"></span> Diseñadores</a></li>
-				<li><a href="blog.html"><span aria-hidden="true" class="icon_comment_alt"></span> Blog</a></li>
+				<li ui-sref-active="blog"><a ui-sref="blog"><span aria-hidden="true" class="icon_comment_alt"></span> <span class="text">Blog</span></a></li>
 				<li  ng-if="globals.currentUser" ui-sref-active="active"><a ui-sref="carrito"><span aria-hidden="true" class="icon_bag_alt"></span> Checkout</a></li>
 				<li ng-if="globals.currentUser"><a ng-click="logOut()"><span aria-hidden="true" class="icon_genius"></span> <span class="text">Salir</span></a></li>
 			</ul>

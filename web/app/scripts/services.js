@@ -1,7 +1,7 @@
 /* globals angular: false */
 'use strict';
 
-var url = "http://gotrendyapp.com/restapi/";
+var url = 'http://gotrendyapp.com/restapi/';
 
 angular.module('trendy.controllers')
 .factory('UserService', function(){
@@ -116,7 +116,7 @@ angular.module('trendy.controllers')
 	return $resource(url + 'direccionactual');
 }])
 .factory('ultimasDireccionesService', function($resource){
-  return $resource(url+'ultimasdirecciones');
+  return $resource(url + 'ultimasdirecciones');
 })
 .factory('bancosService', ['$resource', function($resource){
 	return $resource(url + 'bancos');
@@ -150,4 +150,10 @@ angular.module('trendy.controllers')
 }])
 .factory('elIdService', ['$resource', function($resource){
 	return $resource(url + 'gurdaridnotificaciones');
-}]);
+}])
+.factory('blogService', function($resource){
+  return $resource(url + 'blog');
+})
+.factory('postService', function($resource){
+  return $resource(url + 'post');
+});
