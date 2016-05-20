@@ -15,6 +15,15 @@ angular.module('gotrendy', [
 			$rootScope.semilla = Math.floor(Math.random() * 10000);
 			$rootScope.globals = $localstorage.getObject('globals') || {};
 
+			(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {
+					return;
+				}
+				js = d.createElement(s); js.id = id;
+				js.src = '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=';
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
 
 			if ($rootScope.globals.currentUser){
 				$http.defaults.headers.common.Token = $rootScope.globals.currentUser.token;

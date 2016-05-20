@@ -17,13 +17,13 @@
 					<div class="inner">
 						<div class="img">
 							<a ui-sref="post({id: post.idpost})">
-								<img ng-src="{{imagesUrl}}/blog/{{post.foto}}" alt="">
+								<img ng-src="{{imagesUrl}}/blog/w/tn/{{post.foto}}" alt="">
 							</a>
 						</div>
 						<div class="content">
 							<!-- <h4><a href="">Summer</a></h4> -->
 							<h3><a ui-sref="post({id: post.idpost})">{{post.titulo}}</a></h3>
-							<div ng-bind-html="post.resumen"></div>
+							<div ng-bind-html="post.resumen | unsafe"></div>
 						</div>
 						<div class="share-me">
 							<!-- <a class=""><span aria-hidden="true" class="icon_heart_alt"></span></a> -->

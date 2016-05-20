@@ -143,7 +143,7 @@ input { cursor: initial; }
 .disabled { opacity: .2 !important; cursor: default; pointer-events: none; }
 
 form input, form textarea, form select { display: block; width: 100%; height: 2.5rem; font-size: 1.125rem; line-height: 2; padding: 0 .85rem; margin: 0 0 .85rem; color: #666; background: none; border: 1px solid #ccc; }
-form select { width: auto; padding-right: 2rem; background: url('../img/selb.png') right .85rem center no-repeat; }
+form select { width: auto; padding-right: 2rem; background: url('../images/selb.png') right .85rem center no-repeat; }
 form textarea { height: 8rem; }
 form input { padding: 1px .85rem; }
 form input::-webkit-input-placeholder { color: #666; }
@@ -291,7 +291,7 @@ h3.lined:before { top: .9rem; }
 .storefront .sorting .option { margin: 0 2rem; }
 .storefront .sorting .option h4, .storefront .sorting .option select { font-family: 'Open Sans', sans-serif; font-size: 1.25rem; line-height: 1; font-weight: 300; color: #666; }
 .storefront .sorting .option h4 { padding-right: 1rem; margin-right: .45rem; border-right: 1px solid #ccc; }
-.storefront .sorting .option select { position: relative; width: auto; height: auto; -ms-text-align-last: center; -moz-text-align-last: center; text-align-last: center; border: none; padding-right: 1rem; background: url('../img/selp.png') right center no-repeat; }
+.storefront .sorting .option select { position: relative; width: auto; height: auto; -ms-text-align-last: center; -moz-text-align-last: center; text-align-last: center; border: none; padding-right: 1rem; background: url('../images/selp.png') right center no-repeat; }
 
 .storefront .title.clearfix .sorting { display: inline-block; float: right; }
 .storefront .title.clearfix .sorting .option:last-child { margin-right: 0; }
@@ -337,11 +337,11 @@ h3.lined:before { top: .9rem; }
 .shop-list .lined:before { top: .7rem; }
 .shop-list .shop-total { margin: 0 2.75%; }
 .shop-list .shop-total p { font-size: 1.5rem; color: #808080; margin: 1rem 0; }
-.shop-list .shop-total h3 { display: inline-block; font-size: 2.125rem; color: #57828C; margin: 0; padding: 1.5rem 4rem 0 0; background: url('../img/dash.png') left top repeat-x; }
+.shop-list .shop-total h3 { display: inline-block; font-size: 2.125rem; color: #57828C; margin: 0; padding: 1.5rem 4rem 0 0; background: url('../images/dash.png') left top repeat-x; }
 .bottom .storefront, .search-wrapper .storefront { width: 100%; float: none; clear: both; border: none; }
 .search-wrapper .storefront { margin-top: 3rem; }
 .single .item-main { position: relative; padding: 0 14.5%; }
-.single .item-main .item-nav a { display: block; position: absolute; top: 25%; width: 1.16rem; height: 3.625rem; text-indent: -999em; background: url('../img/arrows.png') left center no-repeat; background-size: cover; }
+.single .item-main .item-nav a { display: block; position: absolute; top: 25%; width: 1.16rem; height: 3.625rem; text-indent: -999em; background: url('../images/arrows.png') left center no-repeat; background-size: cover; }
 .single .item-main .item-nav .prev { left: 0; }
 .single .item-main .item-nav .next { right: 0; background-position: right center; }
 
@@ -357,7 +357,7 @@ h3.lined:before { top: .9rem; }
 .single .item-main .item-details .header h3 { margin: 0 0 1.8rem; }
 .single .item-main .item-details .header h2 { font-size: 2.25rem; margin: 0 0 .8rem; }
 .single .item-main .item-details .header h4 { font-size: 1.375rem; color: #666; margin: 0 0 1.5rem; }
-.single .item-main .item-details .header select { font-size: .9rem; line-height: 1; color: #999; text-transform: uppercase; padding: .38rem 2rem .38rem .5rem; border: 1px solid #ccc; -moz-border-radius: 0.313rem; -webkit-border-radius: 0.313rem; border-radius: 0.313rem; background: url('../img/selb.png') 89% center no-repeat; }
+.single .item-main .item-details .header select { font-size: .9rem; line-height: 1; color: #999; text-transform: uppercase; padding: .38rem 2rem .38rem .5rem; border: 1px solid #ccc; -moz-border-radius: 0.313rem; -webkit-border-radius: 0.313rem; border-radius: 0.313rem; background: url('../images/selb.png') 89% center no-repeat; }
 .single .item-main .item-details .content p { font-size: 0.938rem; font-weight: 400; color: #666; margin: 0 0 1rem; }
 .single .item-main .item-details .content p:last-of-type { margin-bottom: 2rem; }
 .single .item-main .item-details .actions { margin: 2rem 0 0; }
@@ -366,7 +366,7 @@ h3.lined:before { top: .9rem; }
 .checkout-main { padding: 5rem 0; width: 60%; margin: 0 auto; }
 .checkout-main .column { width: 50%; padding: 0 2.5%; float: left; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 .checkout-main .column .card { width: 100%; float: none; }
-.checkout-main .column p { font-size: 1.438rem; line-height: 1.8; color: #808080; margin: 0; padding-bottom: 1rem; background: url('../img/dash.png') left bottom repeat-x; }
+.checkout-main .column p { font-size: 1.438rem; line-height: 1.8; color: #808080; margin: 0; padding-bottom: 1rem; background: url('../images/dash.png') left bottom repeat-x; }
 .checkout-main .column h3 { font-size: 2rem; color: #57828C; margin: 1.8rem 0 3.3rem; }
 .checkout-main .column .buy-button:hover { color: #fff; background: #FD858C; }
 

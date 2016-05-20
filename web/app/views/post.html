@@ -5,7 +5,7 @@
 	<section id="blog">
 		<article class="blog-post">
 			<div class="img-banner">
-				<img ng-src="{{imagesUrl}}/blog/{{post.foto}}" alt="">
+				<img ng-src="{{imagesUrl}}/blog/w/{{post.foto}}" alt="">
 			</div>
 			<div class="wrapper">
 				<header>
@@ -16,10 +16,10 @@
 						<a class="share-this"><span aria-hidden="true" class="social_share"></span></a>
 					</div>
 				</header>
-				<div class="content" ng-bind-html="post.cuerpo">
+				<div class="content" ng-bind-html="post.cuerpo | unsafe">
 				</div>
 				<div class="comments">
-					<div class="fb-comments" data-href="http://ercra.com/trendie/single-blog.html" data-width="100%" data-numposts="5"></div>
+					<div class="fb-comments" data-href="http://gotrendyapp.com/#/post/{{post.idpost}}" data-width="100%" data-numposts="5"></div>
 				</div>
 			</div>
 		</article>
@@ -32,13 +32,13 @@
 					<div class="inner">
 						<div class="img">
 							<a ui-sref="post({id: post.idpost})">
-								<img ng-src="{{imagesUrl}}/blog/{{post.foto}}" alt="">
+								<img ng-src="{{imagesUrl}}/blog/w/tn/{{post.foto}}" alt="">
 							</a>
 						</div>
 						<div class="content">
 							<!-- <h4><a href="">Summer</a></h4> -->
 							<h3><a ui-sref="post({id: post.idpost})">{{post.titulo}}</a></h3>
-							<div ng-bind-html="post.resumen"></div>
+							<div ng-bind-html="post.resumen | unsafe"></div>
 						</div>
 						<div class="share-me">
 							<!-- <a class=""><span aria-hidden="true" class="icon_heart_alt"></span></a> -->

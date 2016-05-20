@@ -151,9 +151,15 @@ angular.module('trendy.controllers')
 .factory('elIdService', ['$resource', function($resource){
 	return $resource(url + 'gurdaridnotificaciones');
 }])
-.factory('blogService', function($resource){
+.factory('blogService', ['$resource', function($resource){
   return $resource(url + 'blog');
-})
-.factory('postService', function($resource){
+}])
+.factory('postService', ['$resource', function($resource){
   return $resource(url + 'post');
-});
+}])
+.factory('sliderService', ['$resource', function($resource){
+  return $resource(url + 'banners1');
+}])
+.factory('bannerService', ['$resource', function($resource){
+  return $resource(url + 'banners2');
+}]);

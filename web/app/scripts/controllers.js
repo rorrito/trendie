@@ -1,7 +1,9 @@
-/* globals angular:false, menuCategory, afterLoad, hacerSlideHome */
+/* globals angular:false, menuCategory, afterLoad, hacerSlideHome, FB */
 'use strict';
 
 angular.module('trendy.controllers', [])
+
+.filter('unsafe', ['$sce', function($sce) { return $sce.trustAsHtml; }])
 
 .controller('AppCtrl', ['$scope', 'ngDialog', 'Auth', '$location',
 	function($scope, ngDialog, Auth, $location){
@@ -82,14 +84,27 @@ angular.module('trendy.controllers', [])
 
 }])
 
-.controller('HomeCtlr', ['$scope', 'CategoriasInicioService', '$timeout', function($scope, CategoriasInicioService, $timeout){
+.controller('HomeCtlr', ['$scope', 'CategoriasInicioService', 'sliderService', 'bannerService', '$timeout', '$state',
+	function($scope, CategoriasInicioService, sliderService, bannerService, $timeout, $state){
 
 
 	$scope.categorias = [];
+	$scope.slides = [];
+	$scope.banners = [];
 
 	$scope.loading = true;
 
 	$scope.page = 1;
+
+	sliderService.query().$promise
+	.then(function(slides){
+		$scope.slides = slides;
+	});
+
+	bannerService.get().$promise
+	.then(function(banners){
+		$scope.banners = banners;
+	});
 
 	CategoriasInicioService.query({pagina: $scope.page, limite: 10}).$promise
 	.then(function(categorias){
@@ -106,6 +121,10 @@ angular.module('trendy.controllers', [])
 		console.log(err);
 		$scope.loading = false;
 	});
+
+	$scope.goToSlide = function(slide) {
+		$state.go(slide.seccion, {id: slide.parametros});
+	};
 
 }])
 
@@ -1172,8 +1191,8 @@ angular.module('trendy.controllers', [])
 	postService.get({idpost: $stateParams.id}).$promise
 	.then(function(post){
 		$scope.post = post;
-		$scope.post.cuerpo = $sce.trustAsHtml(post.cuerpo);
 		$scope.loading = false;
+		FB.XFBML.parse();
 		$timeout(function(){
 			afterLoad();
 		}, 100);
