@@ -153,6 +153,9 @@ angular.module('trendie.controllers')
 .factory('ProductosDisenadoresService',function($resource, $rootScope) {
 	return $resource(url+'productosdisenadores?semilla='+$rootScope.semilla);
 })
+.factory('SearchService',function($resource, $rootScope) {
+  return $resource(url+'buscar?semilla='+$rootScope.semilla);
+})
 .factory('WishlistService',function($resource, $rootScope) {
 	return $resource(url+'wishlist');
 })

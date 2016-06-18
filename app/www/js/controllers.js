@@ -1005,3 +1005,24 @@ angular.module('trendie.controllers', [])
 		});
 	}	
 })
+.controller('SearchCtrl', function($scope, SearchService){
+
+	$scope.buscar = '';
+	$scope.productos = [];
+	$scope.noResults = '';
+
+	$scope.goBuscar = function(){
+		$scope.loading = true;
+		$scope.productos = [];
+		$scope.noResults = '';
+		SearchService.query({txtBuscar: $scope.buscar})
+		.$promise.then(function(productos){
+			$scope.productos = productos;
+			$scope.loading = false;
+			if (productos.length < 1) {
+				$scope.noResults = 'No hay resultados para '+$scope.buscar;
+			}
+		});
+	}
+})
+

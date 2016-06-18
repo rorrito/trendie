@@ -296,6 +296,15 @@ angular.module('trendie', ['ionic', 'ionic.service.core', 'trendie.controllers',
       }
     }
   })
+  .state('app.search', {
+    url: '/search',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/search.html',
+        controller: 'SearchCtrl'
+      }
+    }
+  })
   .state('app.notificaciones', {
     url: '/notificaciones',
     views: {

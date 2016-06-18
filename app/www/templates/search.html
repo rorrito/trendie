@@ -1,0 +1,42 @@
+<ion-header-bar class="bar bar-subheader item-input-inset fixed">
+  <label class="item-input-wrapper">
+    <i class="icon ion-android-search placeholder-icon"></i>
+    <input type="search" placeholder="" ng-model="buscar">
+  </label>
+  <button class="button button-clear" ng-click="goBuscar()">
+    Buscar
+  </button>
+</ion-header-bar>
+<ion-view class="wishlist search">
+	<ion-nav-title>
+		<div class="hlogo">
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
+		</div>
+	</ion-nav-title>
+
+	<ion-pane ng-if="loading" class="loading">
+		<ion-spinner></ion-spinner>
+	</ion-pane>	
+	<ion-content>		
+		<div class="empty padding" ng-if="noResults" >
+			<h1>{{noResults}}</h1>
+		</div>
+		<div class="relacionadas">
+			<div class="relitem" ng-repeat="relacionado in productos">
+				<a href="#/app/single/{{relacionado.idproducto}}">
+					<img ng-src="{{imagesUrl}}productos/{{relacionado.fotoportada}}" alt="">
+					<h2>{{relacionado.nombre_dis}}</h2>
+					<h1>{{relacionado.nombre_prod}}</h1>
+					<h3>Bs. {{relacionado.precio_desc | number:0}}</h3>
+				</a>
+			</div>
+		</div>
+		<ion-infinite-scroll
+			ng-if="moreDataCanBeLoaded && page>1"
+			on-infinite="loadMore()"
+			immediate-check="false"
+			spinner="dots"
+			distance="1%">
+		</ion-infinite-scroll>
+	</ion-content>
+</ion-view>

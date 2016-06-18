@@ -2,7 +2,7 @@
   <ion-side-menu-content>
     <ion-nav-bar class="bar-light">
       <ion-nav-back-button class="button button-clear button-bag">
-        <i></i><img src="images/back.png" alt="">
+        <i></i><img src="img/back.png" alt="">
       </ion-nav-back-button>
 
       <ion-nav-buttons side="left">
@@ -10,11 +10,12 @@
         </button>
       </ion-nav-buttons>
       <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-ios-search-strong button-royal">
-        </button>
+      <a href="#/app/search" class="button button-icon button-clear ion-ios-search-strong button-royal">
+        
+      </a>
         <a class="button button-clear button-bag" href="#/app/carrito">
           <span class="badge badge-balanced itemscarrito" ng-if="productosCarrito > 0">{{productosCarrito}}</span>
-          <img src="images/bag.png" alt="">
+          <img src="img/bag.png" alt="">
         </a>
       </ion-nav-buttons>      
     </ion-nav-bar>
@@ -25,28 +26,28 @@
     <ion-content class="sidemenu">
       <ion-list class='sidemenusin'>
         <ion-item menu-close href="#/app/home">
-          <img src="images/mail.png" alt="">Home
+          <img src="img/home.svg" alt="">Inicio
         </ion-item>
         <ion-item menu-close href="#/app/notificaciones">
-          <img src="images/mail.png" alt="">Mensajes <span class="badge badge-balanced">{{mensajesNuevos}}</span>
+          <img src="img/mail.png" alt="">Mensajes <span class="badge badge-balanced">{{mensajesNuevos}}</span>
         </ion-item>
 <!--         <ion-item menu-close href="#/app/home">
-          <img src="images/mail.png" alt="">Perfil
+          <img src="img/mail.png" alt="">Perfil
         </ion-item> -->
         <ion-item menu-close href="#/app/wishlist">
-          <img src="images/whishlist.png" alt="">Wishlist
+          <img src="img/wishlist.svg" alt="">Favoritos
         </ion-item>
         <ion-item menu-close href="#/app/blog">
-          <img src="images/blog.png" alt="">Blog
+          <img src="img/blog.svg" alt="">Blog
         </ion-item>
         <ion-item menu-close href="#/app/disenadores">
-          <img src="images/disenadores.png" alt="">Diseñadores
+          <img src="img/disenadores.svg" alt="">Diseñadores
         </ion-item>
         <ion-item menu-close href="#/app/carrito">
-          <img src="images/checkout.png" alt="">Carrito
+          <img src="img/bag.svg" alt="">Carrito
         </ion-item>
         <ion-item menu-close href="#/app/mis-ordenes">
-          <img src="images/checkout.png" alt="">Historial
+          <img src="img/checkout.png" alt="">Historial
         </ion-item>
         <ion-item menu-close ng-click="logout()" href="">
           Salir

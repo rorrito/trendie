@@ -1,7 +1,7 @@
 <ion-view class="blog">
 	<ion-nav-title>
 		<div class="hlogo">
-			<a href="#/app/home"><img src="images/logo_big.png" alt=""></a>
+			<a href="#/app/home"><img src="img/logo_big.png" alt=""></a>
 		</div>
 	</ion-nav-title>
 
@@ -12,7 +12,7 @@
 		<div class="titulo">
 			<h1>Blog</h1>
 		</div>
-		<div class="post" ng-repeat="post in posts" ng-click="goToPost(post.idpost)">
+		<div class="post" ng-repeat="post in posts" ng-click="goToPost(post.idpost, $event)">
 			<img ng-src="{{imagesUrl}}/blog/{{post.foto}}" alt="">
 			<div class="padding">
 				<h1>{{post.titulo}}</h1>
