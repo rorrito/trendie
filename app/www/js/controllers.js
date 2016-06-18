@@ -1015,14 +1015,30 @@ angular.module('trendie.controllers', [])
 		$scope.loading = true;
 		$scope.productos = [];
 		$scope.noResults = '';
-		SearchService.query({txtBuscar: $scope.buscar})
+		$scope.page = 1;
+		SearchService.query({txtBuscar: $scope.buscar, pagina:$scope.page, limite:10})
 		.$promise.then(function(productos){
 			$scope.productos = productos;
 			$scope.loading = false;
+			$scope.page++;
 			if (productos.length < 1) {
 				$scope.noResults = 'No hay resultados para '+$scope.buscar;
 			}
 		});
 	}
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		SearchService.query({txtBuscar: $scope.buscar, pagina:$scope.page, limite:10}).$promise
+		.then(function(productos){
+			if (productos.length == 0) $scope.moreDataCanBeLoaded = false;
+			$scope.productos = $scope.productos.concat(productos);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.page++;
+		}, function(err){
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log(err);
+		});
+	}	
 })
 

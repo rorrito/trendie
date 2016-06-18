@@ -1,0 +1,28 @@
+<main id="main-content" class="single">
+	<section id="search-results" class="section">
+		<div class="wrapper">
+			<div class="search-wrapper">
+				<h2 class="title">Resultados de la búsqueda: {{texto}}</h2>
+				<div class="storefront">
+					<div class="itemlist row clearfix">
+						<div class="box" ng-repeat="producto in productos">
+							<a href="#/producto/{{producto.idproducto}}">
+								<div class="img">
+									<img ng-src="{{imagesUrl}}productos/{{producto.fotoportada}}"  alt="Imagen de {{producto.nombre_prod}}" />
+								</div>
+								<div class="text">
+									<div class="item-brand">{{producto.nombre_dis}}</div>
+									<div class="item-name">{{producto.nombre_prod}}</div>
+									<div class="item-price"><span class="sale">Bs. {{producto.precio | number:0}}</span>Bs. {{producto.precio_desc | number:0}}</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded && !loading">
+		<span aria-hidden="true" ng-class="{'arrow_carrot-down': !loadingMore.loading, 'icon_loading animate360': loadingMore.loading}"></span> {{loadingMore.boton}}
+	</a>
+</main>

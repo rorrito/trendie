@@ -88,6 +88,9 @@ angular.module('trendy.controllers')
 .factory('ProductosDisenadoresService', ['$resource', '$rootScope', function($resource, $rootScope) {
 	return $resource(url + 'productosdisenadores?semilla=' + $rootScope.semilla);
 }])
+.factory('SearchService', ['$resource', '$rootScope', function($resource, $rootScope) {
+	return $resource(url + 'buscar?semilla=' + $rootScope.semilla);
+}])
 .factory('WishlistService', ['$resource', function($resource) {
 	return $resource(url + 'wishlist');
 }])

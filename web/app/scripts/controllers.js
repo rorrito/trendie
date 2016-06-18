@@ -5,10 +5,19 @@ angular.module('trendy.controllers', [])
 
 .filter('unsafe', ['$sce', function($sce) { return $sce.trustAsHtml; }])
 
-.controller('AppCtrl', ['$scope', 'ngDialog', 'Auth', '$location',
-	function($scope, ngDialog, Auth, $location){
+.controller('AppCtrl', ['$scope', 'ngDialog', 'Auth', '$location', '$state',
+	function($scope, ngDialog, Auth, $location, $state){
 
 	$scope.imagesUrl = 'http://gotrendyapp.com/fotos/';
+
+	$scope.searchActive = false;
+	$scope.openSearch = function(){
+		$scope.searchActive = true;
+	};
+	$scope.closeSearch = function(){
+		$scope.searchActive = false;
+	};
+
 
 	$scope.loginLb = function(){
 		ngDialog.open({ template: 'views/loginTemplate.html', className: 'ngdialog-theme-default' });
@@ -17,6 +26,14 @@ angular.module('trendy.controllers', [])
 	$scope.logOut = function(){
 		Auth.clearCredentials();
 		$location.path('/');
+	};
+
+	$scope.searchText = '';
+
+	$scope.goSearch = function(){
+		$scope.searchActive = false;
+		$state.go('resultado', {texto: $scope.searchText});
+		$scope.searchText = '';
 	};
 
 }])
@@ -1156,6 +1173,7 @@ angular.module('trendy.controllers', [])
 
 	blogService.query({pagina: $scope.page, limite: 10}).$promise
 	.then(function(posts){
+		if (posts.length < 10 ) {$scope.moreDataCanBeLoaded = false; }
 		$scope.posts = posts;
 		$scope.loading = false;
 		$scope.page++;
@@ -1168,7 +1186,7 @@ angular.module('trendy.controllers', [])
 	$scope.loadMore = function(){
 		blogService.query({pagina: $scope.page, limite: 10}).$promise
 		.then(function(posts){
-			if (posts.length === 0) {
+			if (posts.length < 10) {
 				$scope.moreDataCanBeLoaded = false;
 			}
 			$scope.categorias = $scope.posts.concat(posts);
@@ -1178,6 +1196,41 @@ angular.module('trendy.controllers', [])
 			}, 100);
 		}, function(err){
 			console.log(err);
+		});
+	};
+
+}])
+.controller('SearchCtrl', ['$scope', 'SearchService', '$stateParams', '$timeout', function($scope, SearchService, $stateParams, $timeout){
+	$scope.productos = [];
+	$scope.page = 1;
+	$scope.loading = true;
+	$scope.texto = $stateParams.texto;
+
+	$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+
+	$timeout(function(){
+		afterLoad();
+	}, 100);
+	SearchService.query({txtBuscar: $scope.texto, pagina: $scope.page, limite: 10})
+	.$promise.then(function(productos){
+		if (productos.length < 10) {$scope.moreDataCanBeLoaded = false; }
+		$scope.productos = productos;
+		$scope.loading = false;
+		$scope.page++;
+		afterLoad();
+	});
+
+
+	$scope.moreDataCanBeLoaded = true;
+	$scope.loadMore = function(){
+		$scope.loadingMore = {loading: true, boton: 'Cargando'};
+		SearchService.query({txtBuscar: $scope.texto, pagina: $scope.page, limite: 10})
+		.$promise.then(function(productos){
+			if (productos.length < 10) {$scope.moreDataCanBeLoaded = false; }
+			$scope.loadingMore = {loading: false, boton: 'Cargar más'};
+			$scope.productos = $scope.productos.concat(productos);
+			$scope.page++;
+			afterLoad();
 		});
 	};
 

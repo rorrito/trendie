@@ -173,6 +173,15 @@ angular.module('gotrendy', [
 						}
 					}
 				})
+				.state('resultado', {
+					url: '/resultado/:texto',
+					views: {
+						'full': {
+							templateUrl: 'views/resultado.html',
+							controller: 'SearchCtrl'
+						}
+					}
+				})
 				.state('orden', {
 					url: '/orden/:id',
 					views: {
