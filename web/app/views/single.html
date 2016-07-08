@@ -48,11 +48,14 @@
 					</div>
 					<div class="actions">
 						<a class="favorite" ng-click="favorite(producto)">
-							<span aria-hidden="true" ng-class="{'icon_heart': producto.favoriteado!=0, 'icon_heart_alt': producto.favoriteado==0}"></span> 
+							<span aria-hidden="true" ng-class="{'icon_heart': producto.favoriteado!=0, 'icon_heart_alt': producto.favoriteado==0}"></span>
 							<span class="text">Favorito</span>
 						</a>
 
 						<a class="share"><span aria-hidden="true" class="social_share"></span> <span class="text">Compartir</span></a>
+						<div class="sharebox">
+							<a class="fb"><span aria-hidden="true" class="social_facebook_circle"></span><span class="text">Facebook</span></a> <a class="tw"><span aria-hidden="true" class="social_twitter_circle"></span> <span class="text">Twitter</span></a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -81,5 +84,5 @@
 			</div>
 		</div>
 	</section>
-	<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded"><span aria-hidden="true" class="arrow_carrot-down"></span> Cargar más</a>			
+	<a class="load-more" ng-click="loadMore()" ng-if="moreDataCanBeLoaded"><span aria-hidden="true" class="arrow_carrot-down"></span> Cargar más</a>
 </main>

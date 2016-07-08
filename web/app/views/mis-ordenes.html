@@ -1,20 +1,29 @@
 <div class="loadingtime" ng-if="loading">
 	<span aria-hidden="true" class="icon_loading animate360"></span>
 </div>
-<main id="main-content" ng-if="!loading">
-		<div class="empty padding" ng-if="orders.length < 1 && !loading" >
-			<h1>No tienes ordenes aun, algun otro mensaje aqui</h1>
-		</div>
-		<div>
-			<div ng-repeat="order in ordenes" >
-				<a href="#/orden/{{order.idorden}}">
-      				<h2>{{order.fecha | date:'MMM d, y h:mm a'}}</h2>
-      				<h3>{{order.tipo}}</h3>
-      				<h3>Bs. {{order.total | number:2}}</h3>
-      				<h3>{{order.estado}}</h3>
-      				<a href="#/pago-transferencia/{{order.idorden}}" ng-if="order.estado == 'Esperando pago' ">Registrar pago</a>
-      			</a>
-    		</div>
+<main id="main-content" class="single" ng-if="!loading">
+	<section id="shopping-history">
+		<h2 class="title bar center">Mis órdenes</h2>
+		<div class="wrapper">
+				<div class="empty padding" ng-if="orders.length < 1 && !loading" >
+					<h1>No tienes órdenes aun, algun otro mensaje aqui</h1>
+				</div>
+				<div class="shop-list">
+					<div id="orders" class="itemlist row clearfix">
+						<div class="card gray" ng-repeat="order in ordenes">
+							<div class="inner clearfix">
+								<a href="#/orden/{{order.idorden}}">
+									<div class="text">
+			      				<h2>{{order.fecha | date:'MMM d, y h:mm a'}}</h2>
+			      				<h3>{{order.tipo}}</h3>
+			      				<h3>Bs. {{order.total | number:2}}</h3>
+			      				<h3 class="status clearfix">{{order.estado}} <a href="#/pago-transferencia/{{order.idorden}}" ng-if="order.estado == 'Esperando pago' ">Registrar pago</a></h3>
+									</div>
+									</a>
+								</div>
+							</div>
+	    		</div>
+				</div>
 		</div>
 	</section>
 </main>
