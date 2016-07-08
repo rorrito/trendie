@@ -224,6 +224,8 @@ h2.title, .title h2 { font-size: 2.438rem; color: #808080; text-transform: upper
 h3.lined { font-size: 1.813rem; text-transform: uppercase; }
 h3.lined:before { top: .9rem; }
 .bar.title { font-size: 1.625rem; line-height: 1.98; color: #fff; margin: 0; background: #57828C; }
+.bar.title .titleback { color: #fff;  position: absolute; left: 1rem; }
+.bar.title .titleback:hover { opacity: .7; }
 #designers .bar.title, #profile .left .social a { background: #FD858C; }
 .row { padding: 0 1.25%; }
 .row .box { position: relative; width: 25%; padding: .8rem 1.25%; float: left; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
@@ -610,6 +612,7 @@ h3.lined:before { top: .9rem; }
     .blogposts.row .box, .card, .checkout-main .column { width: 100%; margin: 1rem auto; float: none }
 }
 @media only screen and (max-width:580px) {
+  .bar.title .titleback { position: relative; display: block; }
   #orders .card { width: 100%; float: none; }
 }
 @media only screen and (max-width:440px) {
