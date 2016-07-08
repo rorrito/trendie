@@ -77,6 +77,10 @@ $(document).ready(function(){
 $(window).resize(function(){
 	if ( $(window).width() > 800 ) {
 		$('#slider, #slider .slides, #slider .slick-slide').css({ height: $(window).height() - $('#header').outerHeight() });
+		if ( $('.mobile-btn').hasClass('slided') ){
+			$('#header, #main-content, #mobile-navigation').removeClass('mobile-slided');
+			$('.mobile-btn').removeClass('slided');
+		}
 	}
 	$('#main-content').css({ paddingTop: $('#header').outerHeight() });
 	$('#container').css({ paddingBottom: $('#footer').outerHeight() });
