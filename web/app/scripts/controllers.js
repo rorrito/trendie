@@ -453,6 +453,28 @@ angular.module('trendy.controllers', [])
 		}
 	};
 
+	$scope.fbShare = function(producto) {
+		var url = 'http://gotrendyapp.com/#/producto/' + $stateParams.id;
+		var titulo = producto.nombre_prod;
+		var imagen = 'http://gotrendyapp.com/fotos/productos/' + producto.fotos[0].foto;
+		var description = producto.descripcionProd;
+		FB.ui({
+			method: 'feed',
+			name: titulo,
+			link: url,
+			description: description,
+			picture: imagen
+		});
+	};
+
+	$scope.twShare = function(producto) {
+		var loc = encodeURI('http://gotrendyapp.com/#/producto/' + $stateParams.id);
+		var title = encodeURI(producto.nombre_prod);
+		var via = 'goTrendy';
+		window.open('http://twitter.com/share?text=' + title + '&via=' + via + '&url=' + loc, 'twitterwindow', 'height=450, width=550, top=' + (window.innerHeight / 2 - 225) + ', left=' + window.innerWidth / 2 + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+		return false;
+	};
+
 }])
 .controller('DisenadoresCtrl', ['$scope', 'DisenadoresService', '$timeout',
 	function($scope, DisenadoresService, $timeout){
@@ -1259,5 +1281,26 @@ angular.module('trendy.controllers', [])
 			afterLoad();
 		}, 100);
 	});
+	$scope.fbShare = function(post) {
+		var url = 'http://gotrendyapp.com/#/post/' + $stateParams.id;
+		var titulo = post.titulo;
+		var imagen = 'http://gotrendyapp.com/fotos/blog/w/' + post.foto;
+		var description = post.resumen;
+		FB.ui({
+			method: 'feed',
+			name: titulo,
+			link: url,
+			description: description,
+			picture: imagen
+		});
+	};
+
+	$scope.twShare = function(post) {
+		var loc = encodeURI('http://gotrendyapp.com/#/post/' + $stateParams.id);
+		var title = encodeURI(post.titulo);
+		var via = 'goTrendy';
+		window.open('http://twitter.com/share?text=' + title + '&via=' + via + '&url=' + loc, 'twitterwindow', 'height=450, width=550, top=' + (window.innerHeight / 2 - 225) + ', left=' + window.innerWidth / 2 + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+		return false;
+	};
 
 }]);

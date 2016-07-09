@@ -5,14 +5,14 @@
 	<section id="blog">
 		<article class="blog-post">
 			<div class="img-banner">
-				<img ng-src="{{imagesUrl}}/blog/w/{{post.foto}}" alt="">
+				<img ng-src="{{imagesUrl}}blog/w/{{post.foto}}" alt="">
 			</div>
 			<div class="wrapper">
 				<header>
 					<!-- <h4><a href="">Summer</a></h4> -->
 					<h3>{{post.titulo}}</h3>
 					<div class="share-me">
-							<a class="fb"><span aria-hidden="true" class="social_facebook_circle"></span></a> <a class="tw"><span aria-hidden="true" class="social_twitter_circle"></span></a>
+							<a class="fb" ng-click="fbShare(post)"><span aria-hidden="true" class="social_facebook_circle"></span></a> <a class="tw" ng-click="twShare(post)"><span aria-hidden="true" class="social_twitter_circle"></span></a>
 					</div>
 				</header>
 				<div class="content" ng-bind-html="post.cuerpo | unsafe">

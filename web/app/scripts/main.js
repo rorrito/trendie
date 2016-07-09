@@ -51,7 +51,7 @@
 		});
 
 		$('.item-details .actions .share').mouseenter(function(){
-		 	$('.item-details .actions .sharebox').addClass('show');
+			$('.item-details .actions .sharebox').addClass('show');
 		});
 		$('.item-details .actions .sharebox').mouseleave(function(){
 			$(this).removeClass('show');
